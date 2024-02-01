@@ -1,8 +1,8 @@
 # Yooply 
 
 Yooply was a behavior and incident monitoring app for K-12 schools. It was live from 2013 to around 2018 in the US. It is here as an archived app for preservation pusposes. 
-Yooply was the proudct of sleek-geek inc. A teacher led company making web and mobile apps for teachers and students. It was meant to be fully customizable to adapt to a school's
-existing culture and practices, and to connet everyone around these.
+Yooply was the proudct of sleek-geek inc, a teacher led company making web and mobile apps for teachers and students. It was meant to be fully customizable to adapt to a school's
+existing culture and practices and to connet everyone around these.
 
 [Check out the old promo video!](https://www.youtube.com/watch?v=1RxnguIJ0LA)
 
