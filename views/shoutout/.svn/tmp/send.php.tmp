@@ -1,0 +1,115 @@
+<?php $messages = $settings->messages; ?>
+
+<script>
+$(document).delegate('#selectfriend', 'click', function() {
+	$('#selectfriendcontent').simpledialog2({
+		dialogAllow:true,
+		width:400
+		
+	});
+});
+
+$(document).delegate('.friend', 'click', function()
+{
+	  $('#studentid').val($(this).attr('data-studentid'));
+	$('#sendtodisplay').text($(this).attr('data-studentname'));
+
+	$(document).trigger('simpledialog', {'method':'close'});
+	 
+});
+
+$(document).delegate('.reason', 'click', function()
+{
+	$('#reason').val($(this).attr('data-reason'));
+	$('#reasondisplay').text($(this).attr('data-reason'));
+
+	$(document).trigger('simpledialog', {'method':'close'});
+});
+
+$(document).delegate('#selectreason', 'click', function() {
+	$('#selectreasoncontent').simpledialog2({
+		dialogAllow:true,
+		width:400
+	});
+});
+
+</script>
+
+
+<style>
+
+	img.avatarSmall{
+	
+	width:80%;
+	height:80%
+	}
+
+</style>
+<img src="/images/speaker-electric.png" style="float:left; margin-top:20px; margin-right:10px"> <h2 style="font-weight:normal">New Shoutout?</h2>
+<div id="blockAsubcontainer" style="background-color:#E0D6CC; padding:10px">
+	<p style="font-weight:normal; font-size:110%">Send to: <span id="sendtodisplay"></span></p>
+	<p style="font-weight:normal; font-size:110%">Shoutout: <span id="reasondisplay"></span></p>
+</div>
+
+<a href="#" id="selectfriend" data-theme="b"  data-mini="true" data-role="button" data-icon="bars">Who?</a>
+<a href="#" id="selectreason" data-role="button" data-mini="true" data-theme="b" data-icon="bars">Say what?</a>
+
+<form action="/shoutout/send" method="POST" data-ajax="false">
+	<input type="hidden" id="studentid" name="to" />
+	<input type="hidden" id="reason" name="content" />
+	<input type="submit" name="submit" value="Send Shoutout">
+</form>
+
+<div data-role="collapsible-set" id="selectfriendcontent" style="display:none"
+	data-options='{"mode":"blank","headerText":"Pick a friend","headerClose":true,"blankContent":true}'>
+	<div class="selectfriend ui-grid-b" width="500px">
+<<<<<<< .mine
+<?php
+	$columns = array('a', 'b', 'c');
+	$column = 0;
+	$user_id = $this->session->userdata('userid');
+
+	foreach($classmates as $classmate):
+	if($classmate->userid == $user_id): continue; endif; ?>
+		<div data-studentid="<?= $classmate->userid ?>" data-studentname="<?= htmlentities($classmate->firstname.' '.$classmate->lastname) ?>" class="friend ui-block-<?= $columns[$column++%3] ?>"><div class="ui-bar ui-bar-c" style="height:100px"><img  class="avatarSmall" src="/images/luchadorsmall.png"><p class="avatarSubtitle" style="font-width:normal; font-size:12px"><?= $classmate->firstname ?> <?= $classmate->lastname ?></p></div></div>
+=======
+<?php $columns = array('a', 'b', 'c'); $column = 0; foreach($classmates as $classmate): ?>
+		<div data-studentid="<?= $classmate->userid ?>" class="friend ui-block-<?= $columns[$column++%3] ?>"><div class="ui-bar ui-bar-c" style="height:100px"><img  class="avatarSmall" src="/images/luchadorsmall.png"><p class="avatarSubtitle" style="font-width:normal; font-size:10px"><?= $classmate->firstname ?> <?= $classmate->lastname ?></p></div></div>
+>>>>>>> .r55
+<?php endforeach; ?>
+	</div>
+	<a rel='close' data-role='button' href='#'>Close</a>
+</div>
+
+<div id="selectreasoncontent" style="display:none"
+	data-options='{"mode":"blank","headerText":"What do you want to say?","headerClose":true,"blankContent":true}'>
+
+	<div data-role="collapsible-set" data-theme="c">
+		<?php foreach($messages as $category): ?>
+			<h2><?= $category->title ?></h2>
+			<ul data-role="listview">
+				<?php foreach($category->options as $option): ?>
+					<li><a href="#" class="reason" data-reason="<?= htmlentities($option) ?>"><?= $option ?></a></li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endforeach; ?>
+	</div>
+	<a rel='close' data-role='button' href='#'>Close</a>
+<<<<<<< .mine
+=======
+</div>
+
+<div id="selectcccontent" style="display:none"
+	data-options='{"mode":"blank","headerText":"Pick a friend","headerClose":true,"blankContent":true}'>
+	
+	 
+		<h3>Another Student</h3>
+		<ul data-role="listview" data-filter="true" data-theme="c" class="aPerson2">
+			<li><a href="#"><img src="/images/student.jpg">Perez, John</a></li>
+			<li><a href="#"> <img src="/images/student.jpg">Larkin, Perry</a></li>
+			<li><a href="#"><img src="/images/student.jpg">Slavoth, Edna </a></li>
+			</ul>
+	 
+	<a rel='close' data-role='button' data-theme='c' href='#'>Close</a>
+>>>>>>> .r55
+</div>

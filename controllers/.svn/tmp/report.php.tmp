@@ -1,0 +1,322 @@
+<?php
+
+class Report extends CI_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function response($report_id, $public_token = '')
+	{
+		$has_token = false;
+		$show_edit_button = false;
+
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('Report_model');
+
+		$report = $this->Report_model->get_response($report_id);
+
+		$token = preg_split('/-/', $public_token);
+
+		if(empty($report) || $report->status != 1)
+		{
+			$this->layout->view('report/error_permissiondenied');
+			return;
+		}
+
+		if(!$this->session->userdata('userid') && !empty($public_token))
+		{
+			$parent_hash = $token[0];
+	 		$view_token = md5($report->reportid.'YLPOOY'.$parent_hash.'SECURE'.$report->nonce);
+
+			if($token[1] != $view_token)
+			{
+				$this->layout->view('report/error_permissiondenied');
+				return;
+			}
+			else
+			{
+				$has_token = true;
+			}
+		}
+
+		if(!$has_token && $report->schoolid != $school_id)
+		{
+			$this->layout->view('report/error_permissiondenied');
+			return;
+		}
+
+		$this->load->model('Form_model');
+		$form = $this->Form_model->get_form($report->formid);
+
+		if(!$has_token && strpos($form->viewers, $this->session->userdata('role')) === false)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;	
+		}	
+
+		// Students can only see their own responses.
+		if(!$has_token && $this->session->userdata('role') == 's' && $report->userid != $user_id)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;				
+		}
+
+		if(!$has_token)
+		{
+			switch($this->session->userdata('role'))
+			{
+				case 'a':
+				case 't':
+					$show_edit_button = true;
+				break;
+			}
+		}
+
+		$data = array(
+			'report' => $report,
+			'showeditbutton' => $show_edit_button
+		);
+
+		$this->load->model('User_model');
+		$data['user'] = $this->User_model->get_user($report->userid);
+
+		if($report->subjectid != '0')
+		{
+			$data['subject'] = $this->User_model->get_user($report->subjectid);
+		}
+		
+		$data['ispublic'] = !$this->session->userdata('userid') && $has_token;
+
+		$this->layout->view('report/response', $data);
+	}
+
+	function form($form_id, $period = 'today', $subject = '-1')
+	{
+		$this->load->model('Report_model');
+
+		$this->load->model('Form_model');
+		$form = $this->Form_model->get_form($form_id);
+
+		if(empty($form) || $form->status != 1)
+		{
+			$this->layout->view('report/error_permissiondenied');
+			return;
+		}
+
+		if(strpos($form->viewers, $this->session->userdata('role')) === false)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;	
+		}		
+
+		if($this->session->userdata('role') == 's')
+		{
+			$subject = $this->session->userdata('userid');
+		}
+
+		$data = array(
+			'title_for_layout' => $form->title,
+			'form' => $form
+		);
+
+		$start_time = $end_time = 0;
+		switch($period)
+		{
+			case 'month':
+				$start_time = strtotime(date('Y-m-01 00:00:00'));
+				$end_time = strtotime(date('Y-m-t 23:59:59'));
+				$data['period'] = $period;
+			break;
+			case 'week':
+				$start_time = strtotime('last sunday');
+				$end_time = strtotime('next sunday')-1;
+				$data['period'] = 'week';
+			break;
+			case 'all':
+				$data['period'] = 'all';
+			break;
+			default:
+			case 'today':
+				$start_time = strtotime(date('Y-m-d 00:00:00'));
+				$data['period'] = 'today';
+			break;
+		}
+
+		$include_name = $form->subject == 's' && $subject == -1;
+		$data['responses'] = $this->Report_model->get_by_form($form_id, $subject, $start_time, $end_time, $include_name);
+
+		if($subject != '-1')
+		{
+			$data['subjectid'] = $subject;
+		}
+
+		$this->layout->view('report/list_by_form', $data);
+	}
+
+	function edit($report_id)
+	{
+<<<<<<< .mine
+=======
+		$this->load->model('Report_model');
+		$this->load->model('Form_model');
+
+>>>>>>> .r119
+		$report = $this->Report_model->get_response($report_id);
+		$user_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+		
+		if(empty($report) || $report->status != 1)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;				
+		}
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+			case 'a':
+				if($report->schoolid == $school_id)
+				{
+					$permission_denied = false;
+				}
+			break;
+			case 't':
+				if($report->userid == $user_id)
+				{
+					$permission_denied = false;
+				}
+			break;
+		}
+		
+		if($permission_denied)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;				
+		}
+
+		$form = $this->Form_model->get_form($report->formid);
+
+		if(strpos($form->contributors, $this->session->userdata('role')) === false)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;	
+		}			
+
+		if($this->input->post('submit'))
+		{
+			$questions = json_decode($form->formdata);
+			$new_report = process_form('f', $questions->questions);
+
+			$title = '';
+
+			if(!empty($form->indextitle))
+			{
+				foreach($report as $q)
+				{
+					if($q['label'] == $form->indextitle)
+					{
+						$title = is_array($q['value']) ? implode(',', $q['value']) : $q['value'];
+					}
+				}
+			}
+
+			$this->load->model('Report_model');
+			
+			$this->Report_model->update($report_id, $new_report, $title);
+			redirect('report/response/'.$report_id);
+		}
+		else
+		{
+			$this->layout->view('report/edit', array(
+				'report' => $report, 
+				'form' => $form
+			));
+		}
+
+	}
+
+	function remove($report_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('Report_model');
+
+		$report = $this->Report_model->get_response($report_id);
+
+		if(empty($report) || $report->status != 1)
+		{
+			$this->layout->view('report/error_permissiondenied');
+			return;
+		}
+
+		if($report->schoolid != $school_id)
+		{
+			$this->layout->view('report/error_permissiondenied');
+			return;
+		}
+
+		$this->load->model('Form_model');
+		$form = $this->Form_model->get_form($report->formid);
+
+		if(strpos($form->viewers, $this->session->userdata('role')) === false)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;	
+		}	
+
+		// Students can only see their own responses.
+		if($this->session->userdata('role') == 's' && $report->userid != $user_id)
+		{
+			$this->layout->view('form/error_permissiondenied');
+			return;				
+		}
+
+		if($this->input->post('cancel'))
+		{
+			redirect('report/response/'.$report_id);
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$this->Report_model->remove($report_id);
+			exit;
+			switch($this->session->userdata('role'))
+			{
+				case 'a':
+					redirect('admin');
+					return;
+				break;
+				case 't':
+					redirect('teacher');
+					return;
+				break;				
+			}
+		}
+		else
+		{
+			$data = array(
+				'report' => $report
+			);
+
+			$this->load->model('User_model');
+			$data['user'] = $this->User_model->get_user($report->userid);
+
+			if($report->subjectid != '0')
+			{
+				$data['subject'] = $this->User_model->get_user($report->subjectid);
+			}
+			
+			$data['ispublic'] = !$this->session->userdata('userid') && $has_token;
+
+			$this->layout->view('report/remove', $data);
+		}
+	}
+
+}
+?>

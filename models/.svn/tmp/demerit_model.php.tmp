@@ -1,0 +1,254 @@
+<?php
+define('DEMERIT_STATUS_REMOVED', 0);
+define('DEMERIT_STATUS_ACTIVE', 1);
+
+class Demerit_model extends CI_Model
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function create($school_id, $teacher_id, $student_id, $reason, $notes)
+	{
+		$this->db->insert('Demerits', array(
+			'schoolid' => $school_id,
+			'teacherid' => $teacher_id,
+			'studentid' => $student_id,
+			'reason' => $reason,
+			'notes' => $notes,
+			'timecreated' => time(),
+			'status' => DEMERIT_STATUS_ACTIVE
+		));
+	}
+
+	function get_demerit_total($school_id, $student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) total FROM Demerits WHERE schoolid = ? AND studentid = ? AND status = ?', array($school_id, $student_id, DEMERIT_STATUS_ACTIVE));
+
+		$count = $query->row();
+
+		return empty($count) ? 0 : $count->total;
+	}
+
+<<<<<<< .mine
+	function get_by_student($school_id, $student_id, $teacher_id = 0)
+	{
+		$where = 'Demerits.teacherid = Users.userid AND Demerits.schoolid = ? AND Demerits.studentid = ? AND Demerits.status = ?';
+		$where_values = array($school_id, $student_id, DEMERIT_STATUS_ACTIVE);
+=======
+	function get_by_student($school_id, $teacher_id = 0, $student_id)
+	{	
+		$where_values = array($school_id, $student_id, DEMERIT_STATUS_ACTIVE);
+>>>>>>> .r117
+
+<<<<<<< .mine
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND Demerits.teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		$query = $this->db->query('SELECT Demerits.*, Users.firstname, Users.lastname FROM Demerits, Users WHERE '.$where.' ORDER BY timecreated DESC', $where_values);
+
+=======
+		if($teacher_id !== 0)
+		{
+			$where = ' AND Demerits.teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+		
+		$query = $this->db->query('SELECT Demerits.*, Users.firstname, Users.lastname FROM Demerits, Users WHERE Demerits.teacherid = Users.userid AND Demerits.schoolid = ? AND Demerits.studentid = ? AND Demerits.status = ?'.$where.' ORDER BY timecreated DESC', $where_values);
+
+>>>>>>> .r117
+		return $query->result();
+	}
+
+	function get_demerit($demerit_id)
+	{
+		$query = $this->db->query('SELECT * FROM Demerits WHERE demeritid = ?', array($demerit_id));
+
+		return $query->row();
+	}
+
+	function find($school_id, $teacher_id = 0, $student_id = 0, $grade = 0, $group_id = 0, $start_time = 0, $end_time = 0, $expand_teacher = false, $expand_student = false)
+	{
+		$where = 'Demerits.schoolid = ?';
+		$where_values = array($school_id);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND Demerits.teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		if($student_id !== 0)
+		{
+			$where .= ' AND Demerits.studentid = ?';
+			array_push($where_values, $student_id);
+		}
+
+		if($start_time !== 0)
+		{
+			$where .= " AND Demerits.timecreated >= ?";
+			array_push($where_values, $start_time);
+		}
+
+		if($end_time !== 0)
+		{
+			$where .= " AND Demerits.timecreated <= ?";
+			array_push($where_values, $end_time);
+		}
+
+		$select = 'Demerits.*';
+		$from = 'Demerits';
+
+		if($expand_student)
+		{
+			$select .= ', s.firstname as studentfirstname, s.lastname as studentlastname';
+			$from .= ", Users s";
+			$where .= ' AND s.userid = Demerits.studentid';
+		}
+
+		if($expand_teacher)
+		{
+			$select .= ', t.firstname as teacherfirstname, t.lastname as teacherlastname';
+			$from .= ", Users t";
+			$where .= ' AND t.userid = Demerits.teacherid';
+		}
+
+		if($grade !== 0)
+		{
+			if(!$expand_student)
+			{
+				$from .= ", Users s";
+				$where .= ' AND s.userid = Demerits.studentid';
+			}
+
+			$where = ' AND s.grade = ?';
+			array_push($where_values, $grade);
+		}
+
+		if($group_id !== 0)
+		{
+			$from .= ', UserGroups';
+			$where .= ' AND Demerits.studentid = UserGroups.userid AND UserGroups.groupid = ?';
+			array_push($where_values, $group_id);
+		}
+
+		$where .= ' AND Demerits.status = ?';
+		array_push($where_values, DEMERIT_STATUS_ACTIVE);
+
+		$query = $this->db->query('SELECT '.$select.' FROM '.$from.' WHERE '.$where.' ORDER BY Demerits.timecreated DESC', $where_values);
+		return $query->result();
+	}
+
+	function remove($demerit_id)
+	{
+		$this->db->update('Demerits', array('status' => DEMERIT_STATUS_REMOVED), array('demeritid' => $demerit_id));
+	}
+
+	function count_today($school_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Demerits WHERE schoolid = ? AND timecreated > ? AND status = ?', array($school_id, strtotime(date('Y-m-d 00:00:00')), 1));
+
+		return $query->row()->total;
+	}
+
+	/**
+	 * Returns a total by type for referrals today.
+	 * @param $school_id school id
+	 * @param $perid minimum time of referrals to fetch
+	 * @param $teacher_id if not == 0, will limit referrals to just one teacher
+	 */
+	function category_totals($school_id, $period, $teacher_id = 0, $student_id = 0)
+	{
+		switch($period)
+		{
+			case 'today':
+				$time = time()-(24*60*60);
+			break;
+			case 'week':
+				$time = time()-(7*24*60*60);
+			break;
+			case 'month':
+				$time = time()-(30*24*60*60);
+			break;
+			case 'year':
+				$time = time()-(365*24*60*60);
+			break;
+		}
+
+		$where = 'schoolid = ? AND timecreated > ? AND status = ?';
+		$where_values = array($school_id, $time, DEMERIT_STATUS_ACTIVE);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		if($student_id !== 0)
+		{
+			$where .= ' AND studentid = ?';
+			array_push($where_values, $student_id);
+		}
+
+		$query = $this->db->query('SELECT reason, COUNT(*) as total FROM Demerits WHERE '.$where.' GROUP BY reason', $where_values);
+		return $query->result();
+	}
+
+	/**
+	 * Returns a total by teacher for referrals this year.
+	 * @param $school_id school id
+	 */
+	function category_totals_byteacher($school_id, $student_id = 0)
+	{
+		$where_values = array($school_id, time()-(365*60*60*24), DEMERIT_STATUS_ACTIVE);
+		$where = '';
+
+		if($student_id !== 0)
+		{
+			$where .= ' AND Demerits.studentid = ?';
+			array_push($where_values, $student_id);
+		}
+
+		$query = $this->db->query('SELECT reason, COUNT(*) as total, CONCAT(Users.lastname,", ",Users.firstname) as teachername FROM Demerits, Users WHERE Demerits.teacherid = Users.userid AND Demerits.schoolid = ? AND Demerits.timecreated > ? AND Demerits.status = ?'.$where.' GROUP BY teacherid ORDER BY total DESC', $where_values);
+
+		return $query->result();
+	}
+
+	/**
+	 * Returns a total by grade for referrals this year.
+	 * @param $school_id school id
+	 */
+	function category_totals_bygrade($school_id)
+	{
+		$query = $this->db->query('SELECT reason, COUNT(*) as total, Users.grade FROM Demerits, Users WHERE Demerits.studentid = Users.userid AND Demerits.schoolid = ? AND Demerits.timecreated > ? AND Demerits.status = ? GROUP BY grade', array($school_id, time()-(365*60*60*24), REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	function count_by_interval($student_id, $interval, $teacher_id = 0)
+	{
+		// Set the month that the school year begins.
+		$month_start_of_school_year = 8;
+
+		$start_year = intval(date('m')) < $month_start_of_school_year ? intval(date('Y'))-1 : intval(date('Y'));
+		$start_time = strtotime($start_year.'-'.$month_start_of_school_year.'-01 00:00:00');
+
+		$where_values = array($start_time, $student_id);
+		$where = '';
+
+		if($teacher_id !== 0)
+		{
+			$where = ' AND teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		$query = $this->db->query('SELECT COUNT(*) as total, MONTH(FROM_UNIXTIME(timecreated)) as month FROM Demerits WHERE timecreated >= ? AND studentid = ?'.$where.' GROUP BY MONTH(FROM_UNIXTIME(timecreated)) ORDER BY YEAR(FROM_UNIXTIME(timecreated)), MONTH(FROM_UNIXTIME(timecreated))', $where_values);
+
+		return $query->result();
+	}
+}
+?>

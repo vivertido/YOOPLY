@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/yooply/!svn/ver/200/yooply/trunk/views/account
+END
+avatar.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/yooply/!svn/ver/200/yooply/trunk/views/account/avatar.php
+END
+error_emaillogindisabled.php
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/yooply/!svn/ver/181/yooply/trunk/views/account/error_emaillogindisabled.php
+END
+personal.php
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/yooply/!svn/ver/189/yooply/trunk/views/account/personal.php
+END
+menu.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/yooply/!svn/ver/181/yooply/trunk/views/account/menu.php
+END
+login.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/yooply/!svn/ver/181/yooply/trunk/views/account/login.php
+END

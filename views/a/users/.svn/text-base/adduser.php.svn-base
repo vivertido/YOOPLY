@@ -1,0 +1,18 @@
+<form action="/a/users/adduser" method="POST" data-ajax="false">
+	<select name="schoolid">
+		<?php foreach($schools as $school): ?>
+			<option value="<?= $school->schoolid ?>"><?= $school->title ?></option>
+		<?php endforeach; ?>
+	</select>
+
+	First name: <input type="text" name="firstname" />
+	Last name: <input type="text" name="lastname" />
+	Email: <input type="text" name="email" />
+	Account type: <select name="accounttype">
+		<option value="a">Admin</option>
+<!--		<option value="t">Teacher</option>
+		<option value="s">Student</option>-->
+	</select>
+
+	<input type="submit" name="submit" value="Add User" />
+</form>

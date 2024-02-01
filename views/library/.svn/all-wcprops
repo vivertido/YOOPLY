@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/yooply/!svn/ver/194/yooply/trunk/views/library
+END
+error_notinstalled.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/error_notinstalled.php
+END
+uninstall.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/uninstall.php
+END
+error_alreadyinstalled.php
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/error_alreadyinstalled.php
+END
+view.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/view.php
+END
+error_notfound.php
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/error_notfound.php
+END
+install.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/install.php
+END
+index.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/yooply/!svn/ver/189/yooply/trunk/views/library/index.php
+END
+add.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/yooply/!svn/ver/194/yooply/trunk/views/library/add.php
+END

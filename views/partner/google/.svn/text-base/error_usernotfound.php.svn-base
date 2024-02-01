@@ -1,0 +1,1 @@
+The email address you have logged in with isn't associated with a school. Please contact your school administrator.

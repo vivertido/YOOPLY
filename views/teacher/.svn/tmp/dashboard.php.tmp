@@ -1,0 +1,51 @@
+<style>
+
+#myAlerts{
+background-color:rgba(219,87,5,0.2);
+height:100%;
+border-style:solid;
+border-width:1px;
+border-radius:5px;
+border-color:#2489ce;
+padding-bottom:10px;
+}
+
+</style>
+
+<?Php /* <div id="myAlerts">
+	<img src="/images/caution.png" style="display:inline;margin-left:5px;margin-top:5px;"><h3 style="font-family:'Dosis'; display:inline; margin-left:15px; ">Alerts:</h3>
+	<div id="recent-activity" style="padding-left:20px;padding-right:20px;"> 
+	
+	<ul data-role="listview" data-inset="true">
+    <li><a href="#"><img src="/images/document.png"   class="ui-li-icon ui-corner-none">Pending Referral: John Doe</a></li>
+    <li><a href="#"><img src="/images/document.png"   class="ui-li-icon">Pending Referral: Molly Tusk</a></li>
+     
+</ul>
+	
+	
+	
+	
+	</div>
+</div>
+*/ ?>
+
+<ul data-role="listview" data-inset="true">
+	<li><a href="/teacher/students">My Students</a></li>
+	<li><a href="/teacher/reports">Reports</a></li>
+	<?php if(strpos($features->detentions, $this->session->userdata('role')) !== false): ?>
+	<li><a href="/detention/mystudents">Today's Detentions</a></li>
+	<?php endif; ?>
+	<?php if(strpos($features->interventions, $this->session->userdata('role')) !== false): ?>
+	<li><a href="/teacher/interventions">Interventions</a></li>
+<<<<<<< .mine
+	<li><a href="/demerit/mine"><?= htmlentities(trim($demeritlabel)) ?>s</a></li>
+=======
+	<?php endif; ?>
+	<?php if(strpos($features->demerits, $this->session->userdata('role')) !== false): ?>
+	<li><a href="/demerit/mine">Demerits</a></li>
+>>>>>>> .r95
+	<?php endif; ?>
+	<?php if(strpos($features->referrals, $this->session->userdata('role')) !== false): ?>
+	<li><a href="/referral/mine">Referrals</a></li>
+	<?php endif; ?>
+</ul>

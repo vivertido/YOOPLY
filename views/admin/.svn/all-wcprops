@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/yooply/!svn/ver/206/yooply/trunk/views/admin
+END
+error_noadminfound.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/yooply/!svn/ver/181/yooply/trunk/views/admin/error_noadminfound.php
+END
+settings_statuses.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/yooply/!svn/ver/168/yooply/trunk/views/admin/settings_statuses.php
+END
+settings_permissions.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/yooply/!svn/ver/206/yooply/trunk/views/admin/settings_permissions.php
+END
+settings_detentions.php
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/yooply/!svn/ver/156/yooply/trunk/views/admin/settings_detentions.php
+END
+settings_demerits.php
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/yooply/!svn/ver/168/yooply/trunk/views/admin/settings_demerits.php
+END
+settings_motivations.php
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/yooply/!svn/ver/168/yooply/trunk/views/admin/settings_motivations.php
+END
+settings_authentication.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/yooply/!svn/ver/181/yooply/trunk/views/admin/settings_authentication.php
+END
+settings.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/yooply/!svn/ver/181/yooply/trunk/views/admin/settings.php
+END
+settings_reinforcements.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/yooply/!svn/ver/168/yooply/trunk/views/admin/settings_reinforcements.php
+END
+students.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/yooply/!svn/ver/188/yooply/trunk/views/admin/students.php
+END
+view.php
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/yooply/!svn/ver/181/yooply/trunk/views/admin/view.php
+END
+settings_consequences.php
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/yooply/!svn/ver/168/yooply/trunk/views/admin/settings_consequences.php
+END
+settings_dashboard_edit.php
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/yooply/!svn/ver/192/yooply/trunk/views/admin/settings_dashboard_edit.php
+END
+gallery_detail.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/yooply/!svn/ver/185/yooply/trunk/views/admin/gallery_detail.php
+END
+form_gallery.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/yooply/!svn/ver/186/yooply/trunk/views/admin/form_gallery.php
+END
+settings_interventions.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/yooply/!svn/ver/168/yooply/trunk/views/admin/settings_interventions.php
+END

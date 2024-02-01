@@ -1,0 +1,10 @@
+Options -Indexes
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_URI} ^/(stats|failed_auth\.html).*$ [NC]
+RewriteRule . - [L]
+</IfModule>
+RewriteEngine on
+RewriteCond $1 !^(css|sounds|favicon.ico|index\.php|public|user_guide|robots\.txt|style\.css|iphone\.css|image|stats|uploads|jquery|jplayer|js|skin|themes)
+RewriteRule ^(.*)$ /index.php?/$1 [L]

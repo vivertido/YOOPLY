@@ -1,0 +1,1 @@
+The student you are trying to access either doesn't exist or you don't have permission to view.

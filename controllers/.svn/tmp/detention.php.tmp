@@ -1,0 +1,182 @@
+<?php
+class Detention extends MY_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+
+		if(!$this->session->userdata('userid'))
+		{
+			redirect('login');
+			return;
+		}
+	}
+
+
+	function index()
+	{
+		$this->layout->view('detention/index', array(
+			'title_for_layout' => 'Detentions'
+		));
+	}
+
+	function manage()
+	{
+		$this->load->model('Detention_model');
+		$detentions = $this->Detention_model->get_outstanding();
+		$active_detentions = $this->Detention_model->get_active_detentions();
+
+		$reload_detentions = false;
+
+		foreach($active_detentions as $active_detention)
+		{
+			$mins_elapsed = round((time()-$active_detention->timecreated)/60);
+			$student_id = $active_detention->studentid;
+
+			foreach($detentions as $detention)
+			{
+				if($detention->studentid == $active_detention->studentid)
+				{
+					if(($detention->servedminutes+$mins_elapsed) > $detention->assignedminutes)
+					{
+						$served = $detention->assignedminutes-$detention->servedminutes;
+						$this->Detention_model->update($active_detention->detentionid, $served);
+
+						$reload_detentions = true;
+					}
+
+					break;
+				}
+			}
+		}
+
+		if($reload_detentions)
+		{
+			$detentions = $this->Detention_model->get_outstanding();
+			$active_detentions = $this->Detention_model->get_active_detentions();
+		}
+
+		$this->layout->view('detention/manage', array(
+			'title_for_layout' => 'Detentions',
+			'detentions' => $detentions,
+			'activedetentions' => $active_detentions,
+			'layout_before_header' => $this->load->view('detention/sidepanel', array(), true)
+		));
+	}
+
+	function student($student_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Detention_model');
+		$detentions = $this->Detention_model->get_by_student($school_id, $teacher_id, $student_id);
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+			case 't':
+				if($this->User_model->has_teacher($student_id, $teacher_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+			case 'a':
+				$this->load->model('School_model');
+				if($this->School_model->has_student($school_id, $student_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+		}
+
+		if($permission_denied)
+		{
+			$this->layout->view('student/error_permissiondenied');
+			return;
+		}
+
+		$this->layout->view('detention/student', array(
+			'detentions' => $detentions,
+			'student' => $student,
+			'title_for_layout' => $student->firstname.' '.$student->lastname
+		));
+	}
+
+	function view($detention_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('Detention_model');
+		$detention = $this->Detention_model->get_detention($detention_id);
+
+		if(empty($detention))
+		{
+			$this->layout->view('reinforcement/error_detentionnotfound');
+			return;
+		}
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($detention->studentid);
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+			case 't':
+				if($this->User_model->has_teacher($student->userid, $user_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+			case 'a':
+				if($detention->schoolid == $school_id)
+				{
+					$permission_denied = false;
+				}
+			break;
+		}
+
+		if($permission_denied)
+		{
+			$this->layout->view('reinforcement/error_permissiondenied');
+			return;
+		}
+
+		$this->layout->view('detention/view', array(
+			'detention' => $detention,
+			'student' => $student,
+			'title_for_layout' => 'Detention'
+		));
+	}
+
+	function mystudents()
+	{
+		if($this->session->userdata('role') != 't')
+		{
+			redirect('login');
+			return;
+		}
+
+		$user_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Detention_model');
+		$detentions = $this->Detention_model->get_balance_from_students($school_id, $user_id);
+
+		$this->layout->view('detention/mystudents', array(
+			'detentions' => $detentions,
+			'title_for_layout' => 'Today\'s Detentions'
+		));
+	}
+}
+?>

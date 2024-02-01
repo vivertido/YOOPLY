@@ -1,0 +1,9 @@
+<ul data-role="listview" data-inset="true">
+<<<<<<< .mine
+	<li><a href="/teacher/mystudentreports" data-ajax="false">My Students Reports</a></li>
+	<li><a href="/teacher/wholeschoolreports" data-ajax="false">Whole School Reports</a></li>
+=======
+	<li><a href="/teacher/mystudent_reports" data-ajax="false">My Students Reports</a></li>
+	<li><a href="/teacher/whole_school_reports" data-ajax="false">Whole School Reports</a></li>
+>>>>>>> .r55
+</ul>

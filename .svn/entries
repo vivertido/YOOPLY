@@ -1,0 +1,61 @@
+10
+
+dir
+214
+https://team.yoop.ly/svn/yooply/yooply/trunk
+https://team.yoop.ly/svn/yooply
+
+
+
+2015-10-22T03:39:03.676826Z
+214
+francisco
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+d52ccea3-eb3e-4a84-8f49-7a354d782738
+
+helpers
+dir
+
+hooks
+dir
+
+language
+dir
+
+models
+dir
+
+html
+dir
+
+config
+dir
+
+controllers
+dir
+
+core
+dir
+
+errors
+dir
+
+libraries
+dir
+
+views
+dir
+

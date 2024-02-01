@@ -1,0 +1,95 @@
+<?php
+
+class Student extends CI_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->session->set_userdata('userid', '143');
+		$this->session->set_userdata('role', 's');
+	}
+
+	function index()
+	{
+		$student_id = $this->session->userdata('userid');
+
+		$this->load->model('Reinforcement_model');
+		$dollar_total = $this->Reinforcement_model->get_dollar_total($student_id);
+
+		$this->load->model('Referral_model');
+		$referrals = $this->Referral_model->get_active_by_student($student_id);
+
+		$this->layout->view('student/dashboard', array(
+			'referrals' => $referrals,
+			'dollars' => $dollar_total,
+			'title_for_layout' => 'Yoop.ly'
+		));
+	}
+
+	function report($student_id)
+	{
+		$this->layout->view('student/report_teacher');
+	}
+
+	function shoutouts()
+	{
+		
+
+		 $this->load->model('Shoutout_model');
+               $shoutouts = array();
+                $this->layout->view('student/shoutouts', array('shoutouts' => $shoutouts , 'title_for_layout'=> 'Shoutouts'));
+	}
+	function awards(){
+
+//title_for_layout needs to be dynamic
+		$this->layout->view('student/awards', array('title_for_layout'=>'My Awards'));
+	}
+
+	function incident($referral_id)
+	{
+		if($this->input->post('submit'))
+		{
+			$data = array();
+			$data['where'] = $this->input->post('where');
+			$data['what'] = $this->input->post('what');
+			$data['when'] = $this->input->post('when');
+			$data['who'] = $this->input->post('who');
+			$data['witnesses'] = $this->input->post('witnesses');
+
+			$this->load->model('Referral_model');
+			$this->Referral_model->save_student($referral_id, $data);
+
+			redirect('student/reflection');
+		}
+		else
+		{
+			$this->layout->view('student/incident', array(
+			'title_for_layout' => 'Incident Report',
+			'referralid' => $referral_id));
+		}
+	}
+
+	function mydetentions()
+	{
+		$this->layout->view('student/mydetentions', array(
+			'title_for_layout' => 'My Detentions'
+		));
+	}
+
+	function bully()
+	{
+		$this->layout->view('student/bully', array(
+			'title_for_layout' => 'Report Bullying'
+		));
+	}
+
+	function reflection()
+	{
+		$this->layout->view('student/reflection', array(
+			'title_for_layout' => 'Reflection'
+		));
+	}
+}
+
+?>

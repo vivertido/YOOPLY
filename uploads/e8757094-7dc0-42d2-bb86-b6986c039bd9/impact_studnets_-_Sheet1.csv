@@ -1,0 +1,231 @@
+First_Name,Last_Name,Email,Dob,SID #,Grade,Gender,Ethnicity
+Shivani,Chetty,shivani_chetty@es-impact.org,9/14/1999,5519,10,F,American Indian
+Pang,Shen,pang_shen@es-impact.org,9/27/2000,5906,10,M,Chinese
+Nandini,Kumar,nandini_kumar@es-impact.org,5/23/2001,5624,10,F,Asian Indian
+Eshaq,Jamdar,eshaq_jamdar@es-impact.org,4/25/2000,5597,10,M,Other Asian
+Elizabeth,Kanhai,elizabeth_kanhai@es-impact.org,9/7/2000,5538,10,F,Other Asian
+Bamery,Foster,Bamery_Foster@es-impact.org,4/13/2000,5917,10,M,Samoan
+Lehuanani,Langi,Lehuanani_Langi@es-impact.org,5/23/2001,6057,9,F,Other Pacific Islander
+Vandhana,Sharma,Vandhana_Sharma@es-impact.org,4/16/2001,6107,9,F,Other Pacific Islander
+Henrietta,Fonua,henrietta_fonua@es-impact.org,10/8/2000,5592,10,F,Other Pacific Islander
+Nandish,Kumar,Nandish_Kumar@es-impact.org,5/16/2000,5444,10,M,Other Pacific Islander
+Avashi,Lal,avashi_lal@es-impact.org,5/23/2000,5625,10,F,Other Pacific Islander
+Shalihah,Nisha,shalihah_nisha@es-impact.org,5/17/1999,5556,10,F,Other Pacific Islander
+Shameeha,Pakeeza,shameetha_pakeeza@es-impact.org,7/29/2000,5604,10,F,Other Pacific Islander
+Kishan,Pratap,kishan_pratap@es-impact.org,5/26/1999,5564,10,M,Other Pacific Islander
+Veneet,Ram,veneet_ram@es-impact.org,9/23/2000,5620,10,M,Other Pacific Islander
+Xzander,Turner-Laumea,xzander_turnerlaumea@es-impact.org,12/12/1999,5582,10,M,Other Pacific Islander
+Aria,Navvab,Aria_Navvab@es-impact.org,2/6/2001,6459,9,M,White
+Aniyah,Buckley,Aniyah_Buckley@es-impact.org,7/12/2001,6018,9,F,African American
+Amani,Dees,Amani_Dees@es-impact.org,3/27/2001,6377,9,F,African American
+Nicholas,Garvey Bassett,Nicholas_Garvey-Bassett@es-impact.org,5/18/2001,6043,9,M,African American
+Aniya,Hardley,Aniya_Hardley@es-impact.org,5/7/2001,6050,9,F,African American
+Jada,Harris,Jada_Harris@es-impact.org,7/21/2001,6051,9,F,African American
+Dante,Johnson,Dante_Johnson@es-impact.org,6/18/2001,6055,9,M,African American
+Setareh,Key-Raji,Setareh_Key-Raji@es-impact.org,3/6/2001,5633,9,F,African American
+Kayla,Lamar,Kayla_Lamar@es-impact.org,11/29/2001,6056,9,F,African American
+Quintin,Lofton,Quintin_Lofton@es-impact.org,7/18/2000,6062,9,M,African American
+Majesty,Mack,Majesty_Mack@es-impact.org,10/10/2001,6384,9,F,African American
+Jean,Muiruri,Jean_Muiruri@es-impact.org,1/1/2001,6080,9,F,African American
+Malik,Sharp,Malik_Sharp@es-impact.org,4/21/1999,6465,9,M,African American
+Jalen,Turner,Jalen_Turner@es-impact.org,1/10/2001,6116,9,M,African American
+Adam,Williams,Adam_Williams@es-impact.org,4/30/2001,4955,9,M,African American
+Emmanuel,Williams,emmanuel_williams@es-impact.org,1/22/2001,5022,9,M,African American
+Isaiah,Williams,Isaiah_Williams@es-impact.org,2/20/2000,6416,9,M,African American
+Maralie,Yearby,Maralie_Yearby@es-impact.org,2/7/2001,6124,9,F,African American
+Destiny,Augusta,destiny_augusta@es-impact.org,8/10/2000,5899,10,F,African American
+Shanice,Benjamin,shanice_benjamin@es-impact.org,9/29/2000,5510,10,F,African American
+Isaiah,Brownlee,isaiah_brownlee@es-impact.org,9/18/2000,5512,10,M,African American
+Kris-Shawn,Chapman-Robinson,kris_chapmanrobinson@es-impact.org,6/18/2000,5517,10,M,African American
+Eric,Ford,eric_ford@es-impact.org,5/24/2000,5043,10,M,African American
+Na'Shara,Fountaine,na'shara_fountaine@es-impact.org,5/4/2000,5522,10,F,African American
+Shanell,Goss,shanell_goss@es-impact.org,7/4/1999,5889,10,F,African American
+Jamir,Graham,jamir_graham@es-impact.org,3/1/2000,5530,10,M,African American
+Alan,Hampton,alan_hampton@es-impact.org,5/24/2000,5902,10,M,African American
+Dasani,Hawkins,dasani_hawkins@es-impact.org,9/12/2000,5627,10,F,African American
+Atiti,Hudson,atito_hudson@es-impact.org,7/29/2000,5623,10,F,African American
+Sierra,Jacobs,sierra_jacobs@es-impact.org,11/22/1999,5534,10,F,African American
+Simone,Jacobs,simone_jacobs@es-impact.org,11/22/1999,5535,10,F,African American
+Isaiah,Jennings,isaiah_jennings@es-impact.org,7/11/2000,5598,10,M,African American
+Hinga,Jigba,hinga_jigba@es-impact.org,3/20/2000,5536,10,M,African American
+Ryan,Lax,ryan_lax@es-impact.org,11/22/2000,5601,10,M,African American
+Devan,Moller,Devan_Moller@es-impact.org,5/25/2000,5442,10,M,African American
+Millesha,Rutledge,millesha_rutledge@es-impact.org,12/3/1999,5573,10,F,African American
+Brian,Sally,brian_sally@es-impact.org,2/1/2000,5622,10,M,African American
+Eunique,Wigfall Johnson,Eunique_WigfallJohnson@es-cat.org,11/8/2000,5813,10,F,African American
+Caleb,Williams,caleb_williams@es-impact.org,2/12/2000,5909,10,M,African American
+Alexander,Arayata,Alexander_Arayata@es-impact.org,9/24/2001,6011,9,M,Filipino
+Joshua John,Baisa,Joshua-John_Baisa@es-impact.org,8/6/2001,6015,9,M,Filipino
+Miguel,Carrillo,Miguel_Carrillo@es-impact.org,11/27/2000,6023,9,M,Filipino
+Japeth Gideon,Cruz,Japeth-Gideon_Cruz@es-impact.org,10/10/2001,6030,9,M,Filipino
+Albert John,Leslie,Albert-John_Leslie@es-impact.org,9/13/2001,6060,9,M,Filipino
+Angelo,Mapalo,Angelo_Mapalo@es-impact.org,6/18/2001,4978,9,M,Filipino
+Wilfred,Omaque Jr,Wilfred_Omaque-Jr@es-impact.org,8/18/2001,6085,9,M,Filipino
+Jared,Salazar,Jared_Salazar@es-impact.org,8/30/2001,6102,9,M,Filipino
+Joshua,Agoncillo,joshua_agoncillo@es-impact.org,6/4/2000,5897,10,M,Filipino
+Samantha,Baisa,samantha_baisa@es-impact.org,6/10/2000,5508,10,F,Filipino
+Valerie,Castillo,valerie_castillo@es-impact.org,2/14/2000,5589,10,F,Filipino
+Joshua Gabriel,Cruz,joshuagabriel_cruz@es-impact.org,9/5/2000,5520,10,M,Filipino
+Gabrion,Daval-Santos,gabrion_davalsantos@es-impact.org,11/22/2000,5613,10,M,Filipino
+Garrett,Gebala,garrett_gebala@es-impact.org,12/20/1999,5525,10,M,Filipino
+Jonathan,Goto,jonathan_goto@es-impact.org,4/24/2000,5529,10,M,Filipino
+Justin,Ho,justin_ho@es-impact.org,1/10/2000,5533,10,M,Filipino
+Nathan,Mercado,nathan_mercado@es-impact.org,1/2/2000,5603,10,M,Filipino
+Alessandra,Suarez,alessandra_suarez@es-impact.org,8/25/2000,5578,10,F,Filipino
+Vea Marichris,Tebangin,veamarichris_tebangin@es-impact.org,7/7/2000,5579,10,F,Filipino
+Johana,Abarca Radilla,Johana_Abarca-Radilla@es-impact.org,12/3/2000,6000,9,F,Hispanic
+Maritza,Acosta,Maritza_Acosta@es-impact.org,11/13/2001,6001,9,F,Hispanic
+Andre,Alcantar,Andre_Alcantar@es-impact.org,5/31/2001,6003,9,M,Hispanic
+Isabel,Alvarez,Isabel_Alvarez@es-impact.org,2/15/2001,6007,9,F,Hispanic
+Luis,Anguiano,Luis_Anguiano@es-impact.org,2/11/2001,6010,9,M,Hispanic
+Matthew,Archuletta,Matthew_Archuletta@es-impact.org,1/1/2001,6012,9,M,Hispanic
+Cristian,Arreguin,Cristian_Arreguin@es-impact.org,5/31/2001,6013,9,M,Hispanic
+Veronica,Arteaga,Veronica_Arteaga@es-impact.org,1/23/2001,6014,9,F,Hispanic
+Jairo,Barajas,Jairo_Barajas@es-impact.org,3/4/2001,6016,9,M,Hispanic
+Angela,Cadena,Angela_Cadena@es-impact.org,5/30/2001,6019,9,F,Hispanic
+Leonardo,Camarillo,Leonardo_Camarillo@es-impact.org,2/14/2001,6020,9,M,Hispanic
+Sophia,Cardenas,Sophia_Cardenas@es-impact.org,12/20/2000,6022,9,F,Hispanic
+Emalee,Chace,Emalee_Chace@es-impact.org,10/23/2001,6461,9,F,Hispanic
+Mia,Chace,Mia_Chace@es-impact.org,10/23/2001,6460,9,F,Hispanic
+Jairo,Chavez,Jairo_Chavez@es-impact.org,2/2/2001,6024,9,M,Hispanic
+Natalia,Chavez,Natalia_Chavez@es-impact.org,8/30/2001,6025,9,F,Hispanic
+Anthony,Cienega Armenta,Anthony_Cienega-Armenta@es-impact.org,12/12/2000,6027,9,M,Hispanic
+Emilio,Coronado,Emilio_Coronado@es-impact.org,8/19/2000,6029,9,M,Hispanic
+Christopher,Davila-Fuentes,Christopher_Davila-Fuentes@es-impact.org,9/5/2000,6032,9,M,Hispanic
+Manuel,De La O Cortes,Manuel_De-La-O-Cortes@es-impact.org,11/20/2000,6033,9,M,Hispanic
+Cesar,Delgadillo,Cesar_Delgadillo@es-impact.org,2/19/2001,6034,9,M,Hispanic
+Diego,Delgadillo,Diego_Delgadillo@es-impact.org,4/4/2001,6457,9,M,Hispanic
+Andy,Esqueda,Andy_Esqueda@es-impact.org,8/9/2001,6036,9,M,Hispanic
+Alexis,Falcon,Alexis_Falcon@es-impact.org,3/8/2000,6037,9,F,Hispanic
+Natalie,Figueroa,Natalie_Figueroa@es-impact.org,6/5/2001,6038,9,F,Hispanic
+Samuel,Figueroa,Samuel_Figueroa@es-impact.org,2/3/2001,6039,9,M,Hispanic
+Anderson,Franco,Anderson_Franco@es-impact.org,5/4/2001,6042,9,M,Hispanic
+Daniel,Gomez,Daniel_Gomez@es-impact.org,11/20/2001,6383,9,M,Hispanic
+Lesly,Gomez,Lesly_Gomez@es-impact.org,3/10/2001,6065,9,F,Hispanic
+Eduardo,Gonzalez,Eduardo_Gonzalez@es-impact.org,9/17/2001,6046,9,M,Hispanic
+Nubia,Gonzalez,Nubia_Gonzalez@es-impact.org,10/9/2001,6044,9,F,Hispanic
+Fatima,Gonzalez-Reyes,Fatima_Gonzalez-Reyes@es-impact.org,11/16/2001,6045,9,F,Hispanic
+Keanu,Guevara,Keanu_Guevara@es-impact.org,3/6/2001,6047,9,M,Hispanic
+Leonardo,Gutierrez,Leonardo_Gutierrez@es-impact.org,6/4/2001,6048,9,M,Hispanic
+Jennifer,Hernandez,Jennifer_Hernandez@es-impact.org,3/9/2001,6386,9,F,Hispanic
+Raul,Hernandez,Raul_Hernandez@es-impact.org,12/20/2000,6381,9,M,Hispanic
+Denise,Hueso-Robles,Denise_Hueso-Robles@es-impact.org,5/30/2001,6052,9,F,Hispanic
+Yenifer,Imperial,Yenifer_Imperial@es-impact.org,6/17/2001,6053,9,F,Hispanic
+Jannice,Lazcano,Jannice_Lazcano@es-impact.org,2/24/2001,6058,9,F,Hispanic
+Filomeno,Leon Tafolla,Filomeno_Leon-Tafolla@es-impact.org,12/22/2000,6059,9,M,Hispanic
+Rachel,Lima,Rachel_Lima@es-impact.org,2/8/2001,6061,9,F,Hispanic
+Melissa,Lopez,Melissa_Lopez@es-impact.org,5/5/2001,6063,9,F,Hispanic
+Antonio,Maldonado,Antonio_Maldonado@es-impact.org,10/19/2001,6067,9,M,Hispanic
+Andrew,Martinez,Andrew_Martinez@es-impact.org,2/2/2001,6458,9,M,Hispanic
+Kevin,Matute,Kevin_Matute@es-impact.org,7/27/2000,6068,9,M,Hispanic
+Michelle,Merida,Michelle_Merida@es-impact.org,1/10/2001,6073,9,F,Hispanic
+Samuel,Montoya Martinez,,8/22/2001,5019,9,M,Hispanic
+Geraldine,Moreno,Geraldine_Moreno@es-impact.org,1/15/2000,6078,9,F,Hispanic
+Anthony,Oclica,Anthony_Oclica@es-impact.org,2/19/2001,6084,9,M,Hispanic
+Dionicio,Ortiz,dionicio_ortiz@es-impact.org,12/23/2000,6086,9,M,Hispanic
+Rhay,Osias,Rhay_osias@es-impact.org,9/29/2001,4430,9,M,Hispanic
+Oscar,Pantoja Equihua,Oscar_Pantoja-Equihua@es-impact.org,12/21/2000,6089,9,M,Hispanic
+Valeria,Pedroza,Valeria_Pedroza@es-impact.org,7/31/2001,6090,9,F,Hispanic
+Gladys,Perez,Gladys_Perez@es-impact.org,1/2/2001,6091,9,F,Hispanic
+Perla,Ramirez Gonzalez,Perla_Ramirez-Gonzalez@es-impact.org,6/28/2001,6094,9,F,Hispanic
+Albert,Ramirez,Albert_Ramirez@es-impact.org,2/14/2001,6092,9,M,Hispanic
+Juan,Reyes,Juan_Reyes@es-impact.org,7/5/2001,6414,9,M,Hispanic
+Sindi,Rios Garson,Sindi_Rios-Garson@es-impact.org,9/17/2001,6095,9,F,Hispanic
+Maverick,Rivera Mendoza,Maverick_Rivera-Mendoza@es-impact.org,9/21/2001,6097,9,M,Hispanic
+Abril,Rodriguez,Abril_Rodriguez@es-impact.org,8/30/2001,6098,9,F,Hispanic
+Isabel,Rodriguez,Isabel_Rodriguez@es-impact.org,6/5/2000,6100,9,F,Hispanic
+Kevin,Rodriguez,Kevin_Rodriguez@es-impact.org,3/14/2001,6099,9,M,Hispanic
+Jose,Rojas-Angel,Jose_Rojas-Angel@es-impact.org,4/23/2001,6456,9,M,Hispanic
+Talia,Romo,Talia_Romo@es-impact.org,4/9/2001,6101,9,F,Hispanic
+Milton,Saldana,Milton_Saldana@es-impact.org,1/5/2001,6415,9,M,Hispanic
+Fernando,Sanchez Torres,Fernando_Torres@es-impact.org,3/28/2001,4709,9,M,Hispanic
+Javier,Sanchez,Javier_Sanchez@es-impact.org,1/25/2001,6104,9,M,Hispanic
+Ashly,Silva,Ashly_Silva@es-impact.org,8/28/2001,6108,9,F,Hispanic
+Yasmine,Sotelo,Yasmine_Sotelo@es-impact.org,10/30/2001,6110,9,F,Hispanic
+Jamyleth,Tirado Garcia,Jamyleth_Tirado-Garcia@es-impact.org,12/13/2000,6112,9,F,Hispanic
+Thalia,Torres,Thalia_Torres@es-impact.org,8/7/2001,6113,9,F,Hispanic
+Melanie,Torrez Canales,Melanie_Torrez-Canales@es-impact.org,7/25/2001,6114,9,F,Hispanic
+Kevin,Tronco,Kevin_Tronco@es-impact.org,2/23/2001,6115,9,M,Hispanic
+Selene,Valdez Villanueva,Selene_Valdez-Villanueva@es-impact.org,10/1/2001,6385,9,F,Hispanic
+Barbara,Valdez-Gutierrez,,1/1/2001,5040,9,F,Hispanic
+Melissa,Valdivia-Gonzalez,Melissa_Valdivia-Gonzalez@es-impact.org,6/16/2001,6118,9,F,Hispanic
+Zem,Vargas,Zem_Vargas@es-impact.org,1/22/2001,6119,9,M,Hispanic
+Christopher,Villalobos,Christopher_Villalobos@es-impact.org,9/17/2001,6120,9,M,Hispanic
+Judith,Villalta Ortiz,Judith_Villalta-Ortiz@es-impact.org,9/5/2001,6087,9,F,Hispanic
+Isaac,Villalta,Isaac_Villalta@es-impact.org,4/9/2001,6376,9,M,Hispanic
+Dianna,Villanueva,Dianna_Villanueva@es-impact.org,6/26/2001,6121,9,F,Hispanic
+Jonathan,Villeda,Jonathan_Villeda@es-impact.org,11/12/2001,6122,9,M,Hispanic
+Andrea,Zamora Flores,Andrea_Zamora-Flores@es-impact.org,11/30/2001,6125,9,F,Hispanic
+Jesus,Zamora,Jesus_Zamora@es-impact.org,4/7/2001,6126,9,M,Hispanic
+Jocelyne,Zaragoza,Jocelyne_Zaragoza@es-impact.org,2/7/2001,6127,9,F,Hispanic
+Nataly,Alcala,nataly_alcala@es-impact.org,6/4/2000,5884,10,F,Hispanic
+Jaqueline,Alvarez,jaqueline_alvarez@es-impact.org,5/18/2000,5587,10,F,Hispanic
+Griselda,Angulo,griselda_angulo@es-impact.org,1/23/2000,5505,10,F,Hispanic
+Christian,Avalos,christian_avalos@es-impact.org,1/5/2000,5506,10,M,Hispanic
+Raul,Baeza,raul_baeza@es-impact.org,2/21/2000,5507,10,M,Hispanic
+Cristopher,Bengco,cristopher_bengco@es-impact.org,1/15/1999,5509,10,M,Hispanic
+Amberlynn,Berrios,amberlynn_berrios@es-impact.org,12/6/1999,5511,10,F,Hispanic
+Gabriel,Cadillo,gabriel_cadillo@es-impact.org,5/28/2000,5513,10,M,Hispanic
+Rogelio,Canela,rogelio_canela@es-impact.org,4/12/2000,5515,10,M,Hispanic
+Alejandra,Cardona,alejandra_cardona@es-impact.org,8/6/2000,5885,10,F,Hispanic
+Juan,Carranza,juan_carranza@es-impact.org,10/7/2000,5588,10,M,Hispanic
+Rudy,Chavira-Reyes,rudy_chavirareyes@es-impact.org,5/23/2000,5518,10,M,Hispanic
+Keiry,Delgado,Keiry_Delgado@es-impact.org,11/8/2000,6466,10,F,Hispanic
+Isaac,Diaz Alonso,Isaac_Diaz@es-impact.org,12/5/1999,5461,10,M,Hispanic
+Gerardo Angel,Diaz,Gerardo_Diaz@es-impact.org,10/31/1999,4984,10,M,Hispanic
+Alex,Dominguez,Alex_Dominguez@es-impact.org,10/13/2000,5916,10,M,Hispanic
+Elizabeth,Dominguez,elizabeth_dominguez@es-impact.org,3/10/2000,5521,10,F,Hispanic
+Paola,Garcia Rangel,paola_garciarangel@es-impact.org,10/19/1999,5524,10,F,Hispanic
+Josue,Garcia Sanchez,josue_garcia@es-impact.org,6/16/1999,4742,10,M,Hispanic
+Pablo,Garcia,pablo_garcia@es-impact.org,6/14/2000,5593,10,M,Hispanic
+Juan,Gomez,juan_gomez@es-impact.org,7/7/2000,5527,10,M,Hispanic
+Benjamin,Gomez-Perez,benjamin_gomezperez@es-impact.org,12/19/1999,5887,10,M,Hispanic
+Adilene,Gonzalez,adilene_gonzalez@es-impact.org,6/14/2000,5528,10,F,Hispanic
+Maya (Vida),Guevara,maya_guevara@es-impact.org,6/26/1999,5594,10,F,Hispanic
+Steven,Hanson,steven_hanson@es-impact.org,9/8/2000,5532,10,M,Hispanic
+Daniel,Harrig,daniel_harrig@es-impact.org,7/14/2000,5595,10,M,Hispanic
+Carrissa,Hernandez,Carrissa_Hernandez@es-impact.org,12/13/1999,5918,10,F,Hispanic
+Edgar,Hernandez,edgar_hernandez@es-impact.org,1/24/2000,5903,10,M,Hispanic
+Guadalupe,Juarez,guadalupe_juarez@es-impact.org,4/12/2000,5599,10,F,Hispanic
+Jacqueline,Leyva,Jacqueline_Leyva@es-impact.org,1/12/2000,5915,10,F,Hispanic
+Erick,Lima,erick_lima@es-impact.org,12/9/1999,5542,10,M,Hispanic
+Jesse,Lopez,jesse_lopez@es-impact.org,7/24/2000,5543,10,M,Hispanic
+Joshua,Lostaunau,joshua_lopez@es-impact.org,9/30/1999,5544,10,M,Hispanic
+Luz,Luis Porras,luz_luisporras@es-impact.org,10/24/2000,5892,10,F,Hispanic
+Brianna,Martinez,brianna_martinez@es-impact.org,11/26/1999,5545,10,F,Hispanic
+Jose,Martinez,jose_martinez@es-impact.org,9/27/2000,5546,10,M,Hispanic
+Flor,Maya,flor_maya@es-impact.org,7/20/2000,5547,10,F,Hispanic
+Alexis,Menchaca,alexis_menchaca@es-impact.org,11/6/1999,5548,10,F,Hispanic
+Seily,Mendez Ramirez,seily_mendezramirez@es-impact.org,8/2/2000,5602,10,F,Hispanic
+Cristian,Miranda,cristian_miranda@es-impact.org,11/7/2000,5549,10,M,Hispanic
+Erik,Molano,erik_molano@es-impact.org,12/15/1999,5550,10,M,Hispanic
+Boyette,Nachor,boyette_nachor@es-impact.org,11/12/2000,5555,10,M,Hispanic
+Xochil,Ocegueda,xochil_ocegueda@es-impact.org,3/10/2000,5557,10,F,Hispanic
+Agueda,Ortega,agueda_ortega@es-impact.org,10/17/2000,5559,10,F,Hispanic
+Sarah,Pine,Sarah_Pine@es-impact.org,5/14/2000,5453,10,F,Hispanic
+Steven,Pozos,steven_pozos@es-impact.org,1/31/2000,5606,10,M,Hispanic
+Herber,Quintanilla,herber_quintanilla@es-impact.org,7/5/2000,5893,10,M,Hispanic
+Jonathan,Resendiz,Jonathan_Resendiz@es-impact.org,2/16/1999,5567,10,M,Hispanic
+Matthew,Rodriguez,matthew_rodriguez@es-impact.org,1/27/2000,5569,10,M,Hispanic
+Mya,Rodriguez,maya_rodriguez@es-impact.org,8/17/2000,5570,10,F,Hispanic
+Sergio,Rodriguez,sergio_rodriguez@es-impact.org,4/15/2000,5571,10,M,Hispanic
+Cindy,Rodriguez-Angeles,cindy_rodriguezangeles@es-impact.org,11/29/2000,5572,10,F,Hispanic
+George,Rueda,george_rueda@es-impact.org,8/25/2000,5607,10,M,Hispanic
+Alexander,Tejada,alexander_tejada@es-impact.org,10/1/2000,5580,10,M,Hispanic
+Kevin,Torreblanca,kevin_torreblanca@es-impact.org,9/26/2000,5581,10,M,Hispanic
+Litzy,Venegas,litzy_venegas@es-impact.org,9/25/2000,5908,10,F,Hispanic
+Ana,Vidrio Monroy,Ana_Vidrio@es-impact.org,8/7/2000,5919,10,F,Hispanic
+Joanna,Villeda,joanna_villeda@es-impact.org,10/23/2000,5584,10,F,Hispanic
+Lucia,Villegas,lucia_villegas@es-impact.org,8/10/2000,5585,10,F,Hispanic
+Isabelle,Anderson,Isabelle_Anderson@es-impact.org,8/23/2001,6008,9,F,White
+Annabelle,Hallowell,Annabelle_Hallowell@es-impact.org,8/9/2001,6049,9,F,White
+Dalton DJ,Jewell,Dalton-DJ_Jewell@es-impact.org,7/31/2001,6054,9,M,White
+Blake,Scott-Barsh,Blake_Scott-Barsh@es-impact.org,4/19/2001,6105,9,M,White
+Sara,Sims,Sara_Sims@es-impact.org,5/7/2001,6109,9,F,White
+Shane,Vollmer,Shane_Vollmer@es-impact.org,9/28/2001,6455,9,M,White
+Molly,Hallowell,molly_hallowell@es-impact.org,4/15/2000,5531,10,F,White
+Jacob,Langdon,jacob_langdon@es-impact.org,11/21/1999,5600,10,M,White
+Adrian,Linnekin,Adrian_Linnekin@es-impact.org,10/29/1998,5110,10,M,White
+Tyler,Murray,tyler_murray@es-impact.org,11/23/2000,5610,10,M,White
+Leo,Pitts,leo_pitts@es-impact.org,8/18/2000,5563,10,M,White
+Crystal,Salaiz,crystal_salaiz@es-impact.org,9/2/2000,5574,10,F,White

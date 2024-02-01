@@ -1,0 +1,476 @@
+<!DOCTYPE HTML>
+<!--
+  Helios 1.5 by HTML5 UP
+  html5up.net | @n33co
+  Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+  <head>
+    <title>Yooply</title>
+    <meta name="google-site-verification" content="AKb752uwF1_4uOQM9i_p90g5G6-YPdUNIzVlN77742s" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script>
+    <script src="/js/jquery.colorbox-min.js" ></script>
+
+    <style>
+    @import url(https://fonts.googleapis.com/css?family=Dosis);
+    @import url(https://fonts.googleapis.com/css?family=Muli:300,400);
+
+    </style>
+
+    <style>
+    /* blue button */
+
+a.btn.btn-blue {
+  text-align:center;
+  width:120px;
+  height:50px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 12px;
+  padding: 10px 30px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-bottom-width: 3px;
+  background-color: orange;
+  border-color: #699DB6;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.5);
+  color: #FFF;
+}
+
+  a.btn.btn-blue:hover {
+    background-color: orange;
+    border-color: #33ccff;
+  }
+  
+  a.btn.btn-blue:active {
+    background-color: #33ccff;
+    border-color: rgba(0,0,0,0.9);
+  }
+
+
+    </style>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/style-wide.css"/>
+    <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
+   <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.dropotron.min.js"></script>
+    <script src="js/skel.min.js"></script>
+    <script src="js/skel-panels.min.js"></script>
+    <script src="js/init.js"></script>
+    <noscript>
+      <link rel="stylesheet" href="css/skel-noscript.css" />
+       
+      <link rel="stylesheet" href="css/style-desktop.css" />
+      <link rel="stylesheet" href="css/style-noscript.css" />
+    </noscript>
+
+
+    <script>
+
+    $().ready(function()
+    {
+        $('#homepageoverlay').click(function()
+        {
+          $(this).hide();
+          $('#homepagevideo').attr('src', 'http://www.youtube.com/embed/q9FGE7H4edM?autoplay=1').show();
+        });
+       
+    });
+
+
+
+    </script>
+
+    <script>
+
+    $(document).ready(function(){
+
+
+
+        $(".youtube").colorbox({iframe:true, innerWidth:640, innerHeight:390});
+
+        $('#showLogin').colorbox({inline:true, href:"#loginWindow"});
+            
+    });
+</script>
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
+  </head>
+  <body class="homepage">
+
+    <!-- Header -->
+      <div id="header">
+            
+        <!-- Inner -->
+          <div class="inner">
+            <header class="header-background">
+              <h1><a href="#" id="logo">Yooply</a></h1>
+             
+              <span class="byline">School Behavior Solutions</span>
+            </header>
+            <footer>
+              <a href="#banner" class="button circled scrolly">More</a>
+            </footer>
+          </div>
+        
+        <!-- Nav -->
+          <nav id="nav">
+            <ul>
+              <li><a href="index.php">Home</a></li>
+              <li>
+                <span>About</span>
+                <ul>
+                  
+                  <li><a href="/tos">Terms</a></li>
+                  <li><a href="/pricing">Pricing</a></li>
+                  
+                  <li><a href="/privacy">Privacy Policy</a></li>
+                  
+                  
+                </ul>
+              </li>
+              <li><a href="/contact">Contact</a></li>
+              <li><a href="/faqs">FAQs</a></li>
+               
+              <li><a href="/login">Login</a></li>
+            </ul>
+          </nav>
+
+      </div>
+      
+    <!-- Banner -->
+      <div id="banner">
+        
+        <span class="byline">
+
+          Yooply is an all-stakeholder mobile solution for managing and monitoring all kinds of school behaviors: 
+        </span>
+        <br>
+        
+         
+        <span class="byline">
+           Office referrals • Detentions • Positive and negative behaviors • 
+           Interventions • Demerits • Consequences • Student reflections • Individual goals • Behavior plans • Custom forms • 
+           Bully reports •  Notifications • Non-cognitive measures • Practically anything you can think of!
+
+        </span>
+         <br>
+           <a class='youtube' href="http://www.youtube.com/embed/q9FGE7H4edM?rel=0&wmode=transparent"><img src="/images/Y_logo2.png" style="display:inline; width:50px; height:auto; align:center; opacity:0.85"/></a>
+      </div>
+
+ 
+    <!-- Carousel -->
+      <div class="carousel">
+        <div class="reel">
+
+          <article>
+            <a href="images/fast_referral.png" class="image featured"><img src="images/fast_referral.png" alt="" /></a>
+            <header>
+              <h3><a href="#">Fast Referrals</a></h3>
+            </header>
+            <p>Quickly assign customized referrals from any web browser and keep track of the outcome. No more filling out forms in the heat of the moment.</p>             
+          </article>
+        
+          
+        
+          <article>
+            <a href="images/quick_positive.png" class="image featured"><img src="images/quick_positive.png" alt="" /></a>
+            <header>
+              <h3><a href="#">Positive Feedback</a></h3>
+            </header>
+            <p>Integrate your own positive rewards system to keep students motivated. Awards can be redeemed for your own special prizes. </p>              
+          </article>
+
+           <article>
+            <a href="images/positiveReinforcment.png" class="image featured"><img src="images/keepTrack.png" alt="" /></a>
+            <header>
+              <h3><a href="#">Real Time</a></h3>
+            </header>
+            <p>With Yooply stakeholders can know what, when, and how something happened. We make it easier to find out why.</p>              
+          </article>
+        
+          <article>
+            <a href="images/todays_detentions.png" class="image featured"><img src="images/todays_detentions.png" alt="" /></a>
+            <header>
+              <h3><a href="#">Detention Manager</a></h3>
+            </header>
+            <p>Manage detentions with Yooply's easy to use interface designed by school leaders. Add or subtract time, and quickly dismiss students. </p>             
+          </article>
+
+          <article>
+            <a href="images/studentAccounts.png" class="image featured"><img src="images/studentAccounts.png" alt="" /></a>
+            <header>
+              <h3><a href="#">Students Engaged</a></h3>
+            </header>
+            <p>Student accounts let them take ownership of their behavior and track it over time. No more wondering why or how they got in trouble.</p>              
+          </article>
+        
+          <article>
+            <a href="images/report_pie_charts" class="image featured"><img src="images/report_pie_charts.png" alt="" /></a>
+            <header>
+              <h3><a href="#">Reports</a></h3>
+            </header>
+            <p>Generate real-time reports to undesrtand school or student trends. Query your customized data by class, by reason, and date. </p>             
+          </article>
+           
+
+           
+         
+        
+           
+        </div>
+      </div>
+      
+    <!-- Main -->
+
+  
+
+      <div class="wrapper style1">
+
+      <section id="features" class="container special">
+         
+          <div class="row">
+          <article class="4u special">
+               
+              <header>
+              <i class="fa fa-file-text fa-5x"></i> 
+                <h3><a href="#">No more paperwork</a></h3>
+              </header>
+              <p>
+                Admins can also manage and track detention minutes, student contracts, suspensions, notify parents and keep all teachers informed. No more clipboards. No more clunky spreadsheets or desktop software everyone hates.
+              </p>
+            </article>
+            <article class="4u special">
+               
+              <header>
+              <i class="fa fa-dashboard fa-5x"></i> 
+                <h3><a href="#">Real time data</a></h3>
+              </header>
+              <p>
+                Keeping track of student data and discipline trends is easy. Teachers, admins, parents and students can monitor school behavior stats and make better decisions that ultimately impact learning.
+              </p>
+            </article>
+            
+            <article class="4u special">
+               
+              <header>
+              <i class="fa fa-thumbs-up fa-5x"></i> 
+                <h3><a href="#">Let's stay positive!</a></h3>
+              </header>
+              <p>
+                With Yooply, students can send each other positive messages, earn points and rewards and monitor their own goals and behaviors.  
+              </p>
+            </article>
+          </div>
+
+          <div class="row">
+          <article class="4u special">
+               
+              <header>
+              <i class="fa fa-wrench fa-5x"></i> 
+                <h3><a href="#">Customize</a></h3>
+              </header>
+              <p>
+                Schools can tailor Yooply to fit their discipline plans. They can build their own tracking forms, reports and dashboards, or
+                tweak our own. Put those forms in everyone's pocket, so they have access to read/write important school data on the fly.
+                
+
+              </p>
+            </article>
+            <article class="4u special">
+               
+              <header>
+              <i class="fa fa-warning fa-5x"></i> 
+                <h3><a href="#">Interventions</a></h3>
+              </header>
+              <p>
+                Keep track of interventions, from verbal redirections to buddy teacher referral. Why? Because teachers, counselors and admins should have the option to track minor infractions to analyze patterns of behaviors before they become more serious. 
+              </p>
+            </article>
+            
+            <article class="4u special">
+               
+              <header>
+              <i class="fa fa-mobile fa-5x"></i> 
+                <h3><a href="#">Built for Mobile</a></h3>
+              </header>
+              <p> 
+              Yooply is made to fit in your hand, but we run on any desktop or laptop as well. We designed Yooply to make sure your thumb and your eyes don't spend too long on our app, so you can get back to teaching.
+
+              </p>
+            </article>
+          </div>
+
+
+
+        </section>
+        
+         
+
+      </div>
+
+
+      <div class="wrapper style2" style="padding:3%">
+
+
+      <header>
+            <h2 style="color:#ffffff; margin:5%"><a href="#">What else can Yooply do?</a></h2>
+
+
+            <div class="wrapper style2">
+
+      <section id="features" class="container special">
+         
+          <div class="row">
+          <article class="4u special">
+               
+              
+               
+              <header style="color:#ffffff">
+              Notifications
+              
+              
+              </header>
+              <p>Notifications between all-stakeholders is central to Yooply. Loop everyone in around the issues that matter to you and your school community with 
+              SMS, Email, and in-app notifications. </p>
+              </p>
+            </article>
+            
+            <article class="4u special">
+               
+              <header style="color:#ffffff">
+              Reflections
+              </header>
+              <p>Student reflections are built into Yooply and are tied to the referral process. Administrators can review teacher notes and student reflections
+              before talking to the student in order to conduct briefer, more informed decisions and conferences.</p></span>
+        </p>
+            </article>
+            <article class="4u special">
+               
+              <header style="color:#ffffff">
+              Goals
+              </header>
+              <p>Set student goals for the behaviors you track. Monitor and inform those who need to know when a student has been assigned a minimum or maximum number
+              of detentions, or has earned a ceratin number of awards, or whatever motivation may fit.</p></span>
+        </p>
+            </article>
+          </div>
+
+          
+
+
+
+        </section>
+        
+         
+
+      </div> 
+          </header>
+
+          
+
+        <article id="main"   class="container special" style="width: 110%;
+margin-left: -5%;">
+          <a href="#" class="image featured"><img src="images/studentExamples.png" alt="" /></a>
+          
+      
+         
+        </article>
+
+      </div>
+
+    <!-- Features -->
+      <div class="wrapper style2">
+        
+        <section id="features" class="container special">
+          <header>
+            <h2 style="color:#ffffff">Discipline shouldn't eat up the school day</h2>
+            <span class="byline">Admins shouldn't have to spend all day managing behavior and paperwork, 
+            and students shouldn't waste instructional time sitting in the office. We know, because Yooply
+             was designed and built by teachers and admins who understand the challenges and nuances of school discipline.
+            </span>
+          </header>
+          <div class="row">
+             
+          </div>
+        </section>
+
+      </div>
+
+
+       
+       
+
+      <article style="width:100%">
+            <a href="images/howdoyoufeelpromo.png" class="image featured"><img src="images/howdoyoufeelpromo.png" alt="" /></a>
+                  
+          </article>
+        
+           
+
+          <div class="wrapper style3">
+        
+        <section id="features" class="container special">
+          <header>
+            <h2> Are you ready to put your school's discipline plan in everyone's hand? Or just want to say hi?</h2>
+            
+        <footer>
+              <a href="/contact/" class="button circled scrolly">Contact Us</a>
+            </footer>
+          </header>
+          <div class="row">
+          <span style="text-align:center">
+          
+          </span>
+             
+          </div>
+        </section>
+
+      </div>
+        
+           
+
+
+           
+           
+
+
+
+        
+
+
+     
+    <!-- Footer -->
+      <div id="footer">
+        <div class="container">
+         
+          <hr />
+          <div class="row">
+            <div class="12u">
+              
+              
+              
+              <!-- Copyright -->
+                <div class="copyright">
+                  <ul class="menu">
+                    <li>&copy; sleek-geek. All rights reserved.</li>
+                     
+                  </ul>
+                </div>
+              
+            </div>
+          
+          </div>
+        </div>
+      </div>
+
+  </body>
+  <script>
+                                jQuery('img.youtube').colorbox();
+                            </script>
+</html>

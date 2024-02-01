@@ -1,0 +1,337 @@
+<?php
+
+define('REFERRAL_STATUS_REMOVED', '0');
+define('REFERRAL_STATUS_ACTIVE', '1');
+
+class Referral_model extends CI_Model
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function create($school_id, $teacher_id, $student_id, $incident, $notes)
+	{
+		$this->db->insert('Referrals', array(
+			'schoolid' => $school_id,
+			'teacherid' => $teacher_id,
+			'studentid' => $student_id,
+			'incident' => $incident,
+			'timecreated' => time(),
+			'teachernotes' => json_encode($notes),
+			'status' => REFERRAL_STATUS_ACTIVE
+		));
+
+		return $this->db->insert_id();
+	}
+
+	function get_dollar_total($student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Reinforcements WHERE studentid = ? and status = ?', array($student_id, REFERRAL_STATUS_ACTIVE));
+
+		$count = $query->row();
+
+		return $count->total;
+	}
+
+	function get_active_referrals($school_id)
+	{
+		$query = $this->db->query('SELECT Referrals.*, student.firstname, student.lastname, teacher.firstname as teacherfirstname, teacher.lastname as teacherlastname FROM Referrals, Users student, Users teacher WHERE Referrals.studentid = student.userid AND Referrals.teacherid = teacher.userid AND Referrals.timecheckout = 0 AND Referrals.schoolid = ? AND Referrals.status = ? ORDER BY Referrals.timecreated DESC', array($school_id, REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	function get_referral($referral_id)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE referralid = ?', array($referral_id));
+
+		return $query->row();
+	}
+
+	function get_count_by_student($student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Referrals WHERE studentid = ? AND status = ?', array($student_id, REFERRAL_STATUS_ACTIVE));
+
+		$count = $query->row();
+
+		return $count->total;
+	}
+
+	function get_active_by_student($student_id, $include_completed = false)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE studentid = ? AND timecheckin = 0 AND status = ?', array($student_id, REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	function get_by_student($student_id)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE studentid = ? AND status = ?', array($student_id, REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	function save_student($referral_id, $data)
+	{
+		$this->db->update('Referrals', array(
+				'timestudentsave' => time(),
+				'studentnotes' => json_encode($data)
+			), array('referralid' => $referral_id));
+	}
+
+	function save_teacher($referral_id, $notes)
+	{
+		$this->db->update('Referrals', array(
+			'teachernotes' => json_encode($notes),
+		), array('referralid' => $referral_id));
+	}
+
+	function save_admin($referral_id, $admin_id, $notes)
+	{
+		$this->db->update('Referrals', array(
+				'timeadminsave' => time(),
+				'adminid' => $admin_id,
+				'adminnotes' => json_encode($notes),
+			), array('referralid' => $referral_id));
+	}
+
+	/**
+	 * Saves the student reflection to the referral.
+	 *
+	 * @param $referral_id the id of the referral
+	 * @param $reflection array of array('label' =>, 'value' => ) of the question/answers.
+	 */
+	function save_reflection($referral_id, $reflection)
+	{
+		$this->db->update('Referrals', array(
+			'reflection' => json_encode($reflection),
+			'timereflection' => time()
+		), array('referralid' => $referral_id));
+	}
+
+	/**
+	 * Returns a total by type for referrals today.
+	 * @param $school_id school id
+	 * @param $perid minimum time of referrals to fetch
+	 * @param $teacher_id if not == 0, will limit referrals to just one teacher
+	 */
+	function category_totals($school_id, $period, $teacher_id = 0)
+	{
+		switch($period)
+		{
+			case 'today':
+				$time = time()-(24*60*60);
+			break;
+			case 'week':
+				$time = time()-(7*24*60*60);
+			break;
+			case 'month':
+				$time = time()-(30*24*60*60);
+			break;
+			case 'year':
+				$time = time()-(365*24*60*60);
+			break;
+		}
+
+		$where = 'schoolid = ? AND timecreated > ? AND status = ?';
+		$where_values = array($school_id, $time, REFERRAL_STATUS_ACTIVE);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		$query = $this->db->query('SELECT incident, COUNT(*) as total FROM Referrals WHERE '.$where.' GROUP BY incident', $where_values);
+		return $query->result();
+	}
+
+	/**
+	 * Returns a total by teacher for referrals this year.
+	 * @param $school_id school id
+	 */
+	function category_totals_byteacher($school_id)
+	{
+		$query = $this->db->query('SELECT incident, COUNT(*) as total, CONCAT(Users.lastname,", ",Users.firstname) as teachername FROM Referrals, Users WHERE Referrals.teacherid = Users.userid AND Referrals.schoolid = ? AND Referrals.timecreated > ? AND Referrals.status = ? GROUP BY teacherid ORDER BY total DESC', array($school_id, time()-(365*60*60*24), REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	/**
+	 * Returns a total by grade for referrals this year.
+	 * @param $school_id school id
+	 */
+	function category_totals_bygrade($school_id)
+	{
+		$query = $this->db->query('SELECT incident, COUNT(*) as total, Users.grade FROM Referrals, Users WHERE Referrals.studentid = Users.userid AND Referrals.schoolid = ? AND Referrals.timecreated > ? AND Referrals.status = ? GROUP BY grade', array($school_id, time()-(365*60*60*24), REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	function count_today($school_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Referrals WHERE schoolid = ? AND timecreated > ? AND status = ?', array($school_id, time()-(24*60*60), REFERRAL_STATUS_ACTIVE));
+
+		return $query->row()->total;
+	}
+
+	/**
+	 * Returns the number of referrals per day since the time period.
+	 * @param $school_id the school id
+	 * @param $period the start of the time period
+	 * @param $teacher_id if != 0, will limit to just that teacher
+	 */
+	function count_by_day($school_id, $period, $teacher_id = 0)
+	{
+		switch($period)
+		{
+			case 'today':
+				$time = time()-(24*60*60);
+			break;
+			case 'week':
+				$time = time()-(7*24*60*60);
+			break;
+			case 'month':
+				$time = time()-(30*24*60*60);
+			break;
+			case 'year':
+				$time = time()-(365*24*60*60);
+			break;
+		}
+
+		$where = 'timecreated > ? AND schoolid = ? AND status = ?';
+		$where_values = array($time, $school_id, REFERRAL_STATUS_ACTIVE);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		$query = $this->db->query('SELECT COUNT(*) as total, timecreated as date FROM Referrals WHERE '.$where.' GROUP BY DATE(FROM_UNIXTIME(timecreated)) ASC', $where_values);
+
+		return $query->result();
+	}
+
+	/**
+	 * Returns the top referral counts with student names.
+	 * @param $school_id school id
+	 * @param $limit number of results to limit by
+	 * @param $teacher_id if != 0, will limit to referral assigned by teacher.
+	 */
+	function top_referrals($school_id, $limit = 5, $teacher_id = 0)
+	{
+		$where = ' AND Referrals.status = ?';
+		$where_values = array($school_id, REFERRAL_STATUS_ACTIVE);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		$query = $this->db->query('SELECT COUNT(*) as total, Users.userid, Users.profileimage, CONCAT(Users.lastname,", ",Users.firstname) as studentname FROM Referrals, Users WHERE Referrals.studentid = Users.userid AND Referrals.schoolid = ?'.$where.' GROUP BY Referrals.studentid ORDER BY total DESC LIMIT '.$limit, $where_values);
+
+		return $query->result();
+	}
+
+	function get_reflections($school_id, $student_id)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE schoolid = ? AND studentid = ? AND reflection != "" AND status = ?', array($school_id, $student_id, REFERRAL_STATUS_ACTIVE));
+
+		return $query->result();
+	}
+
+	function send_back_to_class($referral_id)
+	{
+		$this->db->update('Referrals', array(
+			'timecheckout' => time()
+		), array(
+			'referralid' => $referral_id
+		));
+	}
+
+	function check_in_student($referral_id)
+	{
+		$this->db->update('Referrals', array(
+			'timecheckin' => time()
+		), array(
+			'referralid' => $referral_id
+		));
+	}
+
+	function find($school_id, $teacher_id = 0, $student_id = 0, $grade = 0, $group_id = 0, $start_time = 0, $end_time = 0, $expand_teacher = false, $expand_student = false)
+	{
+		$where = 'Referrals.schoolid = ? AND Referrals.status = ?';
+		$where_values = array($school_id, REFERRAL_STATUS_ACTIVE);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND Referrals.teacherid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		if($student_id !== 0)
+		{
+			$where .= ' AND Referrals.studentid = ?';
+			array_push($where_values, $student_id);
+		}
+
+		if($start_time !== 0)
+		{
+			$where .= " AND Referrals.timecreated >= ?";
+			array_push($where_values, $start_time);
+		}
+
+		if($end_time !== 0)
+		{
+			$where .= " AND Referrals.timecreated <= ?";
+			array_push($where_values, $end_time);
+		}
+
+		$select = 'Referrals.*';
+		$from = 'Referrals';
+
+		if($expand_student)
+		{
+			$select .= ', s.firstname as studentfirstname, s.lastname as studentlastname';
+			$from .= ", Users s";
+			$where .= ' AND s.userid = Referrals.studentid';
+		}
+
+		if($expand_teacher)
+		{
+			$select .= ', t.firstname as teacherfirstname, t.lastname as teacherlastname';
+			$from .= ", Users t";
+			$where .= ' AND t.userid = Referrals.teacherid';
+		}
+
+		if($grade !== 0)
+		{
+			if(!$expand_student)
+			{
+				$from .= ", Users s";
+				$where .= ' AND s.userid = Referrals.studentid';
+			}
+
+			$where .= ' AND s.grade = ?';
+			array_push($where_values, $grade);
+		}
+
+		if($group_id !== 0)
+		{
+			$from .= ', UserGroups';
+			$where .= ' AND Referrals.studentid = UserGroups.userid AND UserGroups.groupid = ?';
+			array_push($where_values, $group_id);
+		}
+
+		$query = $this->db->query('SELECT '.$select.' FROM '.$from.' WHERE '.$where.' ORDER BY Referrals.timecreated DESC', $where_values);
+		return $query->result();
+	}
+
+	function remove($referral_id)
+	{
+		$this->db->update('Referrals', array('status' => REFERRAL_STATUS_REMOVED), array('referralid' => $referral_id));
+	}
+
+}

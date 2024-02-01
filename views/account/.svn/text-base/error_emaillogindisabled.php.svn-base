@@ -1,0 +1,1 @@
+Your school has not enabled this option. Please contact your school administrator for assistance.

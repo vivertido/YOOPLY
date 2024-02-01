@@ -1,0 +1,47 @@
+<form action="/teacher/referral/<?= $studentid ?>" data-ajax="false" method="POST">
+<<<<<<< .mine
+<?php inflate_form($settings->questions); ?>
+=======
+<?php
+$options = array(
+	'Disrespectul',
+	'Unsopportive of Others',
+	'Unkind comments',
+	'Throwing Things',
+	'Poor Attitude/Language',
+	'Unapproved Tardy',
+	'Minor Damange',
+	'Major Damange',
+	'Incomplete Work',
+	'Gum/candy/seeds',
+	'Using Mobile',
+	'Out of Uniform',
+	'Verbal Harassment',
+	'Minor Fighting',
+	'Major Fighting',
+	'Minor Stealing',
+	'Major Stealing'
+	'Lying',
+	'Encouraging Fight',
+	'Sexual conduct-mutual',
+	'Defiance',
+	'Alcohol/Tobacco/Drugs',
+	'Knowledge of Susbstances',
+	'Physical Assault',
+	'Serious Weapon',
+);
+?>
+
+Incident:
+<select name="incident" data-native-menu="false">
+<?php foreach($settings->incidents as $option): ?>
+<option value="<?= $option ?>"><?= $option ?></option>
+<?php endforeach; ?>
+</select>
+
+
+Notes:<br />
+<textarea name="notes"></textarea>
+>>>>>>> .r55
+<input type="submit" name="submit" value="Assign" data-inline="true"  data-theme="b"/>
+</form>

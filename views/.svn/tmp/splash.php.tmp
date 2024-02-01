@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<<<<<<< .mine
+<head>
+  <meta charset="utf-8">
+  <meta name="google-site-verification" content="Y8CUshpFbt_FsJSXDLQMGhUy8UGVBUqgf5B5Qoe9Bd0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+=======
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+>>>>>>> .r117
+
+  <link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+  <title>Yoop.ly</title>
+
+
+
+
+ <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+ <link rel="stylesheet" href="/themes/Yoopl1.css" />
+
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+
+
+ <style type="text/css">
+
+  #MoreInfoAnchor{
+
+    text-align: left;
+    font-weight:normal;
+    text-decoration:none;
+    font-size:150%;
+    padding:10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+
+    #ContactAnchor{
+
+      text-align: center;
+       font-weight:normal;
+    text-decoration:none;
+    font-size:150%;
+    padding:10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    }
+  #DemoAnchor{
+
+    text-align: right;
+    font-weight:normal;
+    text-decoration:none;
+    font-size:150%;
+    padding:10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+
+  }
+  #phone{
+
+position: relative;
+margin-top:-250px;
+
+  }
+  #iPad{
+position: relative;
+margin-top:-250px;
+
+  }
+  #laptop{
+position: relative;
+margin-top:-250px;
+
+  }
+  #description{
+
+color:#663300;
+font-size:110%;
+ font-weight:normal;
+padding:5px;
+margin-right:5px;
+font-weight:normal;
+
+  }
+  div.bullets{
+
+    width:20%;
+    float:left;
+    text-align:center;
+    margin-bottom:15px;
+    font-weight:normal;
+
+
+
+  }
+  p.popupText{
+
+font-weight:normal;
+font-size:120%;
+
+  }
+ </style>
+
+</head>
+
+
+  <body >
+
+
+
+<div data-role="page" id="thePage">
+
+
+
+<<<<<<< .mine
+  <div data-role="content"  >
+    <span>
+    <p style="font-size:40px; font-weight:normal; margin:0px; color:#00BFFF; display:inline ">Yoop.ly </p>
+    <p style="font-size:20px; font-weight:normal; color:#663300; margin=0px;  display:inline">Mobile Behavior Management for Schools</p>
+  </span>
+    <p id="description">Yoop.ly is an all-stakeholder mobile solution for managing school behavior. Built by admins and teachers, Yoop.ly eliminates paperwork and streamlines the discipline process so students spend less time in the office and more time learning.</p>
+<div style="width: 30%; float: left;text-align:center">
+     <span>
+    <a href="/learnmore"    id="MoreInfoAnchor">More Info  </a>
+  </span></div>
+  <div style="width: 30%; float: left;text-align:center">
+    <span>
+=======
+	<div data-role="content"  >
+		<span>
+		<p style="font-size:40px; font-weight:normal; margin:0px; color:#00BFFF; display:inline ">Yoop.ly </p>
+		<p style="font-size:20px; font-weight:normal; color:#663300; margin=0px;  display:inline">Mobile Behavior Managment for Schools</p>
+	</span>
+		<p id="description">Yoop.ly is an all-stakeholder mobile solution for managing school behavior. Built by admins and teachers, Yoop.ly eliminates paperwork and streamlines the discipline process so students spend less time in the office and more time learning.</p>
+<div style="width: 30%; float: left;text-align:center">
+		 <span>
+		<a href="/learnmore"    id="MoreInfoAnchor">More Info  </a>
+	</span></div>
+	<div style="width: 30%; float: left;text-align:center">
+		<span>
+>>>>>>> .r117
+
+     <a href="/contact" data-ajax="false" id="ContactAnchor" data-rel="dialog" >Contact  </a>
+  </span></div>
+  <div style="width: 30%; float: left;text-align:center">
+    <span>
+    <a href="/signup" data-ajax="false" id="DemoAnchor">Sign Up  </a>
+  </span> </div>
+
+<div id="piture">
+
+<img src="/images/schoolHallway2.jpg" width="100%" alt="Yoop.ly" title="Yoop.ly" >
+
+
+ </div>
+
+ <img src="/images/yooplyOnPhone.png" width="25%" id="phone"><img src="/images/iPadYooply.png" width="25%" id="iPad"><img src="/images/laptopYooply.png" width="40%" id="laptop"><br>
+ <span>
+ <a href="#popupFastReferrals" data-rel="popup" ><div class="bullets"> Fast office referrals </div> </a>
+ <a href="#popupDiciplineOutcomes" data-rel="popup" ><div class="bullets">Student Input</div></a>
+ <a href="#popupPositiveFeedback" data-rel="popup" ><div class="bullets"> Positive Feedback </div></a>
+ <a href="#popupDetentionManager" data-rel="popup" ><div class="bullets"> Detention Manager </div></a>
+ <a href="#popupReports" data-rel="popup" ><div class="bullets"> Reports </div></span></a>
+
+
+
+
+
+
+<div data-role="popup" id="popupFastReferrals" style="background-color:#e0d6cc" class="ui-content">
+  <p class="popupText">Teachers and staff can quickly and discreetly send referrals from any web browser and keep track of the outcome.</p>
+</div>
+<div data-role="popup" id="popupDiciplineOutcomes" style="background-color:#e0d6cc" class="ui-content">
+  <p class="popupText">Referred students can enter their reflections through their own accounts on their mobiles, or from an office computer. Admins customize the interface and questioning to fit school culture and discipline model.</p>
+</div>
+<div data-role="popup" id="popupPositiveFeedback" style="background-color:#e0d6cc" class="ui-content">
+  <p class="popupText">Integrate your own positive rewards system with Yoop.ly to keep students motivated. Student can also send positive messages, or shout outs, to their peers. </p>
+</div>
+<div data-role="popup" id="popupDetentionManager" style="background-color:#e0d6cc" class="ui-content">
+  <p class="popupText">Manage detentions with Yoop.ly's easy to use interface designed by school leaders. Add and subtract time manually or automatically and keep parents, teachers and students informed of their status.</p>
+</div>
+<div data-role="popup" id="popupReports" style="background-color:#e0d6cc" class="ui-content">
+  <p class="popupText">Generate real-time reports based on discipline issues, student demographics, referring teachers, as well as short and long-term trends.</p>
+</div>
+
+
+
+  </div><!-- /content -->
+<div data-role="footer">
+<p style="font-size:9px;  padding:10px"> copyright sleek-geek, inc. 2013, All Rights Reserved.
+</div> <!-- footer-->
+
+
+<!--I can't get this to open as a dialog. I think it only works if the site is live -->
+<div id="contact" data-role="dialog"  data-theme="c">
+    <div data-role="header"><h1>Clicked!</h1></div>
+    <div data-role="content">
+        <p>Clicked content!</p>
+        <a href="#contact" data-rel="back" data-role="button">Go back</a>
+    </div>
+</div>
+
+  </body>
+
+
+
+
+</html>

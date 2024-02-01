@@ -1,0 +1,364 @@
+<!--ADMIN REPORTS-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<<<<<<< .mine
+<script type="text/javascript">
+google.load('visualization', '1.0', {'packages':['corechart', 'gauge']});
+google.setOnLoadCallback(drawCharts);
+
+function drawCharts()
+{
+	drawThisWeekChart();
+	drawThisMonthChart();
+	drawThisYearChart();
+	drawTeacherChart();
+	drawGradeChart();
+	drawGuage();
+}
+
+function drawThisWeekChart() {
+	var data = new google.visualization.DataTable();
+
+	data.addColumn('string', 'Topping');
+	data.addColumn('number', 'Slices');
+	data.addRows([
+		<?php foreach($week as $incident): ?>
+		["<?= htmlentities($incident->incident) ?>", <?= $incident->total ?>],
+		<?php endforeach; ?>
+	]);
+
+	var options = {'title':'Referrals this week',
+		'width':300,
+		'height':200};
+
+	var chart = new google.visualization.PieChart(document.getElementById('thisweek'));
+	chart.draw(data, options);
+}
+
+function drawThisMonthChart() {
+	var data = new google.visualization.DataTable();
+=======
+    
+     <script type="text/javascript">
+>>>>>>> .r55
+
+	data.addColumn('string', 'Topping');
+	data.addColumn('number', 'Slices');
+	data.addRows([
+		<?php foreach($month as $incident): ?>
+		["<?= htmlentities($incident->incident) ?>", <?= $incident->total ?>],
+		<?php endforeach; ?>
+	]);
+
+	var options = {'title':'Referrals this month',
+		'width':300,
+		'height':200};
+
+	var chart = new google.visualization.PieChart(document.getElementById('thismonth'));
+	chart.draw(data, options);
+}
+
+function drawThisYearChart() {
+	var data = new google.visualization.DataTable();
+
+	data.addColumn('string', 'Topping');
+	data.addColumn('number', 'Slices');
+	data.addRows([
+		<?php foreach($year as $incident): ?>
+		["<?= htmlentities($incident->incident) ?>", <?= $incident->total ?>],
+		<?php endforeach; ?>
+	]);
+
+	var options = {'title':'Referrals this year',
+		'width':300,
+		'height':200};
+
+	var chart = new google.visualization.PieChart(document.getElementById('thisyear'));
+	chart.draw(data, options);
+}
+
+function drawTeacherChart() {
+	var data = new google.visualization.DataTable();
+
+	data.addColumn('string', 'Topping');
+	data.addColumn('number', 'Slices');
+	data.addRows([
+		<?php foreach($teacher as $incident): ?>
+		["<?= htmlentities($incident->teachername) ?>", <?= $incident->total ?>],
+		<?php endforeach; ?>
+	]);
+
+	var options = {'title':'Referrals by teacher',
+		'width':300,
+		'height':200};
+
+	var chart = new google.visualization.PieChart(document.getElementById('teacher'));
+	chart.draw(data, options);
+}
+
+function drawGradeChart() {
+	var data = new google.visualization.DataTable();
+
+	data.addColumn('string', 'Topping');
+	data.addColumn('number', 'Slices');
+	data.addRows([
+		<?php foreach($grade as $incident): ?>
+		["<?= htmlentities($incident->grade) ?>", <?= $incident->total ?>],
+		<?php endforeach; ?>
+	]);
+
+	var options = {'title':'Referrals by grade',
+		'width':300,
+		'height':200};
+
+	var chart = new google.visualization.PieChart(document.getElementById('grade'));
+	chart.draw(data, options);
+}
+
+function drawGuage() {
+	var data = google.visualization.arrayToDataTable([
+		['Label', 'Value'],
+		['Detentions', <?= $detentionstoday ?>],
+		['Referrals', <?= $referralstoday ?>]
+		]);
+
+	var options = {
+		width: 400, height: 120,
+		redFrom: 80, redTo: 100,
+		yellowFrom:50, yellowTo: 79,
+		minorTicks: 5
+	};
+
+<<<<<<< .mine
+	var chart = new google.visualization.Gauge(document.getElementById('gauge'));
+	chart.draw(data, options);
+}
+</script>
+<div>
+	<h2>Daily Guage</h2>
+	<div id="gauge">
+	</div>
+=======
+           'legend.position':'bottom',
+          vAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+        chart.draw(data, options);
+      }
+    </script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Month', 'Detentions', 'Referrals'],
+          ['Aug.',  4,      3],
+          ['Sep.',  6,      5],
+          ['Oct.',  3,       2],
+          ['Nov.',  1,      1]
+        ]);
+
+        var options = {
+          title: 'School Wide Performance',
+
+           'legend.position':'bottom',
+          vAxis: {title: 'Year',  titleTextStyle: {color: 'red'}}
+        };
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div2'));
+        chart.draw(data, options);
+      }
+    </script>
+<script type='text/javascript'>
+      google.load('visualization', '1', {packages:['gauge']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['Detentions', 12],
+          ['Referrals', 3]
+
+        ]);
+
+        var options = {
+          width: 400, height: 120,
+          redFrom: 80, redTo: 100,
+          yellowFrom:50, yellowTo: 79,
+          minorTicks: 5
+        };
+
+        var chart = new google.visualization.Gauge(document.getElementById('chart_div_guage'));
+        chart.draw(data, options);
+      }
+    </script>
+
+
+
+
+<div >
+  <h2>Daily Gauge</h3>
+<div class="ui-grid-a" style="background-color:#E0D6CC; padding:10px" >
+	<div class="ui-block-a">
+ <div id='chart_div_guage'></div>
+	</div>
+	<div class="ui-block-b">
+	
+	
+	<p>Students in Office:<p>
+	<p>Shoutouts:</p>
+	
+	</div>
+>>>>>>> .r55
+</div>
+<<<<<<< .mine
+=======
+
+
+<!--REFERRALS THIS WEEK-->
+>>>>>>> .r55
+<div data-role="collapsible" data-content-theme="c">
+<<<<<<< .mine
+	<h3>This Week</h3>
+	<?php /* <div data-role="controlgroup" data-type="horizontal">
+		<a href="#" data-role="button">Race</a>
+		<a href="#" data-role="button">Grade</a>
+		<a href="#" data-role="button">Gender</a>
+		<a href="#" data-role="button">SES</a>
+		<a href="#" data-role="button">EL</a>
+	</div>  */ ?>
+	<div id="thisweek">
+	</div>
+=======
+  <h3>Referrals This Week</h3>
+
+    
+<div id="chart_div"  style="width: 100%;   position:relative"></div>
+
+>>>>>>> .r55
+
+
+<script type="text/javascript">
+
+      // Load the Visualization API and the piechart package.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Disrespectful', 4],
+          ['Excessive talking', 1],
+          ['Disruptions', 1],
+          ['Unsafe Behavior', 1],
+          ['Defiance', 2],
+          ['Excessive Talking', 7],
+          ['Bullying', 2],
+        ]);
+
+        // Set chart options
+        var options = {'title':'By Incident/Reason',
+         backgroundColor: '#E0D6CC',
+                        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+      
+$(document).ready(function () {
+	$(window).resize(function(){
+		drawChart();
+	});
+});
+
+      
+      google.load('visualization', '1.0', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      
+    </script>
+
+<div id="chart_div_bars" style="width: 90%; height:90%;"></div>
+
+</div>
+<<<<<<< .mine
+<div data-role="collapsible" data-content-theme="c">
+	<h3>This Month</h3>
+	<?php /* <div data-role="controlgroup" data-type="horizontal">
+		<a href="#" data-role="button">Race</a>
+		<a href="#" data-role="button">Grade</a>
+		<a href="#" data-role="button">Gender</a>
+		<a href="#" data-role="button">SES</a>
+		<a href="#" data-role="button">EL</a>
+	</div>  */ ?>
+	<div id="thismonth">
+	</div>
+</div>
+=======
+
+>>>>>>> .r55
+<div data-role="collapsible" data-content-theme="c">
+<<<<<<< .mine
+	<h3>Year To Date</h3>
+	<?php /* <div data-role="controlgroup" data-type="horizontal">
+		<a href="#" data-role="button">Race</a>
+		<a href="#" data-role="button">Grade</a>
+		<a href="#" data-role="button">Gender</a>
+		<a href="#" data-role="button">SES</a>
+		<a href="#" data-role="button">EL</a>
+	</div>  */ ?>
+	<div id="thisyear">
+	</div>
+=======
+  <h3>This Month</h3>
+  
+
+>>>>>>> .r55
+<<<<<<< .mine
+</div>
+=======
+<div id="chart_div2"></div>
+<div id="chart_div_bars2" style="width: 900px; height: 500px;"></div>
+</div>
+>>>>>>> .r55
+<div data-role="collapsible" data-content-theme="c">
+<<<<<<< .mine
+	<h3>By Referring Teacher</h3>
+	<div id="teacher">
+	</div>
+=======
+  <h3>Year To Date</h3>
+  
+
+>>>>>>> .r55
+<<<<<<< .mine
+</div>
+<div data-role="collapsible" data-content-theme="c">
+	<h3>By Grade</h3>
+	<div id="grade">
+	</div>
+=======
+<div id="chart_div3"></div>
+<div id="chart_div_bars3" style="width: 900px; height: 500px;"></div>
+</div>
+ <div data-role="collapsible" data-content-theme="c">
+  <h3>By Referring Teacher</h3>
+
+
+<div id="chart_div3"></div>
+<div id="chart_div_bars3" style="width: 900px; height: 500px;"></div>
+</div>
+
+
+  <div data-role="collapsible" data-content-theme="c">
+    <h3>By Grade</h3>
+<div id="chart_div3"></div>
+<div id="chart_div_bars3" style="width: 900px; height: 500px;"></div>
+>>>>>>> .r55
+</div>

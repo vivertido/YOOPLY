@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/yooply/!svn/ver/202/yooply/trunk/views/student
+END
+view.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/yooply/!svn/ver/198/yooply/trunk/views/student/view.php
+END
+student_print_report.php
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/yooply/!svn/ver/183/yooply/trunk/views/student/student_print_report.php
+END
+remove.php
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/yooply/!svn/ver/194/yooply/trunk/views/student/remove.php
+END
+mydetentions.php
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/yooply/!svn/ver/188/yooply/trunk/views/student/mydetentions.php
+END
+edit.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/yooply/!svn/ver/202/yooply/trunk/views/student/edit.php
+END
+dashboard.php
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/yooply/!svn/ver/192/yooply/trunk/views/student/dashboard.php
+END
+add.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/yooply/!svn/ver/202/yooply/trunk/views/student/add.php
+END

@@ -1,0 +1,1 @@
+Great! Your school's data has been added into the queue. We'll send you an email when we have finished setting everything up.

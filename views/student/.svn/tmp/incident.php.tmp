@@ -1,0 +1,57 @@
+<script>
+$().ready(function() {
+	$('#advanced').change(function() {
+		$('#easyquestions').toggle();
+		$('#detailedquestions').toggle();
+	});
+
+
+});
+</script>
+
+<<<<<<< .mine
+<form action="/student/incident/<?= $referralid ?>" method="POST" data-ajax="false">
+	<h2 style="font-weight:normal">Step 1: Who, what, when, where...</h2>
+=======
+  $('.aPerson li').click(function() {
+    var index = $(this).index();
+    var text = $(this).text();
+    $('#nameToDisplay1').text(text);
+    alert(text);
+});
+
+	$('#my-slider').change(function() {
+		var myswitch = $(this);
+		var show = myswitch[0].selectedIndex == 0 ? true:false;
+		$('#easyquestions').toggle(show);
+		$('#detailedquestions').toggle(hidden	);
+	});
+});
+  </script>
+
+
+
+<style type="text/css">img.avatarTeacher{   width:30px;       margin-left:10px;   margin-top:10px;   margin-bottom:0px;   display:inline;   float:left; } #studentName{ font-family:Dosis; margin-left:10px;   margin-top:10px;   margin-bottom:0px;   display:inline ; } p.heading{ color: #2489ce; } p.explanation{ margin:0px font-size:10px; font-weight:normal; }
+</style>
+<form action="/student/incident/<?= $referralid ?>" method="POST">
+	<h2 style="font-weight:normal"> Step 1: Who, what, when, where...</h2>
+>>>>>>> .r55
+	<div class="content-primary">
+		<div data-role="fieldcontain">
+			<select name="mode" id="advanced" data-role="slider">
+				<option value="easy" checked="checked">Easy</option>
+				<option value="detailed">Detail</option>
+			</select>
+		</div>
+	</div>
+
+	<div id="easyquestions">
+		<?= inflate_form($questions->easy); ?>
+	</div>
+
+	<div id="detailedquestions" style="display:none">
+		<?= inflate_form($questions->detailed); ?>
+	</div>
+
+	<input type="submit" name="submit" value="Continue with Reflection">
+</form> 

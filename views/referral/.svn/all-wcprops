@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/yooply/!svn/ver/194/yooply/trunk/views/referral
+END
+view.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/yooply/!svn/ver/185/yooply/trunk/views/referral/view.php
+END
+list.php
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/yooply/!svn/ver/194/yooply/trunk/views/referral/list.php
+END
+remove.php
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/yooply/!svn/ver/185/yooply/trunk/views/referral/remove.php
+END
+edit_teacher.php
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/yooply/!svn/ver/175/yooply/trunk/views/referral/edit_teacher.php
+END
+add.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/yooply/!svn/ver/178/yooply/trunk/views/referral/add.php
+END

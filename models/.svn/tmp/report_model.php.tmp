@@ -1,0 +1,171 @@
+<?php
+
+class Report_model extends CI_Model
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function create($school_id, $user_id, $subject_id, $form_id, $report, $title)
+	{
+		$this->db->insert('Reports', array(
+			'schoolid' => $school_id,
+			'userid' => $user_id,
+			'subjectid' => $subject_id,
+			'formid' => $form_id,
+			'report' => json_encode($report),
+			'title' => $title,
+			'timecreated' => time(),
+			'status' => 1,
+			'nonce' => md5(time().$title.rand())
+		));
+
+		return $this->db->insert_id();
+	}
+
+	function get_reports($school_id, $form_id)
+	{
+		$query = $this->db->query('SELECT * FROM Reports WHERE status = 1 AND schoolid = ? AND formid = ?', array($school_id, $form_id));
+
+		return $query->result();
+	}
+
+	function get_by_form($form_id, $subject = '-1', $start = 0, $end = 0, $include_name = false)
+	{
+		$where = 'Reports.status = 1 AND formid = ?';
+		$where_values = array($form_id);
+
+		if($subject != '-1')
+		{
+			$where .= ' AND subjectid = ?';
+			array_push($where_values, $subject);
+		}
+
+		if($start !== 0)
+		{
+			$where .= ' AND Reports.timecreated >= ?';
+			array_push($where_values, $start);
+		}
+
+		if($end !== 0)
+		{
+			$where .= ' AND Reports.timecreated <= ?';
+			array_push($where_values, $end);
+		}
+
+		if($include_name)
+		{
+			$where .= ' AND s.userid = Reports.subjectid AND u.userid = Reports.userid';
+			$query = $this->db->query('SELECT Reports.*, s.firstname as subjectfirstname, s.lastname as subjectlastname, u.firstname, u.lastname FROM Reports, Users s, Users u WHERE '.$where, $where_values);
+		}
+		else
+		{
+			$where .= ' AND u.userid = Reports.userid';
+			$query = $this->db->query('SELECT Reports.*, u.firstname, u.lastname FROM Reports, Users u WHERE '.$where, $where_values);
+		}
+
+		return $query->result();
+	}	
+
+	function get_response($response_id)
+	{
+		$query = $this->db->query('SELECT * FROM Reports WHERE reportid = ?', array($response_id));
+
+		return $query->row();	
+	}
+
+	function remove_form($form_id)
+	{
+		$this->db->update('Reports', array('status' => 0), array('formid' => $form_id, 'status' => '1'));
+	}
+<<<<<<< .mine
+
+	function remove($response_id)
+	{
+		$this->db->update('Reports', array('status' => 0), array('reportid' => $response_id, 'status' => '1'));
+	}
+=======
+
+	function count_by_interval($form_id, $student_id, $interval, $teacher_id = 0)
+	{
+		// Set the month that the school year begins.
+		$month_start_of_school_year = 8;
+
+		$start_year = intval(date('m')) < $month_start_of_school_year ? intval(date('Y'))-1 : intval(date('Y'));
+		$start_time = strtotime($start_year.'-'.$month_start_of_school_year.'-01 00:00:00');
+
+		$where_values = array($form_id, $start_time, $student_id);
+		$where = '';
+
+		if($teacher_id !== 0)
+		{
+			$where = ' AND userid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		$query = $this->db->query('SELECT COUNT(*) as total, MONTH(FROM_UNIXTIME(timecreated)) as month FROM Reports WHERE formid = ? AND timecreated >= ? AND subjectid = ?'.$where.' GROUP BY MONTH(FROM_UNIXTIME(timecreated)) ORDER BY YEAR(FROM_UNIXTIME(timecreated)), MONTH(FROM_UNIXTIME(timecreated))', $where_values);
+
+		return $query->result();
+	}
+
+	function category_totals($form_id, $school_id, $period, $teacher_id = 0, $student_id = 0)
+	{
+		switch($period)
+		{
+			case 'today':
+				$time = time()-(24*60*60);
+			break;
+			case 'week':
+				$time = time()-(7*24*60*60);
+			break;
+			case 'month':
+				$time = time()-(30*24*60*60);
+			break;
+			case 'year':
+				$time = time()-(365*24*60*60);
+			break;
+		}
+
+		$where = 'formid = ? AND schoolid = ? AND timecreated > ? AND status = ?';
+		$where_values = array($form_id, $school_id, $time, 1);
+
+		if($teacher_id !== 0)
+		{
+			$where .= ' AND userid = ?';
+			array_push($where_values, $teacher_id);
+		}
+
+		if($student_id !== 0)
+		{
+			$where .= ' AND subjectid = ?';
+			array_push($where_values, $student_id);
+		}
+
+		$query = $this->db->query('SELECT title, COUNT(*) as total FROM Reports WHERE '.$where.' GROUP BY title', $where_values);
+		return $query->result();
+	}
+
+	/**
+	 * Returns a total by teacher for referrals this year.
+	 * @param $school_id school id
+	 */
+	function category_totals_byteacher($form_id, $school_id, $student_id = 0)
+	{
+		$where_values = array($form_id, $school_id, time()-(365*60*60*24), 1);
+		$where = '';
+
+		if($student_id !== 0)
+		{
+			$where .= ' AND Reports.subjectid = ?';
+			array_push($where_values, $student_id);
+		}
+
+		$query = $this->db->query('SELECT title, COUNT(*) as total, CONCAT(Users.lastname,", ",Users.firstname) as teachername FROM Reports, Users WHERE Reports.formid = ? AND Reports.userid = Users.userid AND Reports.schoolid = ? AND Reports.timecreated > ? AND Reports.status = ?'.$where.' GROUP BY Reports.userid ORDER BY total DESC', $where_values);
+
+		return $query->result();
+	}
+>>>>>>> .r117
+}
+
+?>

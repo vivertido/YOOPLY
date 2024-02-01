@@ -1,0 +1,74 @@
+<div style="overflow:auto; font-size: 10pt">
+	<div style="width: 33%; float: left;text-align:center">
+		<span style="font-size: 24pt"><?= $dollartotal ?></span><br />
+		<?= $dollarlabel ?>
+	</div>
+	<?php if(strpos($settings->referrals, $this->session->userdata('role')) !== false): ?>
+	<div style="width: 33%; float: left;text-align:center">
+		<span style="font-size: 24pt"><?= $referralcount ?></span><br />
+		Referrals
+	</div>
+	<?php endif; ?>
+	<?php if(strpos($settings->shoutouts, $this->session->userdata('role')) !== false): ?>
+	<div style="width: 33%; float: left;text-align:center">
+		<span style="font-size: 24pt"><?= $shoutouts ?></span><br />
+		Shoutouts
+	</div>
+	<?php endif; ?>
+</div>
+
+<?php if(strpos($settings->referrals, $this->session->userdata('role')) !== false): ?>
+	<?php if(!empty($activereferrals)): ?>
+	<ul data-role="listview" data-inset="true">
+	<?php foreach($activereferrals as $referral): ?>
+		<li><a href="/referral/view/<?= $referral->referralid ?>"><?= date('m/d H:i', $referral->timecreated) ?> - <?= $referral->incident ?></a></li>
+	<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+<?php endif; ?>
+
+<?php
+/** if this is a teacher, allow them to act on the student **/
+if($role == 't' || $role == 'a'):
+?>
+<h3>Assign</h3>
+<ul data-role="listview" data-inset="true">
+<<<<<<< .mine
+	<li><a href="/teacher/reinforcement/<?= $user->userid ?>">Positive reinforcement</a></li>
+	<li><a href="/teacher/demerit/<?= $user->userid ?>"><?= htmlentities(trim($demeritlabel)) ?></a></li>
+=======
+	<?php if(strpos($settings->reinforcements, $this->session->userdata('role')) !== false): ?><li><a href="/teacher/reinforcement/<?= $user->userid ?>">Positive reinforcement</a></li><?php endif; ?>
+	<?php if(strpos($settings->demerits, $this->session->userdata('role')) !== false): ?><li><a href="/teacher/demerit/<?= $user->userid ?>">Negative behavior</a></li><?php endif; ?>
+>>>>>>> .r95
+
+	<?php if(strpos($settings->interventions, $this->session->userdata('role')) !== false): ?><li><a href="/teacher/intervention/<?= $user->userid ?>">Intervention</a></li><?php endif; ?>
+	<?php if(strpos($settings->referrals, $this->session->userdata('role')) !== false): ?><li><a href="/teacher/referral/<?= $user->userid ?>">Referral</a></li><?php endif; ?>
+	<?php if(strpos($settings->detentions, $this->session->userdata('role')) !== false): ?><li><a href="/teacher/detention/<?= $user->userid ?>">Detention</a></li><?php endif; ?>
+	<?php if($dollartotal > 0): ?><li><a href="/teacher/redeemaward/<?= $user->userid ?>">Redeem Scholar Dollars</a></li><?php endif; ?>
+</ul>
+<?php
+endif;
+?>
+
+<h3>Past Activity</h3>
+<ul data-role="listview" data-inset="true">
+<<<<<<< .mine
+	<li><a href="/referral/student/<?= $user->userid ?>" data-ajax="false">Referrals</a></li>
+	<li><a href="/intervention/student/<?= $user->userid ?>" data-ajax="false">Interventions</a></li>
+	<li><a href="/reinforcement/student/<?= $user->userid ?>" data-ajax="false">Positive reinforcements</a></li>
+	<li><a href="/demerit/student/<?= $user->userid ?>" data-ajax="false"><?= htmlentities(trim($demeritlabel)) ?>s</a></li>
+	<li><a href="/detention/student/<?= $user->userid ?>" data-ajax="false">Detentions</a></li>
+=======
+	<?php if(strpos($settings->referrals, $this->session->userdata('role')) !== false): ?><li><a href="/referral/student/<?= $user->userid ?>" data-ajax="false">Referrals</a></li><?php endif; ?>
+	<?php if(strpos($settings->interventions, $this->session->userdata('role')) !== false): ?><li><a href="/intervention/student/<?= $user->userid ?>" data-ajax="false">Interventions</a></li><?php endif; ?>
+	<?php if(strpos($settings->reinforcements, $this->session->userdata('role')) !== false): ?><li><a href="/reinforcement/student/<?= $user->userid ?>" data-ajax="false">Positive reinforcements</a></li><?php endif; ?>
+	<?php if(strpos($settings->demerits, $this->session->userdata('role')) !== false): ?><li><a href="/demerit/student/<?= $user->userid ?>" data-ajax="false">Negative behaviors</a></li><?php endif; ?>
+	<?php if(strpos($settings->detentions, $this->session->userdata('role')) !== false): ?><li><a href="/detention/student/<?= $user->userid ?>" data-ajax="false">Detentions</a></li><?php endif; ?>
+>>>>>>> .r95
+</ul>
+
+<?php if($role == 't' || $role == 'a'): ?>
+<ul data-role="listview" data-inset="true">
+	<li><a href="/student/edit/<?= $user->userid ?>" data-ajax="false">Edit</a></li>
+</ul>
+<?php endif; ?>

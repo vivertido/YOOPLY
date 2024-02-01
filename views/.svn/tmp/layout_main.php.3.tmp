@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Yoop.ly</title>
+	<link href='https://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+ <link rel="stylesheet" href="/themes/jquery.mobile-1.3.0-beta.1.css" />
+
+	<link rel="stylesheet" type="text/css" href="//dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
+ <link rel="stylesheet" href="/themes/Yoopl1.css" />
+	<link rel="stylesheet" href="/themes/custom.css" />
+  <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="/js/jquery.mobile-1.3.0-beta.1.js"></script>
+	<script type="text/javascript" src="/js/jquery.mobile.simpledialog2.min.js"></script>
+
+	<style type="text/css">
+
+   /*admin page styles*/
+#listAnchorText{
+font-family: 'Dosis';
+
+font-weight:normal;
+
+}
+p.listViewSubtext{
+	font-family: 'Dosis';
+
+font-weight:normal;
+font-size:10px;
+
+
+
+}
+
+p.listSubtext{
+  margin-left:15px; margin-right:15px;
+}
+
+
+
+	</style>
+</head>
+<body>
+
+
+<div data-role="page">
+	<?= isset($layout_before_header) ? $layout_before_header : '' ?>
+	<div data-role="header">
+		<h1><?= isset($title_for_layout) ? $title_for_layout : 'Yoop.ly' ?></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+  <?= $content_for_layout ?>
+	</div><!-- /content -->
+
+<?php if($this->session->userdata('role')): ?>
+<div data-role="footer" data-id="foo1" data-position="fixed">
+	<div data-role="navbar">
+		<ul>
+<?php switch($this->session->userdata('role')):
+case 's': // Student
+?>
+			<li><a href="/student" data-icon="home" data-ajax="false">Home</a></li>
+			<li><a href="/student/shoutouts" data-icon="grid" data-ajax="false">Shoutouts</a></li>
+			<li><a href="/student/mydetentions" data-icon="alert" data-ajax="false">Detentions</a></li>
+			<li><a href="/student/settings" data-icon="gear" data-ajax="false">Settings</a></li>
+<?php
+break;
+case 't': // Teacher
+?>
+			<li><a href="/teacher" data-icon="home" data-ajax="false">Home</a></li>
+			<li><a href="/teacher/students" data-icon="grid" data-ajax="false">Students</a></li>
+			<li><a href="#" data-icon="alert" data-ajax="false">Detentions</a></li>
+			<li><a href="#" data-icon="grid" data-ajax="false">Quick</a></li>
+			<li><a href="#" data-icon="gear" data-ajax="false">Settings</a></li>
+<?php
+break;
+case 'a': // Admin
+?>
+			<li><a href="/admin" data-icon="home" data-ajax="false">Home</a></li>
+			<li><a href="#" data-icon="grid" data-ajax="false">Students</a></li>
+			<li><a href="/detention/manage" data-icon="alert" data-ajax="false">Detentions</a></li>
+			 
+			<li><a href="/admin/settings" data-icon="gear" data-ajax="false">Settings</a></li>
+<?php
+break;
+endswitch;
+?>
+		</ul>
+	</div><!-- /navbar -->
+</div><!-- /footer -->
+<?php endif; ?>
+</div><!-- /page -->
+
+</body>
+
+</html>

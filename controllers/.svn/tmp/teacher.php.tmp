@@ -1,0 +1,204 @@
+<?php
+class Teacher extends CI_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+		$this->session->set_userdata('clever_userid', '50c9f780b519c8996618387f');
+		$this->session->set_userdata('userid', '15');
+		$this->session->set_userdata('role', 't');
+		$this->session->set_userdata('schoolid', '2');
+
+	}
+
+	function index()
+	{
+		$this->layout->view('teacher/dashboard', array(
+			'title_for_layout' => 'Yoop.ly'
+		));
+	}
+
+	function students()
+	{
+		$user_id = $this->session->userdata('userid');
+		$this->load->model('Group_model');
+		$groups = $this->Group_model->get_user_groups($user_id);
+
+		$this->load->model('User_model');
+		$students = $this->User_model->get_from_teacher($user_id);
+
+		$this->layout->view('teacher/students', array(
+			'students' => $students,
+			'groups' => $groups,
+			'title_for_layout' => 'My Students'
+		));
+	}
+
+	function student($student_id)
+	{
+		$this->load->model('User_model');
+		$user = $this->User_model->get_user($student_id);
+
+		if(empty($user))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		$this->load->model('Reinforcement_model');
+		$dollar_total = $this->Reinforcement_model->get_dollar_total($student_id);
+
+		$this->load->model('Referral_model');
+		$active_referrals = $this->Referral_model->get_active_by_student($student_id);
+		$referral_count = $this->Referral_model->get_count_by_student($student_id);
+
+		$this->load->model('Shoutout_model');
+		$shoutout_count = $this->Shoutout_model->get_count_to_user($student_id);
+
+		$this->layout->view('teacher/student', array(
+			'referralcount' => $referral_count,
+			'activereferrals' => $active_referrals,
+			'shoutouts' => $shoutout_count,
+			'user' => $user,
+			'title_for_layout' => $user->firstname.' '.$user->lastname,
+			'dollartotal' => $dollar_total));
+	}
+
+	function reinforcement($student_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$reason = $this->input->post('reason');
+			$notes = $this->input->post('notes');
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Reinforcement_model');
+			$reinforcement_id = $this->Reinforcement_model->create($teacher_id, $student_id, $reason, $notes);
+
+			redirect('teacher/student/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('Settings_model');
+			$reinforcements = json_decode($this->Settings_model->get_settings($school_id, 'reinforcements'));
+
+			$this->layout->view('teacher/reinforcement', array(
+				'studentid' => $student_id,
+				'settings' => $reinforcements,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function intervention($student_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$intervention = $this->input->post('intervention');
+			$notes = $this->input->post('notes');
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Intervention_model');
+			$reinforcement_id = $this->Intervention_model->create($teacher_id, $student_id, $intervention, $notes);
+
+			redirect('teacher/student/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('Settings_model');
+			$interventions = json_decode($this->Settings_model->get_settings($school_id, 'interventions'));
+
+			$this->layout->view('teacher/intervention', array(
+				'studentid' => $student_id,
+				'interventions' => $interventions,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function referral($student_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$incident = $this->input->post('incident');
+			$teacher_notes = array(
+				'note' => $this->input->post('notes')
+			);
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Referral_model');
+			$referral_id = $this->Referral_model->create($teacher_id, $student_id, $incident, $notes);
+
+			redirect('teacher/student/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('Settings_model');
+			$settings = json_decode($this->Settings_model->get_settings($school_id, 'referrals'));
+
+			$this->layout->view('teacher/referral', array(
+				'studentid' => $student_id,
+				'settings' => $settings,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function reports()
+	{
+		$this->layout->view('teacher/reports', array(
+			'title_for_layout' => 'Reports'
+		));
+	}
+	function mystudent_reports()
+	{
+		$this->layout->view('teacher/mystudent_reports', array(
+			'title_for_layout' => 'My Student Reports'
+		));
+	}
+	function whole_school_reports()
+	{
+		$this->layout->view('teacher/whole_school_reports', array(
+			'title_for_layout' => 'Whole School Reports'
+		));
+	}
+
+}
+
+?>

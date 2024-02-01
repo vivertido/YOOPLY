@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/yooply/!svn/ver/198/yooply/trunk/views/teacher
+END
+quickentry.php
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/yooply/!svn/ver/198/yooply/trunk/views/teacher/quickentry.php
+END
+error_nostudents.php
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/yooply/!svn/ver/181/yooply/trunk/views/teacher/error_nostudents.php
+END
+edit.php
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/yooply/!svn/ver/189/yooply/trunk/views/teacher/edit.php
+END
+add.php
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/yooply/!svn/ver/189/yooply/trunk/views/teacher/add.php
+END

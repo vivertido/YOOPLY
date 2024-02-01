@@ -1,0 +1,384 @@
+<?php
+class API extends MY_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function findconnected($search)
+	{
+		$search = urldecode($search);
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+
+		$users = $this->User_model->find_students($user_id, $search);
+
+		echo json_encode(array('names' => $users));
+	}
+
+	function adddetentiontime($student_id, $minutes)
+	{
+		$admin_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Detention_model');
+		$this->Detention_model->assign($school_id, $student_id, $admin_id, $minutes);
+
+		$time_assigned = $this->Detention_model->count_assigned_from_student($student_id);
+		$time_served = $this->Detention_model->count_served_from_student($student_id);
+
+		$active_detention = $this->Detention_model->get_active($student_id);
+
+		$data = array(
+			'status' => '200',
+			'studentid' => $student_id,
+			'timeassigned' => $time_assigned*60,
+			'timeserved' => $time_served*60
+		);
+
+		if(!empty($active_detention))
+		{
+			$data['timeelapsed'] = intval(time()-$active_detention->timecreated);
+			$data['active'] = 1;
+		}
+		else
+		{
+			$data['active'] = 0;
+			$data['timeelapsed'] = 0;
+		}
+
+		echo json_encode($data);
+	}
+
+	function subtractdetentiontime($student_id, $minutes)
+	{
+		$admin_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Detention_model');
+		$existing_balance = $this->Detention_model->get_balance($student_id);
+
+		$served = min($existing_balance, $minutes);
+
+		if($served >= 0)
+		{
+			$this->load->model('Detention_model');
+			$this->Detention_model->serve($school_id, $student_id, $admin_id, $served);
+		}
+
+		$time_assigned = $this->Detention_model->count_assigned_from_student($student_id);
+		$time_served = $this->Detention_model->count_served_from_student($student_id);
+
+		$active_detention = $this->Detention_model->get_active($student_id);
+
+		$data = array(
+			'status' => '200',
+			'studentid' => $student_id,
+			'timeassigned' => $time_assigned*60,
+			'timeserved' => $time_served*60
+		);
+
+		if(!empty($active_detention))
+		{
+			$data['timeelapsed'] = intval(time()-$detention->timecreated);
+			$data['active'] = 1;
+		}
+		else
+		{
+			$data['active'] = 0;
+			$data['timeelapsed'] = 0;
+		}
+
+		echo json_encode($data);
+	}
+
+	function startdetention($student_id)
+	{
+		$admin_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Detention_model');
+
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$detention = $this->Detention_model->get_active_detention($student_id);
+
+			$time_assigned = $this->Detention_model->count_assigned_from_student($student_id);
+			$time_served = $this->Detention_model->count_served_from_student($student_id);
+
+			if(empty($detention))
+			{
+				$this->Detention_model->serve($school_id, $student_id, $admin_id, 0);
+				$time_elapsed = 0;
+			}
+			else
+			{
+				$time_elapsed = time()-$detention->timecreated;
+			}
+
+			$time_left = ($time_assigned*60)-$time_served;
+
+			array_push($return, array(
+				'studentid' => $student_id,
+				'timeserved' => $time_served*60,
+				'timeelapsed' => $time_elapsed,
+				'timeassigned' => $time_assigned*60,
+				'active' => 1
+			));
+		}
+
+		echo json_encode($return);
+	}
+
+	function stopdetention($student_id)
+	{
+		$admin_id = $this->session->userdata('userid');
+
+		$this->load->model('Detention_model');
+
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$detention = $this->Detention_model->get_active_detention($student_id);
+
+			if(!empty($detention))
+			{
+				$time_assigned = $this->Detention_model->count_assigned_from_student($student_id);
+				$time_served = $this->Detention_model->count_served_from_student($student_id);
+
+				$time_left = $time_assigned-$time_served;
+
+				// Make sure that the amount served doesn't exceed the current balance.
+				$minutes = max(min(ceil((time()-$detention->timecreated)/60), $time_left), 0);
+
+				$this->Detention_model->update($detention->detentionid, '-'.$minutes);
+
+				$time_assigned = $this->Detention_model->count_assigned_from_student($student_id);
+				$time_served = $this->Detention_model->count_served_from_student($student_id);
+
+				array_push($return, array(
+					'studentid' => $student_id,
+					'timeserved' => $time_served*60,
+					'timeelapsed' => 0,
+					'timeassigned' => $time_assigned*60,
+					'active' => 0
+				));
+			}
+			else
+			{
+				array_push($return, array(
+					'studentid' => $student_id,
+					'status' => 500
+				));
+			}
+		}
+
+		echo json_encode($return);
+	}
+
+	function resetdetention($student_id)
+	{
+		$admin_id = $this->session->userdata('userid');
+
+		$this->load->model('Detention_model');
+
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$detention = $this->Detention_model->get_active_detention($student_id);
+
+			if(!empty($detention))
+			{
+				$this->Detention_model->reset($detention->detentionid);
+
+				$time_assigned = $this->Detention_model->count_assigned_from_student($student_id);
+				$time_served = $this->Detention_model->count_served_from_student($student_id);
+
+				array_push($return, array(
+					'studentid' => $student_id,
+					'timeelapsed' => 0,
+					'timeserved' => $time_served*60,
+					'timeassigned' => $time_assigned*60,
+					'active' => '1'
+				));
+			}
+		}
+
+		echo json_encode($return);
+	}
+
+	function addreinforcement()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Reinforcement_model');
+
+		$reason = $this->input->post('reinforcement');
+		$student_id = $this->input->post('studentid');
+
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$this->Reinforcement_model->create($school_id, $teacher_id, $student_id, $reason, '');
+
+			array_push($return, array(
+				'student' => $student_id,
+				'dollars' => $this->Reinforcement_model->get_dollar_total($student_id)
+			));
+		}
+		
+		 
+		echo json_encode($return);
+	}
+
+	function adddemerit()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Demerit_model');
+
+		$reason = $this->input->post('demerit');
+		$student_id = $this->input->post('studentid');
+
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$this->Demerit_model->create($school_id, $teacher_id, $student_id, $reason, '');
+
+			array_push($return, array(
+				'student' => $student_id,
+			));
+		}
+		
+		   z                x c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+		  
+
+		echo json_encode($return);
+	}
+
+	function adddetention()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Detention_model');
+
+		$reason = $this->input->post('reason');
+		$student_id = $this->input->post('studentid');
+		$minutes = $this->input->post('time');
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$this->Detention_model->assign($school_id, $student_id, $teacher_id, $minutes, $reason);
+
+			array_push($return, array(
+				'student' => $student_id,
+				'minutes' => $this->Detention_model->get_balance($student_id)
+			));
+		}
+
+		echo json_encode($return);
+	}
+
+	function addreferral()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Referral_model');
+
+		$reason = $this->input->post('reason');
+		$notes = $this->input->post('notes');
+
+		$teacher_report = array(
+			array('label' => 'Incident', 'value' => $reason),
+			array('label' => 'Notes', 'value' => $notes),
+		);
+
+		$student_id = $this->input->post('studentid');
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$this->Referral_model->create($school_id, $teacher_id, $student_id, $reason, $teacher_report);
+
+			array_push($return, array(
+				'student' => $student_id,
+			));
+		}
+
+		echo json_encode($return);
+	}
+
+	function addintervention()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Intervention_model');
+
+		$reason = $this->input->post('reason');
+		$notes = $this->input->post('notes');
+
+		$student_id = $this->input->post('studentid');
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$this->Intervention_model->create($school_id, $teacher_id, $student_id, $reason, $notes);
+
+			array_push($return, array(
+				'student' => $student_id,
+			));
+		}
+
+		echo json_encode($return);
+	}
+
+	function addhallpass()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$teacher_id = $this->session->userdata('userid');
+
+		$this->load->model('Hallpass_model');
+
+		$reason = $this->input->post('reason');
+		$notes = $this->input->post('notes');
+
+		$student_id = $this->input->post('studentid');
+		$ids = preg_split('/_/', $student_id);
+
+		$return = array();
+		foreach($ids as $student_id)
+		{
+			$this->Hallpass_model->create($school_id, $teacher_id, $student_id, $reason, $notes);
+
+			array_push($return, array(
+				'student' => $student_id,
+			));
+		}
+
+		echo json_encode($return);
+	}
+
+}
+?>

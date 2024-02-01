@@ -1,0 +1,400 @@
+<style>
+.student
+{
+	background-color:#F4FFFF;
+	width: 250px;
+	float: left;
+	padding:10px;
+	border-color:#38e0FF;
+	border-width:2px;
+	border-radius:15px;
+	border-style:solid;
+	margin:7px;
+}
+
+div.selected
+{
+	background-color: #2db7e5;
+	border-width: 2px;
+}
+
+img.quickavatar{
+	width:50px;
+	vertical-align:text-top;
+	padding-right: 10px;
+}
+
+p.avatarlabel{
+	display:inline;
+	font-size:18px;
+	font-weight:normal;
+	text-shadow:0px 0px 0px;
+	margin:0px;
+	display:inline;
+}
+
+a.buttonlink {
+}
+
+bottonlink.img{ width="20px" } #buttonselectall{ font-family:'Dosis'; } #buttonselectnone{ font-family:'Dosis'; text-align:left; martin:0px; } p.buttonsubtitle{ font-size:9px; font-weight:normal; margin:0px; text-shadow: 0px 0px; text-align:center; }
+</style>
+<script>
+$(document).ready(function(){
+	$('#groupid').on('change', function()
+	{
+		var groupid = $(this).children('option:selected').attr('value');
+		window.location = '/teacher/quickentry/'+groupid;
+	});
+
+	$('#buttonselectnone').click(function(){
+		$('.student').removeClass('selected');
+	});
+
+	$('#buttonselectall').bind('click', function(){
+		$('.student').addClass('selected');
+	});
+
+	$('.student').bind('click', function(){
+		$(this).toggleClass('selected');
+	});
+
+	$('.buttonlink').on('click', function()
+	{
+		if($('.selected').length == 0)
+		{
+			alert('Please select at least one student first.');
+			return false;
+		}
+	});
+
+	$('._assignpositivechoice').bind('click', function()
+	{
+		var choice = $(this).attr('data-choice');
+
+		var selected = $('.selected');
+
+		if(selected.length == 0) return;
+
+		var ids = [];
+		for(var i=0;i<selected.length;i++)
+		{
+			ids[ids.length] = $(selected[i]).attr('data-studentid');
+		}
+
+		$.post("/api/addreinforcement", {
+				reinforcement: choice,
+				studentid: ids.join('_')
+			},function(data)
+			{
+				for(var i=0; i<data.length; i++)
+				{
+					$('#s'+data[i].student+'d').text(data[i].dollars);
+				}
+			},
+			"json"
+		);
+		
+		document.getElementById('positivesound').play();
+
+		$('.student').removeClass('selected');
+		$('#popuppositivechoice').popup('close');
+	});
+
+	$('._assignnegativechoice').bind('click', function()
+	{
+		var choice = $(this).attr('data-choice');
+
+		var selected = $('.selected');
+
+		if(selected.length == 0) return;
+
+		var ids = [];
+		for(var i=0;i<selected.length;i++)
+		{
+			ids[ids.length] = $(selected[i]).attr('data-studentid');
+		}
+
+		$.post("/api/adddemerit", {
+				demerit: choice,
+				studentid: ids.join('_')
+			},function(data)
+			{
+				for(var i=0; i<data.length; i++)
+				{
+
+				}
+			},
+			"json"
+		);
+
+		$('.student').removeClass('selected');
+		$('#popupnegativechoice').popup('close');
+		
+		//Play the negative sound
+		
+		document.getElementById('negativesound').play();
+		
+		
+	});
+
+	$('._assigndetention').bind('click', function()
+	{
+		var reason = $('#detentionreason').val();
+		var time = $('#detentiontime').val();
+
+		var selected = $('.selected');
+
+		if(selected.length == 0) return;
+
+		var ids = [];
+		for(var i=0;i<selected.length;i++)
+		{
+			ids[ids.length] = $(selected[i]).attr('data-studentid');
+		}
+
+		$.post("/api/adddetention", {
+				reason: reason,
+				time: time,
+				studentid: ids.join('_')
+			},function(data)
+			{
+				for(var i=0; i<data.length; i++)
+				{
+					$('#s'+data[i].student+'m').text(data[i].minutes);
+				}
+			},
+			"json"
+		);
+
+		$('.student').removeClass('selected');
+		$('#popupdetention').popup('close');
+	});
+
+	$('._assignreferral').bind('click', function()
+	{
+		var reason = $('#referralreason').val();
+		var notes = $('#referralnotes').val();
+
+		var selected = $('.selected');
+
+		if(selected.length == 0) return;
+
+		var ids = [];
+		for(var i=0;i<selected.length;i++)
+		{
+			ids[ids.length] = $(selected[i]).attr('data-studentid');
+		}
+
+		$.post("/api/addreferral", {
+				reason: reason,
+				notes: notes,
+				studentid: ids.join('_')
+			},function(data)
+			{
+			},
+			"json"
+		);
+
+		$('.student').removeClass('selected');
+		$('#popupreferral').popup('close');
+	});
+
+	$('._assignintervention').bind('click', function()
+	{
+		var reason = $('#interventionreason').val();
+		var notes = $('#interventionnotes').val();
+
+		var selected = $('.selected');
+
+		if(selected.length == 0) return;
+
+		var ids = [];
+		for(var i=0;i<selected.length;i++)
+		{
+			ids[ids.length] = $(selected[i]).attr('data-studentid');
+		}
+
+		$.post("/api/addintervention", {
+				reason: reason,
+				notes: notes,
+				studentid: ids.join('_')
+			},function(data)
+			{
+			},
+			"json"
+		);
+
+		$('.student').removeClass('selected');
+		$('#popupintervention').popup('close');
+	});
+
+	$('._assignhallpass').bind('click', function()
+	{
+		var reason = $('#hallpassreason').val();
+		var notes = $('#hallpassnotes').val();
+
+		var selected = $('.selected');
+
+		if(selected.length == 0) return;
+
+		var ids = [];
+		for(var i=0;i<selected.length;i++)
+		{
+			ids[ids.length] = $(selected[i]).attr('data-studentid');
+		}
+
+		$.post("/api/addhallpass", {
+				reason: reason,
+				notes: notes,
+				studentid: ids.join('_')
+			},function(data)
+			{
+			},
+			"json"
+		);
+
+		$('.student').removeClass('selected');
+		$('#popuphallpass').popup('close');
+	});
+});
+</script>
+<div>
+	<select id="groupid">
+		<?php foreach($groups as $group): ?>
+		<option value="<?= $group->groupid ?>"<?= $groupid == $group->groupid ? ' selected="selected"' : '' ?>><?= $group->title ?></option>
+		<?php endforeach; ?>
+	</select>
+	<div style="width: 50%; float: left;">
+		<a id="buttonselectall" href="#"  data-theme="b" data-mini="true">select all</a>
+	</div>
+	<div style="width: 50%; float: left;">
+		<a id="buttonselectnone" href="#"  data-theme="b" data-mini="true">select none</a>
+	</div>
+	<br>
+	<div style="width: 16%; float: left;">
+		<a class="buttonlink" data-corners="false" href="#popuppositivechoice" data-rel="popup" data-role="button" data-theme="b">
+			<img src="/images/plus-sign.png" />
+			<p class="buttonsubtitle">Positive</p>
+		</a>
+	</div>
+	<div style="width: 16%; float: left;">
+		<a class="buttonlink" data-corners="false" href="#popupnegativechoice" data-rel="popup" data-role="button" data-theme="b">
+			<img src="/images/minus-sign.png" />
+			<p class="buttonsubtitle">Negative</p>
+		</a>
+	</div>
+	<div style="width: 16%; float: left;">
+		<a class="buttonlink" data-corners="false" href="#popuphallpass" data-rel="popup" data-role="button" data-theme="b">
+			<img src="/images/ticket.png" />
+			<p class="buttonsubtitle">Pass</p>
+		</a>
+	</div>
+	<div style="width: 16%; float: left;">
+		<a class="buttonlink" data-corners="false" href="#popupdetention"  data-role="button" data-rel="popup" data-theme="b">
+			<img src="/images/clock.png" />
+			<p class="buttonsubtitle">Detention</p>
+		</a>
+	</div>
+	<div style="width: 16%; float: left;">
+		<a class="buttonlink" data-corners="false" href="#popupreferral" data-role="button" data-rel="popup" data-theme="b">
+			<img src="/images/whistle.png" >
+			<p class="buttonsubtitle">Referral</p>
+		</a>
+	</div>
+	<div style="width: 16%; float: left;">
+		<a class="buttonlink" data-corners="false" href="#popupintervention" data-role="button" data-rel="popup" data-theme="b">
+			<img src="/images/caution.png" >
+			<p class="buttonsubtitle" style="font-size:9px">Intervention</p>
+		</a>
+	</div>
+
+
+	<div data-role="popup" id="popuppositivechoice">
+		<p>Award Scholar Dollar for Reason:</p>
+		<ul data-role="listview">
+			<?php foreach($settings->reinforcements as $reinforcement): ?>
+			<li><a href="#" class="_assignpositivechoice" data-choice="<?= htmlentities($reinforcement) ?>"><?= htmlentities($reinforcement) ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+
+	<div data-role="popup" id="popupnegativechoice">
+		<p>Subtract points:</p>
+		<ul data-role="listview">
+			<?php foreach($settings->negatives as $negative): ?>
+			<li><a href="#" class="_assignnegativechoice" data-choice="<?= htmlentities($negative) ?>"><?= htmlentities($negative) ?></a></li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+
+	<div data-role="popup" id="popupdetention" style="padding:20px">
+		<p>Detention Reason:</p>
+		<select id="detentionreason">
+			<?php foreach($settings->detentions as $detention): ?>
+			<option value="<?= htmlentities($detention) ?>"><?= htmlentities($detention) ?></option>
+			<?php endforeach; ?>
+		</select>
+		<hr>
+		<p>Detention Time:</p>
+		<input type="range" id="detentiontime" class="slider" min="0" data-mini="true" max="200" value="10" step="5" data-theme="c" />
+		<input class="_assigndetention" type="button" value="Assign" style="margin-top:15px" />
+	</div>
+
+	<div data-role="popup" id="popupreferral" style="padding:20px">
+		<p>Referral Reason:</p>
+		<select id="referralreason">
+			<?php foreach($settings->referrals as $referral): ?>
+			<option value="<?= htmlentities($referral) ?>"><?= htmlentities($referral) ?></option>
+			<?php endforeach; ?>
+		</select>
+		<hr>
+		<p>Notes:</p>
+		<textarea id="referralnotes"></textarea>
+		<input class="_assignreferral" type="button" value="Assign" style="margin-top:15px" />
+	</div>
+
+	<div data-role="popup" id="popupintervention" style="padding:20px">
+		<p>Intervention:</p>
+		<select id="interventionreason">
+			<?php foreach($settings->interventions as $intervention): ?>
+			<option value="<?= htmlentities($intervention) ?>"><?= htmlentities($intervention) ?></option>
+			<?php endforeach; ?>
+		</select>
+		<hr>
+		<p>Notes:</p>
+		<textarea id="interventionnotes"></textarea>
+		<input class="_assignintervention" type="button" value="Assign" style="margin-top:15px" />
+	</div>
+
+	<div data-role="popup" id="popuphallpass" style="padding:20px">
+		<p>Hallpass to:</p>
+		<select id="hallpassreason">
+			<?php foreach($settings->hallpasses as $hallpass): ?>
+			<option value="<?= htmlentities($hallpass) ?>"><?= htmlentities($hallpass) ?></option>
+			<?php endforeach; ?>
+		</select>
+		<hr>
+		<p>Notes:</p>
+		<textarea id="hallpassnotes"></textarea>
+		<input class="_assignhallpass" type="button" value="Assign" style="margin-top:15px" />
+	</div>
+</div>
+
+<div style="clear: both">
+<?php foreach($students as $student): ?>
+	<div class="student" data-studentid="<?= $student->userid ?>" style="overflow: auto">
+		<img src="/images/<?= $student->profileimage ?>" class="quickavatar" style="float: left">
+		<p class="avatarlabel"><?= $student->firstname ?> <?= $student->lastname ?><br />
+		$<span id="s<?= $student->userid ?>d"><?= isset($student->dollars) ? $student->dollars : 0 ?></span> - <span id="s<?= $student->userid ?>m"><?= isset($student->detentionminutes) ? $student->detentionminutes : 0 ?></span>!
+		</p>
+	</div>
+<?php endforeach; ?>
+</div>
+
+<audio id="positivesound" src="/images/pointsUP2.mp3">
+ <p> Your browser does not support etc</p>
+       </audio>
+       
+       <audio id="negativesound" src="/images/sound8.mp3">
+ <p> Your browser does not support etc</p>
+       </audio>

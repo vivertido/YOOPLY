@@ -1,0 +1,874 @@
+<?php
+class Teacher extends MY_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+
+		if(!$this->session->userdata('userid'))
+		{
+			redirect('login');
+			return;
+		}
+	}
+
+	function index()
+	{
+<<<<<<< .mine
+		$school_id = $this->session->userdata('schoolid');
+		
+		$data = array(
+=======
+		$school_id = $this->session->userdata('schoolid');
+		
+		$this->load->model('Settings_model');
+		$features = json_decode($this->Settings_model->get_settings($school_id, SETTINGS_FEATURES));
+
+		$this->layout->view('teacher/dashboard', array(
+>>>>>>> .r95
+			'title_for_layout' => 'Yoop.ly',
+			'features' => $features
+		);
+
+		$this->load->model('Settings_model');
+		$demerit_settings = json_decode($this->Settings_model->get_settings($school_id, 'demerits'));
+	
+		$data['demeritlabel'] = $demerit_settings->demeritlabel;
+
+		$this->layout->view('teacher/dashboard', $data);
+	}
+
+	function students()
+	{
+		if($this->session->userdata('role') != 't')
+		{
+			redirect('login');
+			return;
+		}
+
+		$user_id = $this->session->userdata('userid');
+		$this->load->model('Group_model');
+		$groups = $this->Group_model->get_user_groups($user_id);
+
+		$this->load->model('User_model');
+		$students = $this->User_model->get_from_teacher($user_id);
+
+		$this->layout->view('teacher/students', array(
+			'students' => $students,
+			'groups' => $groups,
+			'title_for_layout' => 'My Students'
+		));
+	}
+
+	function reinforcement($student_id)
+	{
+		if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		$this->load->model('Settings_model');
+		$reinforcements = json_decode($this->Settings_model->get_settings($school_id, 'reinforcements'));
+
+		if($this->input->post('submit'))
+		{
+			$reason = $this->input->post('reason');
+			$notes = $this->input->post('notes');
+
+			$teacher_id = $this->session->userdata('userid');
+
+			switch($reinforcements->quantitytype)
+			{
+				case 'range':
+					$amount = $this->input->post('positiveamount');
+				break;
+				case 'number':
+					$amount = $this->input->post('positiveamount');
+				break;
+				case 'fixed':
+					$amount = $reinforcements->awardamount;
+				break;
+			}
+
+			$this->load->model('Reinforcement_model');
+			$reinforcement_id = $this->Reinforcement_model->create($school_id, $teacher_id, $student_id, $amount, $reason, $notes);
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$this->layout->view('teacher/reinforcement', array(
+				'studentid' => $student_id,
+				'settings' => $reinforcements,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function intervention($student_id)
+	{
+		if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$intervention = $this->input->post('intervention');
+			$notes = $this->input->post('notes');
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Intervention_model');
+			$reinforcement_id = $this->Intervention_model->create($school_id, $teacher_id, $student_id, $intervention, $notes);
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('Settings_model');
+			$interventions = json_decode($this->Settings_model->get_settings($school_id, 'interventions'));
+
+			$this->layout->view('teacher/intervention', array(
+				'studentid' => $student_id,
+				'interventions' => $interventions,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function referral($student_id, $referral_id = 0)
+	{
+  		if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($referral_id !== 0)
+		{
+			$this->load->model('Referral_model');
+			$referral = $this->Referral_model->get_referral($referral_id);			
+		}
+		else 
+		{
+			$referral = array();
+		}
+
+		$this->load->model('Settings_model');
+		$settings = json_decode($this->Settings_model->get_settings($school_id, 'referrals'));
+
+		if($this->input->post('submit'))
+		{
+			$teacher_report = process_form('f', $settings->questions);
+			$incident = $this->input->post('f'.$settings->keys->incident);
+
+			$other_motivation = $this->input->post('othermotivation');
+
+			array_push($teacher_report, array(
+				'label' => 'Possible Motivation', 
+				'value' => !empty($other_motivation) ? $this->input->post('othermotivation') : $this->input->post('motivation')
+			));
+			array_push($teacher_report, array(
+				'label' => 'Others Involved', 
+				'value' => $this->input->post('othersinvolved')
+			));
+
+			$consequences = array();
+			$consequence = $this->input->post('consequence');
+
+			foreach($consequence as $c)
+			{
+				if(!empty($c))
+				{
+					array_push($consequences, $c);
+				}
+			}
+
+			if($this->input->post('detention') > 0)
+			{
+				array_push($consequences, 'Detention: '.$this->input->post('detention').' minutes');
+			}
+
+			if($this->input->post('suspension') > 0)
+			{
+				array_push($consequences, 'Suspension: '.$this->input->post('suspension').' days');
+			}
+
+			array_push($teacher_report, array(
+				'label' => 'Actions Suggested', 
+				'value' => $consequences
+			));
+
+			//print_r($teacher_report);
+			//print_r($incident);
+			//exit;
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Referral_model');
+			$referral_id = $this->Referral_model->create($school_id, $teacher_id, $student_id, $incident, $teacher_report);
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('User_model');
+			$student = $this->User_model->get_user($student_id);
+
+			$this->layout->view('teacher/referral', array(
+				'studentid' => $student_id,
+				'settings' => $settings,
+				'student' => $student,
+				'referral' => $referral,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function reports()
+	{
+		if($this->session->userdata('role') != 't')
+		{
+			redirect('login');
+			return;
+		}
+
+		$this->layout->view('teacher/reports', array(
+			'title_for_layout' => 'Reports'
+		));
+	}
+
+	function mystudentreports()
+	{
+		if($this->session->userdata('role') != 't')
+		{
+			redirect('login');
+			return;
+		}
+
+		$teacher_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$data = array(
+			'title_for_layout' => 'My Student Reports'
+		);
+
+		$this->load->model('Referral_model');
+		$this->load->model('Detention_model');
+		$this->load->model('Reinforcement_model');
+
+		$period = 'week';
+
+		$data['detention_categories_this_week'] = $this->Detention_model->category_totals($school_id, $period, $teacher_id);
+		$data['detentions_this_week'] = $this->Detention_model->count_by_day($school_id, $period, $teacher_id);
+		$data['referral_categories_this_week'] = $this->Referral_model->category_totals($school_id, $period, $teacher_id);
+		$data['referrals_this_week'] = $this->Referral_model->count_by_day($school_id, $period, $teacher_id);
+		$data['reinforcement_categories_this_week'] = $this->Reinforcement_model->category_totals($school_id, $period, $teacher_id);
+		$data['reinforcements_this_week'] = $this->Reinforcement_model->count_by_day($school_id, $period, $teacher_id);
+
+		$data['top_detentions'] = $this->Detention_model->top_detentions($school_id, 5, $teacher_id);
+		$data['top_referrals'] = $this->Referral_model->top_referrals($school_id, 5, $teacher_id);
+		$data['top_reinforcements'] = $this->Reinforcement_model->top_reinforcements($school_id, 5, $teacher_id);
+
+		$this->layout->view('teacher/mystudentreports', $data);
+	}
+
+	function wholeschoolreports()
+	{
+		if($this->session->userdata('role') != 't')
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$data = array(
+			'title_for_layout' => 'Whole School Reports'
+		);
+
+		$period = 'week';
+
+		$this->load->model('Referral_model');
+		$this->load->model('Detention_model');
+		$this->load->model('Reinforcement_model');
+
+		$data['detention_categories_this_week'] = $this->Detention_model->category_totals($school_id, $period);
+		$data['detentions_this_week'] = $this->Detention_model->count_by_day($school_id, $period);
+		$data['referral_categories_this_week'] = $this->Referral_model->category_totals($school_id, $period);
+		$data['referrals_this_week'] = $this->Referral_model->count_by_day($school_id, $period);
+		$data['reinforcement_categories_this_week'] = $this->Reinforcement_model->category_totals($school_id, $period);
+		$data['reinforcements_this_week'] = $this->Reinforcement_model->count_by_day($school_id, $period);
+
+		$data['top_detentions'] = $this->Detention_model->top_detentions($school_id, 5);
+		$data['top_referrals'] = $this->Referral_model->top_referrals($school_id, 5);
+		$data['top_reinforcements'] = $this->Reinforcement_model->top_reinforcements($school_id, 5);
+
+		$this->layout->view('teacher/wholeschoolreports', $data);
+	}
+
+	function quickentry($group_id = 0)
+	{
+		if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$user_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$data = array('title_for_layout' => 'Quick Entry');
+
+		$this->load->model('Group_model');
+		if($this->session->userdata('role') == 't')
+		{
+			$data['groups'] = $this->Group_model->get_user_groups($user_id);
+		}
+		else
+		{
+			$data['groups'] = $this->Group_model->get_groups_by_school($school_id);
+		}
+
+		if($group_id === 0)
+		{
+			$group_id = $data['groups'][0]->groupid;
+		}
+
+		$this->load->model('Settings_model');
+		$data['settings'] = json_decode($this->Settings_model->get_settings($school_id, 'quickentry'));
+		$data['features'] = json_decode($this->Settings_model->get_settings($school_id, SETTINGS_FEATURES));
+
+		$demerit_settings = json_decode($this->Settings_model->get_settings($school_id, 'demerits'));
+		$data['demeritlabel'] = $demerit_settings->demeritlabel;
+
+		$this->load->model('User_model');
+		$data['students'] = $this->User_model->get_overview_from_group($group_id);
+
+		$data['groupid'] = $group_id;
+
+		$this->layout->view('teacher/quickentry', $data);
+	}
+
+	function redeemaward($student_id)
+	{
+  	if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$teacher_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Reinforcement_model');
+		$dollars = $this->Reinforcement_model->get_dollar_total($student_id);
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$amount = $this->input->post('amount');
+			$reason = $this->input->post('reason');
+
+			$this->Reinforcement_model->deduct($school_id, $teacher_id, $student_id, $amount, $reason, '');
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$this->layout->view('teacher/redeemaward', array(
+				'title_for_layout' => 'Redeem Award',
+				'student' => $student,
+				'dollars' => $dollars
+			));
+		}
+	}
+
+	function demerit($student_id)
+	{
+		if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$reason = $this->input->post('reason');
+			$notes = $this->input->post('notes');
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Demerit_model');
+			$reinforcement_id = $this->Demerit_model->create($school_id, $teacher_id, $student_id, $reason, $notes);
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('Settings_model');
+			$settings = json_decode($this->Settings_model->get_settings($school_id, 'demerits'));
+
+			$this->layout->view('teacher/demerit', array(
+				'studentid' => $student_id,
+				'settings' => $settings,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function detention($student_id)
+	{
+		if(!($this->session->userdata('role') == 't' || $this->session->userdata('role') == 'a'))
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if(empty($student))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$reason = $this->input->post('reason');
+			$minutes = $this->input->post('minutes');
+			$days = $this->input->post('days');
+
+			$total = ($days*24*60*60) + $minutes;
+
+			$teacher_id = $this->session->userdata('userid');
+
+			$this->load->model('Detention_model');
+			$this->Detention_model->assign($school_id, $student_id, $teacher_id, $total, $reason);
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$this->load->model('Settings_model');
+			$settings = json_decode($this->Settings_model->get_settings($school_id, 'quickentry'));
+
+			$this->layout->view('teacher/detention', array(
+				'studentid' => $student_id,
+				'settings' => $settings,
+				'title_for_layout' => $student->firstname.' '.$student->lastname
+			));
+		}
+	}
+
+	function interventions($period = '')
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$data = array(
+			'title_for_layout' => 'My Interventions',
+		);
+
+		$start_time = $end_time = 0;
+		switch($period)
+		{
+			case 'month':
+				$start_time = strtotime(date('Y-m-01 00:00:00'));
+				$end_time = strtotime(date('Y-m-t 23:59:59'));
+				$data['period'] = $period;
+			break;
+			case 'week':
+				$start_time = strtotime('last sunday');
+				$end_time = strtotime('next sunday')-1;
+				$data['period'] = 'week';
+			break;
+			case 'all':
+				$data['period'] = 'all';
+			break;
+			default:
+			case 'today':
+				$start_time = strtotime(date('Y-m-d 00:00:00'));
+				$data['period'] = 'today';
+			break;
+		}
+
+		$this->load->model('Intervention_model');
+		$data['interventions'] = $this->Intervention_model->get_by_teacher($school_id, $user_id, 0, true, $start_time, $end_time);
+
+		$this->layout->view('teacher/interventions', $data);
+	}
+
+	function view($teacher_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('User_model');
+		$user = $this->User_model->get_user($teacher_id);
+
+		if(empty($user))
+		{
+			$this->layout->view('teacher/error_noteacherfound');
+			return;
+		}
+
+		$permission_denied = true;
+
+		$this->load->model('School_model');
+		if($this->School_model->has_teacher($school_id, $teacher_id))
+		{
+			$permission_denied = false;
+		}
+
+		if($permission_denied)
+		{
+			$this->layout->view('teacher/error_permissiondenied');
+			return;
+		}		
+
+		$this->load->model('Group_model');
+		$groups = $this->Group_model->get_user_groups($teacher_id);
+
+		$this->layout->view('teacher/view', array(
+			'title_for_layout' => $user->firstname.' '.$user->lastname,
+			'teacher' => $user,
+			'groups' => $groups,
+			'role' => $this->session->userdata('role')
+
+		));
+	}
+
+	function edit($teacher_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+		$this->load->model('Group_model');
+
+		$user = $this->User_model->get_user($teacher_id);
+
+		if(empty($user))
+		{
+			$this->layout->view('teacher/error_noteacherfound');
+			return;
+		}
+		
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+		/*	case 't':
+				if($this->User_model->has_teacher($student_id, $user_id))
+				{
+					$permission_denied = false;
+				}
+			break;*/
+			case 'a':
+				$this->load->model('School_model');
+				if($this->School_model->has_teacher($school_id, $teacher_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+		}
+
+		if($permission_denied)
+		{
+			$this->layout->view('teacher/error_permissiondenied');
+			return;
+		}
+
+		$this->load->model('School_model');
+		$is_admin = $this->School_model->has_admin($school_id, $teacher_id);
+
+		$all_groups = $this->Group_model->get_groups_by_school($school_id);
+		$user_groups = $this->Group_model->get_user_groups($teacher_id);
+
+		if($this->input->post('submit'))
+		{
+			$error = '';
+			$first_name = $this->input->post('firstname');
+			$last_name = $this->input->post('lastname');
+			$email = $this->input->post('email');
+			$groups = $this->input->post('group');
+			$admin = $this->input->post('admin');
+
+			if($groups == false)
+			{
+				$error = 'nogroupsslected';
+			}
+
+			if(empty($error) && empty($first_name))
+			{
+				$error = 'firstname';
+			}
+
+			if(empty($error) && empty($last_name))
+			{
+				$error = 'lastname';
+			}
+
+			if(empty($error) && empty($email))
+			{
+				$error = 'email';
+			}
+
+			if(empty($error))
+			{
+				$email_user = $this->User_model->find_by_email($email);
+
+				if(!empty($email_user) && $email_user->userid != $teacher_id)
+				{
+					$error = 'emailinuse';
+				}
+			}
+		}
+
+		if(empty($error) && $this->input->post('submit'))
+		{
+			$this->User_model->update($teacher_id, $first_name, $last_name, $email);
+
+			if($is_admin && $admin != '1')
+			{
+				$this->School_model->remove_admin($school_id, $teacher_id);
+			}
+
+			if(!$is_admin && $admin == '1')
+			{
+				$this->School_model->add_admin($school_id, $teacher_id);
+			}
+
+			// Add to new groups.
+			foreach($groups as $k=>$v)
+			{
+				$in_group = false;
+				foreach($user_groups as $ug)
+				{
+					if($ug->groupid == $k)
+					{
+						$in_group = true;
+					}
+				}
+
+				if(!$in_group)
+				{
+					$this->Group_model->add_teacher($k, $teacher_id);
+				}
+			}
+
+			// Remove from groups.
+			foreach($user_groups as $ug)
+			{
+				$remove = true;
+				foreach($groups as $k=>$v)
+				{
+					if($ug->groupid == $k)
+					{
+						$remove = false;
+					}
+				}
+
+				if($remove)
+				{
+					$this->Group_model->remove_teacher($ug->groupid, $teacher_id);
+				}
+			}
+
+			redirect('teacher/view/'.$teacher_id);
+		}
+		else
+		{
+			$data = array(
+				'user' => $user,
+				'allgroups' => $all_groups,
+				'usergroups' => $user_groups,
+				'title_for_layout' => 'Edit Teacher',
+				'isadmin' => $is_admin
+			);
+
+			if(!empty($error))
+			{
+				$data['error'] = $error;
+				$data['user']->firstname = $first_name;
+				$data['user']->lastname = $last_name;
+				$data['user']->email = $email;
+				$data['isadmin'] = $admin == '1' ? true : false;
+			}
+
+			$this->layout->view('teacher/edit', $data);
+		}
+	}
+
+	function add()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+		$this->load->model('Group_model');
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+		/*	case 't':
+				if($this->User_model->has_teacher($student_id, $user_id))
+				{
+					$permission_denied = false;
+				}
+			break;*/
+			case 'a':
+				$permission_denied = false;
+			break;
+		}
+
+		$all_groups = $this->Group_model->get_groups_by_school($school_id);
+
+		if($permission_denied)
+		{
+			$this->layout->view('teacher/error_permissiondenied');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$error = '';
+			$first_name = $this->input->post('firstname');
+			$last_name = $this->input->post('lastname');
+			$email = $this->input->post('email');
+			$groups = $this->input->post('group');
+			$profile_image = 'blobsmall.png';
+			$grade = '';
+			$student_id = '';
+			$gender = '';
+			$dob = '';
+			$admin = $this->input->post('admin');
+
+			if($groups == false)
+			{
+				$error = 'nogroupsslected';
+			}
+
+			if(empty($error) && empty($first_name))
+			{
+				$error = 'firstname';
+			}
+
+			if(empty($error) && empty($last_name))
+			{
+				$error = 'lastname';
+			}
+
+			if(empty($error) && empty($email))
+			{
+				$error = 'email';
+			}
+
+			if(empty($error))
+			{
+				$email_user = $this->User_model->find_by_email($email);
+
+				if(!empty($email_user))
+				{
+					$error = 'emailinuse';
+				}
+			}
+		}
+
+		if(empty($error) && $this->input->post('submit'))
+		{
+			$teacher_id = $this->User_model->create_teacher($school_id, $first_name, $last_name, '', '', $email, $profile_image);
+
+			if($admin == '1')
+			{
+				$this->load->model('School_model');
+				$this->School_model->add_admin($school_id, $teacher_id);
+			}
+
+			// Add to new groups.
+			foreach($groups as $k=>$v)
+			{
+				$this->Group_model->add_teacher($k, $teacher_id);
+			}
+
+			redirect('teacher/view/'.$teacher_id);
+		}
+		else
+		{
+			$data = array(
+				'allgroups' => $all_groups,
+				'title_for_layout' => 'Add Teacher'
+			);
+
+			if(!empty($error))
+			{
+				$data['error'] = $error;
+				$data['firstname'] = $first_name;
+				$data['lastname'] = $last_name;
+				$data['email'] = $email;
+				$data['isadmin'] = $admin == '1' ? true : false;
+			}
+
+			$this->layout->view('teacher/add', $data);
+		}
+	}
+}
+
+?>

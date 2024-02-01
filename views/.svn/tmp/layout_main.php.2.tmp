@@ -1,0 +1,214 @@
+<<<<<<< .mine
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Yoop.ly</title>
+	<link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+	<link rel="stylesheet" href="/themes/Yoopl1.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+
+
+	<style type="text/css">
+
+   /*admin page styles*/
+#listAnchorText{
+font-family: 'Dosis';
+
+font-weight:normal;
+
+}
+p.listViewSubtext{
+	font-family: 'Dosis';
+
+font-weight:normal;
+font-size:10px;
+
+
+
+}
+
+p.listSubtext{
+  margin-left:15px; margin-right:15px;
+}
+
+
+
+	</style>
+</head>
+
+<body>
+
+<div data-role="panel" id="mypanel" class="main_nav" data-display="overlay"  data-dismissible="true" data-theme="a">
+	<h4 id="panelStudentName" style="font-weight:normnal; font-family:'Dosis'">Gilbert Alberts</h4>
+	<p style=" font-family:'Dosis';font-weight:normnal">Time served: 10 min</p>
+	<p style="  font-family:'Dosis';font-weight:normnal">Time remaining: 20 min</p>
+	<hr>
+	<div data-role="controlgroup" data-type="horizontal">
+		<button data-mini="true" id="subract5min" >Stop </button>
+		<button  data-mini="true" id="resetButton">Start </button>
+		<button data-mini="true" id="add5min">+5 </button>
+		<button data-mini="true" id="subract5min">-5</button>
+		<button  data-mini="true" id="resetButton">Reset</button>
+	</div>
+	<hr>
+	<h4 style="font-weight:normnal; font-family:'Dosis'">Choose minutes to add</h4>
+	<div data-role="controlgroup" data-type="horizontal">
+		<button data-mini="true" id="add5min" >05 </button>
+		<button  data-mini="true" id="add10min">10 </button>
+		<button data-mini="true" id="add15min">15</button>
+		<button data-mini="true" id="add20min">20</button>
+	</div>
+
+	<div data-role="controlgroup" data-type="horizontal">
+		<button  data-mini="true" id="add25min">25</button>
+		<button data-mini="true" id="add30min" >30 </button>
+		<button  data-mini="true" id="add35min">35 </button>
+		<button data-mini="true" id="add40min">40 </button>
+	</div>
+
+	<div data-role="controlgroup" data-type="horizontal">
+		<button data-mini="true" id="add45min">45</button>
+		<button  data-mini="true" id="add50min">50</button>
+		<button data-mini="true" id="add55min" >55 </button>
+		<button  data-mini="true" id="add60min">60 </button>
+	</div>
+
+	<hr>
+	<h4 style="font-weight:normnal;font-family:'Dosis'">Choose days to add</h4>
+	<div data-role="controlgroup" data-type="horizontal">
+		<button data-mini="true" id="addhalfday" >.5 </button>
+		<button  data-mini="true" id="add1day">1 </button>
+		<button data-mini="true" id="add5min">2</button>
+		<button data-mini="true" id="add3days">3</button>
+		<button data-mini="true" id="add4days">4</button>
+		<button data-mini="true" id="add5days">5</button>
+	</div>
+
+</div><!-- /panel -->
+
+<div data-role="page">
+	<div data-role="header">
+		<h1><?= isset($title_for_layout) ? $title_for_layout : 'Yoop.ly' ?></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+  <?= $content_for_layout ?>
+	</div><!-- /content -->
+
+<div data-role="footer" data-id="foo1" data-position="fixed">
+	<div data-role="navbar">
+		<ul>
+<?php switch($this->session->userdata('role')):
+case 's': // Student
+?>
+			<li><a href="/student" data-icon="home">Home</a></li>
+			<li><a href="#" data-icon="grid">Shoutouts</a></li>
+			<li><a href="/student/mydetentions" data-icon="alert">Detentions</a></li>
+			<li><a href="#" data-icon="gear">Settings</a></li>
+<?php
+break;
+case 't': // Teacher
+?>
+			<li><a href="/teacher" data-icon="home">Home</a></li>
+			<li><a href="/teacher/students" data-icon="grid">Students</a></li>
+			<li><a href="#" data-icon="alert">Detentions</a></li>
+			<li><a href="#" data-icon="gear">Settings</a></li>
+<?php
+break;
+case 'a': // Admin
+?>
+			<li><a href="/admin" data-icon="home">Home</a></li>
+			<li><a href="#" data-icon="grid">Students</a></li>
+			<li><a href="#" data-icon="alert">Detentions</a></li>
+			<li><a href="/admin/settings" data-icon="gear">Settings</a></li>
+<?php
+break;
+endswitch;
+?>
+		</ul>
+	</div><!-- /navbar -->
+</div><!-- /footer -->
+</div><!-- /page -->
+
+</body>
+
+=======
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Yoop.ly</title>
+	<link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.css" />
+	<link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog.min.css" />
+	<link rel="stylesheet" href="/themes/Yoopl1.css" />
+	<link rel="stylesheet" href="/themes/custom.css" />
+	<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.1/jquery.mobile-1.2.1.min.js"></script>
+	<script type="text/javascript" src="http://dev.jtsage.com/cdn/simpledialog/latest/jquery.mobile.simpledialog2.min.js"></script>
+
+
+
+	<style type="text/css">
+
+   /*admin page styles*/
+#listAnchorText{
+font-family: 'Dosis';
+
+font-weight:normal;
+
+}
+p.listViewSubtext{
+	font-family: 'Dosis';
+
+font-weight:normal;
+font-size:10px;
+
+
+
+}
+
+p.listSubtext{
+  margin-left:15px; margin-right:15px;
+}
+
+
+
+	</style>
+</head>
+
+<body>
+
+<div data-role="page">
+
+	<div data-role="header">
+		<h1><?= isset($title_for_layout) ? $title_for_layout : 'Yoop.ly' ?></h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+  <?= $content_for_layout ?>
+	</div><!-- /content -->
+
+<div data-role="footer" data-id="foo1" data-position="fixed">
+	<div data-role="navbar">
+		<ul>
+			<li><a href="/teacher" data-icon="home">Home</a></li>
+			<li><a href="/teacher/students" data-icon="grid">Students</a></li>
+			<li><a href="c.html" data-icon="alert">Detentions</a></li>
+			<li><a href="/admin/settings" data-icon="gear">Settings</a></li>
+		</ul>
+	</div><!-- /navbar -->
+</div><!-- /footer -->
+</div><!-- /page -->
+
+</body>
+
+>>>>>>> .r35
+</html>

@@ -1,0 +1,29 @@
+<?php $roles = array('a' => 'Admin', 't' => 'Teacher', 's' => 'Student', 'p' => 'Parent'); ?>
+
+Submitted by: <?php if(!$ispublic): ?><a href="/<?= strtolower($roles[$user->accounttype]) ?>/view/<?= $user->userid ?>"><?php endif; ?><?= $user->firstname ?> <?= $user->lastname ?><?php if(!$ispublic): ?></a><?php endif; ?> on <?= date('m/d', $report->timecreated) ?>
+
+<?php if(!empty($subject)): ?>
+	<br /><?= $roles[$subject->accounttype] ?>: <?php if(!$ispublic): ?><a href="/<?= strtolower($roles[$subject->accounttype]) ?>/view/<?= $subject->userid ?>"><?php endif; ?><?= $subject->firstname ?> <?= $subject->lastname ?><?php if(!$ispublic): ?></a><?php endif; ?>
+<?php endif; ?>
+
+<?php $responses = json_decode($report->report); 
+
+foreach($responses as $response): ?>
+<h3><?= $response->label ?></h3>
+<?php if(is_array($response->value)): ?>
+<ul>
+	<?php foreach($response->value as $o): ?>
+		<li><?= $o ?></li>
+	<?php endforeach; ?>
+</ul>
+<?php else: ?>
+	<p><?= $response->value ?></p>
+<?php endif; 
+endforeach; ?>
+
+<?php if($this->session->userdata('role') == 'a' || $this->session->userdata('role') == 't'): ?>
+<ul data-role="listview" data-inset="true">
+	<?php if($showeditbutton): ?><li><a href="/report/edit/<?= $report->reportid ?>">Edit</a></li><?php endif; ?>
+	<?php if($showeditbutton): ?><li><a href="/report/remove/<?= $report->reportid ?>">Remove</a></li><?php endif; ?>
+</ul>
+<?php endif; ?>

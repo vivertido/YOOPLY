@@ -1,0 +1,203 @@
+
+<style>
+
+.activestudent div
+{
+border: 1px solid #6e4015;
+background-color: #38e0FF;
+}
+
+.timeexpired div
+{
+border: 1px solid #248FB2;
+background-color: #AFF3FF;
+}
+.listOption{
+
+margin-top:0px;
+margin-bottom:10px;
+margin-left:8%;
+margin-right:0px;
+
+float:right;
+padding-top:2px;
+padding-right:5px;
+padding-left:5px;
+padding-bottom:2px;
+border-style:solid;
+ 
+border-width:1px;
+border-radius:10px;
+border-color:#33CCFF;
+background-color:#F0EBE6;
+/*background-color:#D1C2B2*/
+font-size:14px;
+ height:30px;
+}
+#listControls{
+position:inline; 
+margin-bottom:130px;
+/*background-color:red;*/
+}
+ 
+</style>
+<script>
+$( document ).ready(function() {
+   
+   alert('This shows the basic requested updates. Start and stop of time should occur in the list element. Also has ability to highlight, or Mark a name, and manually activate panel with +/- button. All Buttons are spans within list elements and can be hidden. Other features include sorting names within grade by either remaining time or A-Z and Note section');     
+   
+   $('#showButtonsAnchor').css('padding', '2px', 'border-radius', '20px', 'font-size', '9px' );
+  
+   
+   $('#startStop').click(function(){
+   var state=$(this).text();
+   
+   if (state=='Start'){
+   
+    $(this).css('background-color', '#D1C2B2');
+    $(this).text('Stop');
+    
+    } else{
+    
+     $(this).css('background-color', '#F0EBE6');
+    $(this).text('Start');
+    }
+   alert('I should start/stop the clock');
+   
+   
+   });
+   
+    $('#tagButton').click(function(){
+    
+     
+    var highlightState=$(this).text();
+    alert('My job is simply to highlight the student name');
+    if (highlightState=='Mark'){
+    
+   $('#studentNameSection').css('background-color', 'yellow');
+     $(this).text('Unmark');
+     $(this).css('background-color', '#D1C2B2');
+    } else{
+     $('#studentNameSection').css('background-color', 'white');
+     $(this).text('Mark');
+     $(this).css('background-color', '#F0EBE6');
+    
+    }
+    
+     
+    });
+    
+    $('#showNotes').click(function(){
+    
+    alert('Need to build a customized note section that teachers can use for internal tracking of status. Notes button will trigger a <select> with options like serving detention with teacher X, or should bring lunch'); 
+    
+    
+    });
+   
+   $('#showButtons').click(function(){
+   
+   $('.listOption').toggle();
+    
+      
+      var buttonText= $('#showButtonsAnchor').text();
+     if(buttonText=='Hide Buttons'){
+       $('#showButtonsAnchor').css('padding', '7px', 'border-radius', '30px', 'font-size', '9px' );
+    $('#showButtonsAnchor').text('Show Buttons');
+         } else {
+          $('#showButtonsAnchor').text('Hide Buttons');
+           $('#showButtonsAnchor').css('padding', '7px', 'border-radius', '30px', 'font-size', '9px' );
+         }
+   });
+   
+   
+});
+
+
+
+
+
+<?php foreach($detentions as $detention):
+	$is_active = false; $time_elapsed = 0;
+	foreach($activedetentions as $d):
+		if($d->studentid == $detention->studentid):
+			$is_active = true;
+			$time_elapsed = time()-$d->timecreated;
+		endif;
+	endforeach; ?>
+timers[<?= $detention->studentid ?>] = [<?= $time_elapsed ?>, <?= $detention->servedminutes*60 ?>, <?= $detention->assignedminutes*60 ?>, <?= $is_active ? 1 : 0 ?>];
+<?php endforeach; ?>
+
+</script>
+				<div>
+<<<<<<< .mine
+				<div style="float:left">	<a href="#" id="startAll" data-role="button" data-inline="true">Start All</a></div>
+				<div style="float:right">	<a href="#" id="stopAll" data-role="button" data-inline="true">Stop All</a> </div>
+					<a href="#" id="resetAll" data-role="button" data-inline="true" data-icon="back" data-theme="c">Reset All</a>
+=======
+				<div style="float:left">	<a href="#" id="startAll" data-role="button" data-mini="true" data-inline="true">Start All</a></div>
+				
+				
+				
+				
+				<div style="float:right">	<a href="#" id="stopAll" data-role="button" data-mini="true" data-inline="true">Stop All</a> </div>
+				
+				
+				<div id="showButtons" style="float:left">	<a href="#" id="showButtonsAnchor" data-role="button" data-mini="true" data-inline="true" data-theme="a">Hide Buttons</a> </div>
+				
+			
+				
+					<a href="#" id="resetAll" data-role="button" data-mini="true" data-inline="true" data-icon="back" data-theme="c">Reset All</a>
+>>>>>>> .r73
+				
+				
+			 
+				
+				
+				</div>
+				
+	
+
+				<div data-role="collapsible-set" data-content-theme="b" id="bankOfQuestions"  data-collapsed="true">
+					<ul data-role="listview" data-inset="true">
+						<?php
+						$header = '';
+						foreach($detentions as $detention):
+							$is_active = false;
+							$time_elapsed = 0;
+
+							foreach($activedetentions as $d):
+								if($d->studentid == $detention->studentid):
+									$is_active = true;
+									$time_elapsed = time()-$d->timecreated;
+								endif;
+							endforeach;
+
+							$detention->servedminutes = empty($detention->servedminutes) ? 0 : $detention->servedminutes;
+							$h = addOrdinalNumberSuffix($detention->grade).' Grade';
+							if($header != $h) { $header = $h;
+?>
+						<li data-role="list-divider"><?= $header ?></li>
+<?php							}
+							?>
+						<li style="height:50px" class="student<?= $is_active ? ' activestudent' : '' ?>" data-name="<?= $detention->lastname ?>, <?= $detention->firstname ?>" data-id="<?= $detention->studentid ?>">
+						<span id="studentNameSection">	 <?= $detention->lastname ?>, <?= $detention->firstname ?></span> <div id="listControls" ><span id="startStop" class="listOption"   >Start</span> <span id="tagButton" class="listOption"  >Mark</span><span id="showNotes"  class="listOption">Notes</span>   <span  class="listOption"><a href="#mypanel" data-rel="panel" style="text-decoration:none"> +/- </a></span> <div>
+							
+<<<<<<< .mine
+							<p class="ui-li-aside"> <strong>Remaining: <span class="remaining"><?= ceil((($detention->assignedminutes*60)-($detention->servedminutes*60)-$time_elapsed)/60) ?> minutes</span></strong></p>
+						</a></li>
+=======
+							<p  ></p>
+							<p  style="font-size:14px;font-weight:bold; margin-top:3px"> <span class="remaining"><?= $detention->assignedminutes-$detention->servedminutes ?> Min.</span> <strong>| To Date: </strong><span class="assigned"><?= $detention->assignedminutes ?></span></p>
+							<p style="margin-bottom:5px"></p>
+							
+							<p> </p>
+							
+						</li>
+>>>>>>> .r73
+						<?php endforeach; ?>
+					</ul>
+				</div>
+
+<?php if(empty($detentions)): ?>
+<p>No detentions have been assigned.</p>
+<?php endif; ?>

@@ -1,0 +1,706 @@
+<?php
+
+class Student extends MY_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+
+		if(!$this->session->userdata('userid'))
+		{
+			redirect('login');
+			return;
+		}
+	}
+
+	function index()
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$student_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Reinforcement_model');
+		$dollar_total = $this->Reinforcement_model->get_dollar_total($student_id);
+
+		$this->load->model('Referral_model');
+		$referrals = $this->Referral_model->get_active_by_student($student_id);
+
+		$this->load->model('Detention_model');
+		$detention_minutes = $this->Detention_model->get_balance($student_id);
+		$detention_minutes = !empty($detention_minutes) ? $detention_minutes : 0;
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		$this->load->model('Settings_model');
+		$reinforcement_settings = json_decode($this->Settings_model->get_settings($school_id, 'reinforcements'));
+		$features = json_decode($this->Settings_model->get_settings($school_id, SETTINGS_FEATURES));
+
+		$this->layout->view('student/dashboard', array(
+			'referrals' => $referrals,
+			'dollars' => $dollar_total,
+			'student' => $student,
+			'detentionminutes' => $detention_minutes,
+			'reinforcementsettings' => $reinforcement_settings,
+			'title_for_layout' => 'Yoop.ly',
+			'features' => $features
+		));
+	}
+
+	function shoutouts($type = '')
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$user_id = $this->session->userdata('userid');
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Shoutout_model');
+
+		$data = array(
+			'title_for_layout'=> 'Shout-outs'
+		);
+
+		$subview = '';
+		switch($type)
+		{
+			case 'mine':
+				$subview = '_mine';
+
+				$data['shoutouts'] = $this->Shoutout_model->get_with_user($user_id);
+				$data['title_for_layout'] = 'My Shout-outs';
+			break;
+			case 'friend':
+				$subview = '_friend';
+
+				$data['shoutouts'] = $this->Shoutout_model->get_with_friend($user_id);
+				$data['title_for_layout'] = 'All Shout-outs';
+			break;
+			default:
+				$data['shoutouts'] = $this->Shoutout_model->get_with_user($user_id, 6);
+				$data['all_shoutouts'] = $this->Shoutout_model->get_with_friend($user_id, 6);
+				$data['school_shoutouts'] = $this->Shoutout_model->get_with_school_today($school_id);
+			break;
+		}
+
+		$this->layout->view('student/shoutouts'.$subview, $data);
+	}
+
+	function awards()
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+		$student_id = $this->session->userdata('userid');
+
+		$this->load->model('Reinforcement_model');
+		$reinforcements = $this->Reinforcement_model->get_recent_reinforcements($student_id);
+		$dollars = $this->Reinforcement_model->get_dollar_total($student_id);
+		$totals = $this->Reinforcement_model->get_dollar_total_months($student_id);
+		$spent = $this->Reinforcement_model->count_spent($school_id, $student_id);
+
+		$this->layout->view('student/awards', array(
+			'reinforcements' => $reinforcements,
+			'dollars' => $dollars,
+			'spent' => $spent,
+			'totals' => $totals,
+			'dollar_label' => 'Scholar Dollars',
+			'title_for_layout' => 'My Scholar Dollars'
+		));
+	}
+
+	function incident($referral_id)
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Settings_model');
+		$settings = json_decode($this->Settings_model->get_settings($school_id, 'incident'));
+
+		$this->load->model('Referral_model');
+		$referral = $this->Referral_model->get_referral($referral_id);
+
+		$user_id = $this->session->userdata('userid');
+
+		if(empty($referral) || $referral->studentid != $user_id)
+		{
+			$this->layout->view('student/error_referralnotfound');
+			return;
+		}
+
+		// Has student already completed a reflection, then must have completed incident.
+		if(!empty($referral->reflection))
+		{
+			redirect('reflection/view/'.$referral_id);
+			return;
+		}
+
+		// Has student already completed incident, send them to reflect.
+		if(!empty($referral->studentnotes))
+		{
+			redirect('reflection/reflect/'.$referral_id);
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$data = array();
+			$mode = $this->input->post('mode');
+
+			switch($mode)
+			{
+				case 'easy':
+					$report = process_form('f', $settings->questions->easy);
+				break;
+				case 'detailed':
+					$report = process_form('f', $settings->questions->detailed);
+				break;
+				default:
+					echo "missing mode";exit;
+				break;
+			}
+
+			$this->load->model('Referral_model');
+			$this->Referral_model->save_student($referral_id, $report);
+
+			redirect('reflections/reflect/'.$referral_id);
+		}
+		else
+		{
+			$this->layout->view('student/incident', array(
+			'title_for_layout' => 'Incident Report',
+			'questions' => $settings->questions,
+			'referralid' => $referral_id));
+		}
+	}
+
+	function mydetentions()
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$student_id = $this->session->userdata('userid');
+
+		$this->load->model('Detention_model');
+		$detentions = $this->Detention_model->get_assigned_from_student($student_id, true);
+		$assigned_total = $this->Detention_model->count_assigned_from_student($student_id);
+		$assigned_totals = $this->Detention_model->get_assigned_total_months($student_id);
+		$served_total = $this->Detention_model->count_served_from_student($student_id);
+
+		$this->layout->view('student/mydetentions', array(
+			'detentions' => $detentions,
+			'totalassigned' => $assigned_total,
+			'totalserved' => $served_total,
+			'assignedtotals' => $assigned_totals,
+			'title_for_layout' => 'My Detentions'
+		));
+	}
+
+	function bully()
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('Settings_model');
+		$settings = json_decode($this->Settings_model->get_settings($school_id, 'bully'));
+
+		if($this->input->post('submit'))
+		{
+			$report = process_form('f', $settings->questions);
+
+			$this->load->model('Report_model');
+			$this->Report_model->create($school_id, $user_id, 'bully', $report);
+
+			redirect('student');
+		}
+		else
+		{
+			$this->layout->view('student/bully', array(
+				'settings' => $settings,
+				'title_for_layout' => 'Report Bullying'
+			));
+		}
+	}
+
+	function settings()
+	{
+		if($this->session->userdata('role') != 's')
+		{
+			redirect('login');
+			return;
+		}
+
+		$school_id = $this->session->userdata('schoolid');
+
+		$this->load->model('Settings_model');
+		$settings = json_decode($this->Settings_model->get_settings($school_id, 'avatars'));
+
+		$student_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+		$student = $this->User_model->get_user($student_id);
+
+		if($this->input->post('submit'))
+		{
+			$profile_image = $this->input->post('avatar');
+
+			if(!in_array($profile_image, $settings->avatars))
+			{
+				$this->layout->view('student/error_general', array(
+					'title_for_layout' => 'Error'
+				));
+
+				return;
+			}
+
+			$profile_image .= '.png';
+			$this->User_model->update_avatar($student_id, $profile_image);
+
+			redirect('student');
+		}
+		else
+		{
+			$this->layout->view('student/settings', array(
+				'title_for_layout' => 'Settings',
+				'avatars' => $settings->avatars,
+				'student' => $student
+			));
+		}
+	}
+
+	function view($student_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+		$user = $this->User_model->get_user($student_id);
+
+		if(empty($user))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+			case 't':
+				if($this->User_model->has_teacher($student_id, $user_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+			case 'a':
+				$this->load->model('School_model');
+				if($this->School_model->has_student($school_id, $student_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+		}
+
+		if($permission_denied)
+		{
+			$this->layout->view('student/error_permissiondenied');
+			return;
+		}
+
+		$this->load->model('Settings_model');
+		$settings = json_decode($this->Settings_model->get_settings($school_id, 'reinforcements'));
+
+		// Permission checks complete, let's show the view.
+		$this->load->model('Reinforcement_model');
+		$dollar_total = $this->Reinforcement_model->get_dollar_total($student_id);
+
+		$this->load->model('Referral_model');
+		$active_referrals = $this->Referral_model->get_active_by_student($student_id);
+		$referral_count = $this->Referral_model->get_count_by_student($student_id);
+
+		$this->load->model('Shoutout_model');
+		$shoutout_count = $this->Shoutout_model->get_count_to_user($student_id);
+
+<<<<<<< .mine
+		$data = array(
+=======
+		$feature_settings = json_decode($this->Settings_model->get_settings($school_id, SETTINGS_FEATURES));
+
+		$this->layout->view('student/view', array(
+>>>>>>> .r95
+			'referralcount' => $referral_count,
+			'activereferrals' => $active_referrals,
+			'shoutouts' => $shoutout_count,
+			'dollarlabel' => $settings->reinforcementlabel,
+			'user' => $user,
+			'role' => $this->session->userdata('role'),
+			'title_for_layout' => $user->firstname.' '.$user->lastname.' (Grade '.$user->grade.'; SSID '.$user->studentid.')',
+<<<<<<< .mine
+			'dollartotal' => $dollar_total);
+
+
+		$this->load->model('Settings_model');
+		$demerit_settings = json_decode($this->Settings_model->get_settings($school_id, 'demerits'));
+	
+		$data['demeritlabel'] = $demerit_settings->demeritlabel;		
+
+		$this->layout->view('student/view', $data);
+=======
+			'dollartotal' => $dollar_total,
+			'settings' => $feature_settings));
+>>>>>>> .r95
+	}
+
+	function interventions($period = '')
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$data = array(
+			'title_for_layout' => 'My Interventions',
+		);
+
+		$start_time = $end_time = 0;
+		switch($period)
+		{
+			case 'month':
+				$start_time = strtotime(date('Y-m-01 00:00:00'));
+				$end_time = strtotime(date('Y-m-t 23:59:59'));
+				$data['period'] = $period;
+			break;
+			case 'week':
+				$start_time = strtotime('last sunday');
+				$end_time = strtotime('next sunday')-1;
+				$data['period'] = 'week';
+			break;
+			case 'all':
+				$data['period'] = 'all';
+			break;
+			default:
+			case 'today':
+				$start_time = strtotime(date('Y-m-d 00:00:00'));
+				$data['period'] = 'today';
+			break;
+		}
+
+		$this->load->model('Intervention_model');
+		$data['interventions'] = $this->Intervention_model->get_by_student($school_id, $user_id, 0, true, $start_time, $end_time);
+
+		$this->layout->view('student/interventions', $data);
+	}
+
+	function edit($student_id)
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+		$this->load->model('Group_model');
+
+		$user = $this->User_model->get_user($student_id);
+
+		if(empty($user))
+		{
+			$this->layout->view('teacher/error_nostudentfound');
+			return;
+		}
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+		/*	case 't':
+				if($this->User_model->has_teacher($student_id, $user_id))
+				{
+					$permission_denied = false;
+				}
+			break;*/
+			case 'a':
+				$this->load->model('School_model');
+				if($this->School_model->has_student($school_id, $student_id))
+				{
+					$permission_denied = false;
+				}
+			break;
+		}
+
+		if($permission_denied)
+		{
+			$this->layout->view('student/error_permissiondenied');
+			return;
+		}
+
+		$all_groups = $this->Group_model->get_groups_by_school($school_id);
+		$user_groups = $this->Group_model->get_user_groups($student_id);
+
+		if($this->input->post('submit'))
+		{
+			$error = '';
+			$first_name = $this->input->post('firstname');
+			$last_name = $this->input->post('lastname');
+			$email = $this->input->post('email');
+			$groups = $this->input->post('group');
+			$grade = $this->input->post('grade');
+			$studentid = $this->input->post('studentid');
+			$gender = $this->input->post('gender');
+			$dob = $this->input->post('dob');
+			$ethnicity = $this->input->post('ethnicity');
+
+			if($groups == false)
+			{
+				$error = 'nogroupsslected';
+			}
+
+			if(empty($error) && empty($first_name))
+			{
+				$error = 'firstname';
+			}
+
+			if(empty($error) && empty($last_name))
+			{
+				$error = 'lastname';
+			}
+
+			if(empty($error) && empty($email))
+			{
+				$error = 'email';
+			}
+
+			if(empty($error))
+			{
+				$email_user = $this->User_model->find_by_email($email);
+
+				if(!empty($email_user) && $email_user->userid != $student_id)
+				{
+					$error = 'emailinuse';
+				}
+			}
+		}
+
+		if(empty($error) && $this->input->post('submit'))
+		{
+			$dob = strtotime($dob);
+
+			if($dob == 0)
+			{
+				$dob = '0000-00-00';
+			}
+			else
+			{
+				$dob = date('Y-m-d', $dob);
+			}
+
+			$this->User_model->update($student_id, $first_name, $last_name, $email, $grade, $studentid, $gender, $dob, $ethnicity);
+
+			// Add to new groups.
+			foreach($groups as $k=>$v)
+			{
+				$in_group = false;
+				foreach($user_groups as $ug)
+				{
+					if($ug->groupid == $k)
+					{
+						$in_group = true;
+					}
+				}
+
+				if(!$in_group)
+				{
+					$this->Group_model->add_student($k, $student_id);
+				}
+			}
+
+			// Remove from groups.
+			foreach($user_groups as $ug)
+			{
+				$remove = true;
+				foreach($groups as $k=>$v)
+				{
+					if($ug->groupid == $k)
+					{
+						$remove = false;
+					}
+				}
+
+				if($remove)
+				{
+					$this->Group_model->remove_student($ug->groupid, $student_id);
+				}
+			}
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$data = array(
+				'user' => $user,
+				'allgroups' => $all_groups,
+				'usergroups' => $user_groups,
+				'title_for_layout' => 'Edit Student'
+			);
+
+			if(!empty($error))
+			{
+				$data['error'] = $error;
+				$data['user']->firstname = $first_name;
+				$data['user']->lastname = $last_name;
+				$data['user']->email = $email;
+				$data['user']->grade = $grade;
+				$data['user']->studentid = $studentid;
+				$data['user']->gender = $gender;
+				$data['user']->dob = $dob;
+				$data['user']->ethnicity = $ethnicity;
+			}
+
+			$this->layout->view('student/edit', $data);
+		}
+	}
+
+	function add()
+	{
+		$school_id = $this->session->userdata('schoolid');
+		$user_id = $this->session->userdata('userid');
+
+		$this->load->model('User_model');
+		$this->load->model('Group_model');
+
+		$permission_denied = true;
+		switch($this->session->userdata('role'))
+		{
+		/*	case 't':
+				if($this->User_model->has_teacher($student_id, $user_id))
+				{
+					$permission_denied = false;
+				}
+			break;*/
+			case 'a':
+				$permission_denied = false;
+			break;
+		}
+
+		$all_groups = $this->Group_model->get_groups_by_school($school_id);
+
+		if($permission_denied)
+		{
+			$this->layout->view('student/error_permissiondenied');
+			return;
+		}
+
+		if($this->input->post('submit'))
+		{
+			$error = '';
+			$first_name = $this->input->post('firstname');
+			$last_name = $this->input->post('lastname');
+			$email = $this->input->post('email');
+			$groups = $this->input->post('group');
+			$profile_image = 'blobsmall.png';
+			$grade = $this->input->post('grade');
+			$studentid = $this->input->post('studentid');
+			$gender = $this->input->post('gender');
+			$dob = $this->input->post('dob');
+			$ethnicity = $this->input->post('ethnicity');
+
+			if($groups == false)
+			{
+				$error = 'nogroupsslected';
+			}
+
+			if(empty($error) && empty($first_name))
+			{
+				$error = 'firstname';
+			}
+
+			if(empty($error) && empty($last_name))
+			{
+				$error = 'lastname';
+			}
+
+			if(empty($error) && empty($email))
+			{
+				$error = 'email';
+			}
+
+			if(empty($error))
+			{
+				$email_user = $this->User_model->find_by_email($email);
+
+				if(!empty($email_user) && $email_user->userid != $student_id)
+				{
+					$error = 'emailinuse';
+				}
+			}
+		}
+
+		if(empty($error) && $this->input->post('submit'))
+		{
+			$dob = strtotime($dob);
+
+			if($dob == 0)
+			{
+				$dob = '0000-00-00';
+			}
+			else
+			{
+				$dob = date('Y-m-d', $dob);
+			}
+
+			$student_id = $this->User_model->create_student($school_id, $first_name, $last_name, '', '', $email, $profile_image, $grade, $studentid, $gender, $dob, $ethnicity);
+
+			// Add to new groups.
+			foreach($groups as $k=>$v)
+			{
+				$this->Group_model->add_student($k, $student_id);
+			}
+
+			redirect('student/view/'.$student_id);
+		}
+		else
+		{
+			$data = array(
+				'allgroups' => $all_groups,
+				'title_for_layout' => 'Add Student'
+			);
+
+			if(!empty($error))
+			{
+				$data['error'] = $error;
+				$data['firstname'] = $first_name;
+				$data['lastname'] = $last_name;
+				$data['email'] = $email;
+				$data['grade'] = $grade;
+				$data['studentid'] = $studentid;
+				$data['gender'] = $gender;
+				$data['dob'] = $dob;
+				$data['ethnicity'] = $ethnicity;
+			}
+
+			$this->layout->view('student/add', $data);
+		}
+	}
+}
+
+?>

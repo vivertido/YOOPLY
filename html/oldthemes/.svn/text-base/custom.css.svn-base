@@ -1,0 +1,131 @@
+/*** general styling */
+.ui-page.ui-body-c{
+background:url('https://lh5.googleusercontent.com/-d9io03sZP64/UcEwudbiTQI/AAAAAAAACFw/UqIu28Qx4u8/s506-o/bg.png');
+box-shadow:  0px 0px 30px 5px rgba(107, 105, 105, 0.3) inset,
+ 0px 0px 0px 1px rgba(107, 105, 105, 0.4) inset;
+
+}
+
+ 
+
+.ui-btn-active {
+background: #654644; /* Old browsers */
+background: -moz-linear-gradient(top,  #654644 0%, #331c1b 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#654644), color-stop(100%,#331c1b)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #654644 0%,#331c1b 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #654644 0%,#331c1b 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #654644 0%,#331c1b 100%); /* IE10+ */
+background: linear-gradient(top,  #654644 0%,#331c1b 100%); /* W3C */
+color:#fff !important;
+}
+.ui-content .choice_list  .ui-btn-active .ui-link-inherit,
+.ui-btn-down-c a.ui-link-inherit,
+#home .ui-btn-down-c a.ui-link-inherit{
+color:#fff !important;
+}
+
+img{
+max-width: 100%;
+height: auto; width: auto;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+}
+.ui-grid-a .ui-block-a, .ui-grid-a .ui-block-b {
+    width: 48%;
+    padding:1%;
+}
+
+
+
+
+
+/* title bar */
+.ui-header.ui-bar-c{
+background-image:url('http://1.bp.blogspot.com/_UdH8rcs3s1Q/TGdcNtKNxOI/AAAAAAAAAKM/-jvA0rVt9_E/s320/iPadBackgroundTexture-brown.png');
+}
+
+p.listSubtext{
+
+
+  margin-left:15px; margin-right:15px;
+}
+
+#chooseAPerson-popup {
+    right: 0 !important;
+    left: auto !important;
+}
+#chooseAPerson {
+    width: 300px;
+    border: 1px solid #000;
+    border-right: none;
+    
+    
+}
+
+.ui-grid-b img {
+    width  : auto;
+    height : 80%;
+}
+
+p.avatarSubtitle{
+
+margin-top:2px;
+
+}
+
+/* for the shoutout sender name in the listview*/
+p.listViewTextTop{
+  
+
+font-weight:normal; margin-top: 2px; margin-bottom: 2px; font-size:16px
+
+}
+
+/* for the shoutout message in the listview*/
+p.listViewTextBottom{ 
+
+font-weight:normal; margin-top: 2px; margin-bottom: 2px; font-size:30px; white-space: normal;
+
+
+}
+/* for the shoutout time in the listview*/
+p.listViewTextBottom{ 
+ 
+
+margin-right:10px ; font-weight:normal; font-size:19px ; white-space: normal;
+
+
+}
+p.allSoutoutsTextTop{
+
+font-weight:normal; margin-top: 1px; margin-bottom: 1px; font-size:14px
+
+}
+p.allSoutoutsTextBottom{
+
+font-weight:normal; margin-top: 1px; margin-bottom: 1px; font-size:12px
+
+}
+img.scrollingImgs{
+
+height:30px;
+display: inline;
+margin-right:20px;
+
+}
+p.scrollingText{
+
+font-weight:normal; margin-top: 1px; margin-bottom: 1px; font-size:16px; 
+display: inline
+
+}
+#marqueeContainer{
+
+height:130px;
+
+}
+
+
+/*** home **/
+

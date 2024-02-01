@@ -1,0 +1,151 @@
+<<<<<<< .mine
+<?php $reasons = array(
+	'Disruption/willful defiance',
+	'Threats',
+	'Fighting',
+	'Weapon/Dangerous Object',
+	'Drug/Alcohol Use or Possession',
+	'Drug/Alcohol Sales',
+	'Vandalism',
+	'Tobacco Use or Possession',
+	'Drug Paraphernalia',
+	'Receiving Stolen Property',
+	'Possession of Imitation Firearm',
+	'Bullying',
+); ?>
+
+<p><b>SID:</b> <?= $student->studentid ?><br />
+<b>Grade:</b> <?= $student->grade ?><br />
+<b>Date:</b> <?= date('m/d/Y', $referral->timecreated) ?></p>
+
+<form action="/admin/review/<?= $referral->referralid ?>" method="POST" data-ajax="false">
+	<strong>Incident Categories</strong><br />
+	<select name="reason">
+<?php foreach($reasons as $reason): ?>
+		<option value="<?= $reason ?>"><?= $reason ?></option>
+<?php endforeach; ?>
+	</select>
+
+	<strong>Internal Summary</strong>
+	<textarea name="internalnotes"></textarea>
+
+	<strong>External Summary</strong>
+	<textarea name="externalnotes"></textarea>
+
+	<div data-role="collapsible" data-content-theme="c">
+		<h3>Consequences</h3>
+
+<?php $consequences = array(
+	'The Paddle',
+	'Detention After School',
+	'Lunch Detention',
+	'Parent Shadow',
+	'Community Service',
+	'Restorative Justice Circle',
+	'In-school Suspension',
+	'Suspension',
+	'Parent Conference',
+	'Other (see below)'
+); ?>
+
+<?php $i = 1; foreach($consequences as $consequence): ?>
+		<input type="checkbox" name="consequence[]" value="<?= $consequence ?>" id="checkbox-<?= $i ?>" class="custom" />
+		<label for="checkbox-<?= $i ?>"><?= $consequence ?></label>
+<?php $i++; endforeach; ?>
+
+		<label for="basic">Other:</label>
+		<input type="text" name="other" value=""  />
+
+
+		<div data-role="rangeslider" data-track-theme="b" data-theme="a">
+			<label for="minutes">Detention Minutes:</label>
+			<input name="minutes" id="minutes" min="0" max="100" value="0" type="range" />
+
+			<label for="days">Suspension Days </label>
+			<input name="days" id="days" min="0" max="5" value="0" type="range" />
+		</div>
+
+	</div>
+
+	<input type="button" value="Upload Evidence" data-icon="alert" data-inline="true"/><br /><br />
+
+	<input type="submit" name="submit" value="Submit" data-inline="true" data-theme="b"/>
+	<input type="button" value="Cancel" data-icon="delete" data-inline="true"/>
+	<input type="button" value="Email Parent" data-icon="forward" data-inline="true"/>
+	<input type="button" value="Print PDF" data-icon="alert" data-inline="true"/>
+</form>=======
+<p><b>SID:</b> <?= $student->studentid ?><br />
+<b>Grade:</b> <?= $student->grade ?><br />
+<b>Date:</b> <?= date('m/d/Y', $referral->timecreated) ?></p>
+
+<form action="/teacher/reinforcement/1" method="POST">
+	<strong>Incident Categories</strong><br />
+	<select name="reason">
+		<option value="Disruption/willful defiance">Disruption/willful defiance</option>
+		<option value="Threats">Threats</option>
+		<option value="Fighting">Fighting</option>
+		<option value="Weapon/Dangerous Object">Weapon/Dangerous Object</option>
+		<option value="Drug/Alcohol Use or Possession">Drug/Alcohol Use or Possession</option>
+		<option value="Drug/Alcohol Sales">Drug/Alcohol Sales</option>
+		<option value="Vandalism">Vandalism</option>
+		<option value="Tobacco Use or Possession">Tobacco Use or Possession</option>
+		<option value="Drug Paraphernalia">Drug Paraphernalia</option>
+
+		<option value="Receiving Stolen Property">Receiving Stolen Property</option>
+		<option value="Possession of Imitation Firearm">Possession of Imitation Firearm</option>
+		<option value="Bullying">Bullying</option>
+
+	</select>
+
+
+	 <strong> Incident Summary</strong>
+	<textarea name="Notes"></textarea>
+
+
+ <div data-role="collapsible" data-content-theme="c">
+  <h3>Consequences</h3>
+
+
+  <form action="/teacher/intervention/1" method="POST">
+<input type="checkbox" name="consquence" value="The Paddle" id="checkbox-0" class="custom" />
+<label for="checkbox-0">Special project</label>
+<input type="checkbox" name="consquence" value="Detention After School" id="checkbox-1" class="custom" />
+<label for="checkbox-1">Detention After School</label>
+<input type="checkbox" name="consquence" value="Lunch Detention" id="checkbox-2" class="custom" />
+<label for="checkbox-2">Lunch Detention</label>
+<input type="checkbox" name="consquence" value="Parent Shadow" id="checkbox-3" class="custom" />
+<label for="checkbox-3">Parent Shadow</label>
+<input type="checkbox" name="consquence" value="Community Service" id="checkbox-4" class="custom" />
+<label for="checkbox-4">Community Service</label>
+<input type="checkbox" name="consquence" value="Restorative Justice Circle" id="checkbox-5" class="custom" />
+<label for="checkbox-5">Restorative Justice Circle</label>
+<input type="checkbox" name="consquence" value="In-school Suspension" id="checkbox-6" class="custom" />
+<label for="checkbox-6">In-school Suspension</label>
+<input type="checkbox" name="consquence" value="Suspension" id="checkbox-7" class="custom" />
+<label for="checkbox-7">Suspension</label>
+<input type="checkbox" name="consquence" value="Parent Conference" id="checkbox-8" class="custom" />
+<label for="checkbox-8">Parent Conference</label>
+<input type="checkbox" name="consquence" value="Other (see below)" id="checkbox-9" class="custom" />
+<label for="checkbox-9">Other (see below)</label>
+
+
+<label for="basic">Other:</label>
+<input type="text" name="other" id="basic" value=""  />
+
+
+ <div data-role="rangeslider" data-track-theme="b" data-theme="a">
+  <label for="range-3a">Detention Minutes:</label>
+  <input name="range-3a" id="range-3a" min="0" max="100" value="0" type="range" />
+   <label for="range-3a">Suspension Days </label>
+  <input name="range-3a" id="range-3a" min="0" max="5" value="0" type="range" />
+</div>
+
+</form>
+</div>
+
+<input type="button" value="Upload Evidence" data-icon="alert" data-inline="true"/><br /><br />
+
+<input type="button" value="Submit" data-inline="true"  data-theme="b"/>
+<input type="button" value="Cancel" data-icon="delete" data-inline="true"/>
+<input type="button" value="Email Parent" data-icon="forward" data-inline="true"/>
+ <input type="button" value="Print PDF" data-icon="alert" data-inline="true"/>>>>>>>> .r17

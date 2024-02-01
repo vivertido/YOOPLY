@@ -1,0 +1,154 @@
+<<<<<<< .mine
+<?php
+
+class Referral_model extends CI_Model
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	function create($teacher_id, $student_id, $incident, $notes)
+	{
+		$this->db->insert('Referrals', array(
+			'teacherid' => $teacher_id,
+			'studentid' => $student_id,
+			'incident' => $incident,
+			'timecreated' => time(),
+			'teachernotes' => $notes
+		));
+
+		return $this->db->insert_id();
+	}
+
+	function get_dollar_total($student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Reinforcements WHERE studentid = ?', array($student_id));
+
+		$count = $query->row();
+
+		return $count->total;
+	}
+
+	function get_active_referrals()
+	{
+		$query = $this->db->query('SELECT Referrals.*, Users.firstname, Users.lastname FROM Referrals, Users WHERE Referrals.studentid = Users.userid AND Referrals.timecheckout = 0');
+
+		return $query->result();
+	}
+
+	function get_referral($referral_id)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE referralid = ?', array($referral_id));
+
+		return $query->row();
+	}
+
+	function get_count_by_student($student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Referrals WHERE studentid = ?', array($student_id));
+
+		$count = $query->row();
+
+		return $count->total;
+	}
+
+	function get_active_by_student($student_id, $include_completed = false)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE studentid = ? AND timecheckin = 0', array($student_id));
+
+		return $query->result();
+	}
+
+	function save_student($referral_id, $data)
+	{
+		$this->db->update('Referrals', array(
+				'timecheckin' => time(),
+				'studentnotes' => json_encode($data)
+			), array('referralid' => $referral_id));
+	}
+
+	function save_admin($referral_id, $admin_id, $internal_notes, $external_notes)
+	{
+		$this->db->update('Referrals', array(
+				'timeadminsave' => time(),
+				'adminid' => $admin_id,
+				'admininternalnotes' => json_encode($internal_notes),
+				'adminexternalnotes' => json_encode($external_notes),
+			), array('referralid' => $referral_id));
+	}
+
+}
+=======
+<?php
+
+class Referral_model extends CI_Model
+{
+	function __construct()
+	{
+		parent::__construct();
+	}
+
+	 function create($teacher_id, $student_id, $incident, $notes)
+       {
+               $this->db->insert('Referrals', array(
+                       'teacherid' => $teacher_id,
+                       'studentid' => $student_id,
+                       'incident' => $incident,
+                       'timecreated' => time(),
+                       'teachernotes' => json_encode($notes)
+               ));
+
+               return $this->db->insert_id();
+       }
+
+	function get_dollar_total($student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Reinforcements WHERE studentid = ?', array($student_id));
+
+		$count = $query->row();
+
+		return $count->total;
+	}
+
+	function get_active_referrals()
+       {
+               $query = $this->db->query('SELECT Referrals.*, student.firstname, student.lastname, teacher.firstname as teacherfirstname, teacher.lastname as teacherlastname FROM Referrals, Users student, Users teacher WHERE Referrals.studentid = student.userid AND Referrals.teacherid = teacher.userid AND Referrals.timecheckout = 0');
+
+               return $query->result();
+       }
+
+	function get_referral($referral_id)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE referralid = ?', array($referral_id));
+
+		return $query->row();
+	}
+
+	function get_count_by_student($student_id)
+	{
+		$query = $this->db->query('SELECT COUNT(*) as total FROM Referrals WHERE studentid = ?', array($student_id));
+
+		$count = $query->row();
+
+		return $count->total;
+	}
+
+	function get_active_by_student($student_id, $include_completed = false)
+	{
+		$query = $this->db->query('SELECT * FROM Referrals WHERE studentid = ? AND timecheckin = 0', array($student_id));
+
+		return $query->result();
+	}
+
+	function save_student($referral_id, $data)
+	{
+		$this->db->update('Referrals', array(
+				'timecheckin' => time(),
+				'studentnotes' => json_encode($data)
+			), array('referralid' => $referral_id));
+	}
+
+}
+>>>>>>> .r17
+?>
