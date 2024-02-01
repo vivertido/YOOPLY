@@ -31,5 +31,5 @@ existing culture and practices and to connet everyone around these.
 - Goal setting and monitoring
 
 ### Architecture
-Yooply was an AWS hosted app, built on a LAMP Stack (Linux, Apache, MySQL PHP). 
+Yooply was an AWS hosted app, built on a LAMP Stack (Linux, Apache, MySQL PHP) using the Codeigniter framework. 
 Reach out to vivertido@gmail.com if you have questions!
